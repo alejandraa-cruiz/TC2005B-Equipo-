@@ -1,0 +1,81 @@
+<div class="flex flex-col lg:flex-wrap lg:justify-start lg:w-2/12 h-screen bg-white rounded-xl text-center md:flex-wrap md:w-3/12 sm:w-3/12 sm:flex-wrap">
+    <div class="p-10 rounded-lg">
+        <div class="pt-4 lg:w-11/12 lg:text-lg md:w-7/12 md:text-sm sm:w-7/12 sm:text-xs">
+            <!-- Profile image and user name -->
+            <!-- Anchor user image -->
+            <div class="flex w-11/12 text-center">
+                <div class="absolute w-1/12 lg:left-6 md:left-3 sm:left-1"><img class="hover:border hover:shadow-lg hover:shadow-slate-400 rounded-full lg:w-2/5 md:w-2/6 sm:w-1/5"src="<%= user.picture %>"></div>
+                <div class="absolute lg:text-base text-left md:text-sm lg:left-20 md:right-2 sm:right-1 top-16">
+                    <p class="hover:shadow-slate-400 hover:rounded-lg lg:w-2/5 md:w-2/6 sm:w-1/5">
+                        <%= (user.name).split(" ")[0]%> 
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class=" pt-16 lg:text-base lg:w-11/12 md:w-7/12 md:text-sm sm:w-7/12 sm:text-xs">
+            <div class="text-left lg:ml-5 md:ml-7/12">
+                <!-- Team members -->
+                <select class="hover:border-none focus:border-none focus:border-red-700 focus:shadow-lg">
+                    <option>
+                        Team Members
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="pt-2 lg:text-base lg:w-11/12 md:w-7/12 md:text-sm sm:w-7/12 sm:text-xs">
+            <!-- Projects -->
+            <div class="text-left flex w-11/12">
+                <div class="w-2/12">
+                    <img src="/svgs/folder.svg">
+                </div>
+                <div class="flex-initial w-2/5">
+                    <select>
+                        <option>
+                            Projects
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-10 lg:text-base lg:w-11/12 md:w-7/12 md:text-sm sm:w-7/12 sm:text-xs">
+            <!-- Dashboard -->
+            <div class=" text-gray-400 text-left ml-5">
+                Dashboard
+            </div>
+        </div>
+        <div class="pt-5 lg:text-base lg:w-11/12 md:w-7/12 md:text-sm sm:w-3/12 sm:text-xs">
+            <!-- byProject -->
+            <div class="text-left flex w-11/12">
+                <div class="w-2/12">
+                    <img src="/svgs/folder.svg">
+                </div>
+                <div class="flex-initial w-2/5">
+                    <select>
+                        <option>
+                            byProject
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class=" rounded-lg lg:text-base lg:justify-center lg:ml-2 lg:w-11/12 md:w-9/12 md:justify-center md:text-sm sm:w-7/12 sm:text-xs text-gray-500 bg-gray-100 shadow-lg container mt-11 border border-neutral-500">
+            <!-- Select and open folder of user -->
+            <div class="p-5">
+                Select your CSV FILE
+            </div>
+            <div class="p-3">
+                Select File
+            </div>
+        </div>
+        <button class="hover:bg-gradient-to-r from-red-500 to-red-400 lg:text-base lg:w-11/12 md:w-7/12 md:text-sm sm:w-7/12 sm:text-xs text-zinc-100 border-none p-3 bg-red-500 shadow-lg container mt-4 border border-neutral-500 rounded-lg w-40">
+            Import CSV
+        </button>
+        <button class="hover:bg-gradient-to-r from-red-500 to-red-400 lg:text-base lg:w-11/12 md:w-7/12 md:text-sm sm:w-7/12 sm:text-xs text-zinc-100 border-none p-3 bg-red-500 shadow-lg container mt-4 border border-neutral-500 rounded-lg w-40">
+            Create Project
+        </button>
+        <div class=" shadow-md lg:w-11/12 md:w-7/12 md:text-sm sm:w-7/12 sm:text-xs justify-center mx-auto pt-3">
+            <img class="rounded-lg"src="images/logo_invertido.png"/>
+        </div>
+    </div>
+</div>
