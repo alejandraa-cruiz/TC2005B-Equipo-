@@ -4,7 +4,8 @@ ProjectNexus
 ## How to run the project
 1. `npm i` to install all npm packages
 2. Make sure you get the correct secret configuration. Copy the ".env" file from [insert OneDrive/Google Drive link here]() into the [root folder](./)
-3. `npm run dev` to run the server locally in port 3000
+3. Make sure you run the DB server, based on [estructure.sql](src/sql/estructura.sql)
+4. `npm run dev` to run the server locally in port 3000
 
 ## How to contribute to repo
 1. `git clone https://github.com/alejandraa-cruiz/TC2005B-Equipo-.git`
