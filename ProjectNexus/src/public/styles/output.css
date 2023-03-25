@@ -620,10 +620,6 @@ video {
   justify-items: center;
 }
 
-.text-ellipsis {
-  text-overflow: ellipsis;
-}
-
 .rounded-full {
   border-radius: 9999px;
 }
@@ -672,16 +668,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-blue-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
-}
-
-.bg-green-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(22 163 74 / var(--tw-bg-opacity));
 }
 
 .from-red-500 {
