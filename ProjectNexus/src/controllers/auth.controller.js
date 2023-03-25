@@ -1,6 +1,6 @@
 exports.login = async (req, res) => {
     res.oidc.login({
-        returnTo: '/dashboard',
+        returnTo: '/user',
         authorizationParams: {
             response_type: 'code id_token',
             redirect_uri: 'http://localhost:3000/callback',
@@ -14,4 +14,3 @@ exports.callback = (req, res) => {
         redirectUri: 'http://localhost:3000/callback',
     });
 }
-
