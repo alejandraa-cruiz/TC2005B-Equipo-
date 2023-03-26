@@ -52,13 +52,13 @@ CREATE TABLE csv (
 /* Carga de datos */
 
 INSERT INTO teammember (member_name, email, team) VALUES
-('Antonio Antillon','antonio_antillon@dh.com', 'BE'),
-('Kevin Anderson','kevin_anderson@dh.com', 'FE'),
-('Dan Cohn','dan_cohn@dh.com', 'BE'),
-('Bernardo Gomez-Romero', 'bernardo_gomez_romero@dh.com', 'BE'),
-('Giorgi Gelashvili', 'giorgi_gelashvili@dh.com', 'FE'),
-('Alan Malagon', 'alan_malagon@dh.com', null),
-('Itzel Barreto', 'itzel_barreto@dh.com', 'FE');
+('Antonio Antillon','antonio_antillon@dispatchhealth.com', 'BE'),
+('Kevin Anderson','kevin_anderson@dispatchhealth.com', 'FE'),
+('Dan Cohn','dan_cohn@dispatchhealth.com', 'BE'),
+('Bernardo Gomez-Romero', 'bernardo_gomez_romero@dispatchhealth.com', 'BE'),
+('Giorgi Gelashvili', 'giorgi_gelashvili@dispatchhealth.com', 'FE'),
+('Alan Malagon', 'alan_malagon@dispatchhealth.com', null),
+('Itzel Barreto', 'itzel_barreto@dispatchhealth.com', 'FE');
 
 
 INSERT INTO csv (id_team_member, id_sprint, file_path, upload_date) VALUES
