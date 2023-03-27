@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const app = express();
 const path = require('path');
 const env = require('dotenv').config();
@@ -26,6 +27,7 @@ app.set('views', 'views/partials');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.set(cookieParser('name', 'value', { sameSite: 'none', secure: true }));
