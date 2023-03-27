@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+<%- include('partials/head.ejs') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/output.css">
-    <link rel="shortcut icon" href="#">
-    <link rel="icon" href="/images/Logo.png" type="image/png">
-    <title>Welcome to ProjectNexus</title>
-</head>
-<%- include('partials/leftNavigation.ejs') %>
-
-    <body class="bg-stone-200">
-        <div class="container">
-            <div class="grid-cols-1 justify-items-center">
-                <div class="grid-row bg-slate-400">
-                </div>
-            </div>
+<body class="font-inter">
+    <%- include('partials/leftNavigation.ejs') %>
+    <main id="main-content" 
+          class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
+          p-6 break-words phone:left-0 phone:w-full">
+        <div id="content-wrapper">
+            <!-- Content goes here -->
         </div>
-    </body>
-
+    </main>
+    <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
+</body>
 </html>

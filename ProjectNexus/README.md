@@ -2,9 +2,9 @@
 ProjectNexus
 
 ## How to run the project
-1. `npm i` to install all npm packages
-2. Make sure you get the correct secret configuration. Copy the ".env" file from [insert OneDrive/Google Drive link here]() into the [root folder](./)
-3. Make sure you run the DB server, based on [estructure.sql](src/sql/estructura.sql)
+1. `npm i` to install all npm packages, do it every time you pull just to be sure
+2. Make sure you get the correct secret configuration. Copy the ".env" file from [link](https://docs.google.com/document/d/1hlApaC5fbsQCYkbQ6u3qfzW7x3dKWq0XdzwcEqB65YM/edit) into the [root folder](./)
+3. Make sure you run the DB server, based on [structure.sql](src/sql/structure.sql)
 4. `npm run dev` to run the server locally in port 3000
 
 ## How to contribute to repo
