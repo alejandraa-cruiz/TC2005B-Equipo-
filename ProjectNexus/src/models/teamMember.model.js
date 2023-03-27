@@ -1,4 +1,4 @@
-const db = require("../sql/database");
+const db = require("../utils/database");
 
 module.exports = class TeamMember {
     constructor(teamMember) {
