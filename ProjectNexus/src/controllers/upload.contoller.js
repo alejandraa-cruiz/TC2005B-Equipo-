@@ -1,12 +1,20 @@
 const path = require('path');
+const Epic = require('../models/epic.model');
+const TicketDataset = require('../utils/CSVparser');
 
-exports.file = (req, res) => {
-    if (req.files && req.files.csv) {
+exports.file = async (req, res) => {
+    if (req.files && req.files.csv && req.body.project) {
         const { csv } = req.files;
-        // console.log(csv.data); // File upload data buffer
-        // console.log(csv.data.toString()); // Read buffer as string
+        const dataset = TicketDataset.parseCSV(csv.data.toString());
+        
+        await Epic.create_epics(dataset.epics);
+
+        dataset.tickets.forEach(async (elem) => {
+            await elem.save();
+        })
+
         // Move file to uploads directory
-        // csv.mv(path.join(__dirname, '..', 'public', 'uploads', 'test.csv'), () => {});
+        csv.mv(path.join(__dirname, '..', 'public', 'uploads', 'test.csv'), () => {});
     } else {
         // No file, handle error
     }

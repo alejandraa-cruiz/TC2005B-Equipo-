@@ -11,7 +11,7 @@ CREATE TABLE project (
 
 CREATE TABLE epic (
   id_epic INT PRIMARY KEY AUTO_INCREMENT,
-  id_project INT,
+  id_project INT DEFAULT NULL,
   epic_link VARCHAR(16)
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE ticket (
   issueKey VARCHAR(16),
   summary VARCHAR(255),
   issue_type VARCHAR(10),
-  storyPonts TINYINT,
+  storyPoints FLOAT,
   ticket_status VARCHAR(20),
   label VARCHAR(40),
   update_date TIMESTAMP
@@ -30,7 +30,7 @@ CREATE TABLE ticket (
 CREATE TABLE project_teamMember (
   id_project INT,
   id_team_member INT,
-  agile_points TINYINT,
+  agile_points FLOAT,
   PRIMARY KEY(id_project, id_team_member)
 );
 
@@ -82,7 +82,7 @@ INSERT INTO project_teammember (id_project, id_team_member, agile_points) VALUES
 (1, 6, 8),
 (1, 7, 9);
 
-INSERT INTO ticket (id_epic, issueKey, summary, issue_type, storyPonts, ticket_status, label , update_date) VALUES
+INSERT INTO ticket (id_epic, issueKey, summary, issue_type, storyPoints, ticket_status, label , update_date) VALUES
 (1, 'PART-2346', 'Standardize the use of error key in the backend failure responses', 'Task', 1, 'To Do', null, '2023-03-09 12:28:00'),
 (1, 'PART-2342', 'Add Swagger docs for GET care requests endpoints (show and index)', 'Task', 2, 'To Do', 'part/Backend', '2023-03-09 11:57:00'),
 (1, 'PART-2341', 'Rake task for deleting partners', 'Task', 2, 'To Do', null, '2023-03-08 15:04:00'),
