@@ -6,6 +6,7 @@ const isObjectEmpty = (objectName) => {
     return Object.keys(objectName).length === 0;
 };
 
+/** @type {import("express").RequestHandler} */
 exports.getUser = async (req, res) =>{
     const userInfo = await req.oidc.fetchUserInfo();
     // Retrieve the logged-in user's info from DB

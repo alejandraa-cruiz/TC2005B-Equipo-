@@ -1,3 +1,4 @@
+/** @type {import("express").RequestHandler} */
 exports.dashboard = async (req, res) => {
     try {
         const userInfo = await req.oidc.fetchUserInfo();

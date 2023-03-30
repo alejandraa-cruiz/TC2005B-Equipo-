@@ -1,5 +1,6 @@
 const Project = require('../models/project.model');
 
+/** @type {import("express").RequestHandler} */
 exports.postProject = (req, res) => {
     const requestProject = req.body;
     Project.fetch_name(requestProject.project_name)
