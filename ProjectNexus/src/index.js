@@ -6,6 +6,7 @@ const env = require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const { auth, requiresAuth } = require('express-openid-connect');
 const { initRoutes } = require('./routes');
+const session = require('express-session');
 
 const PORT = process.env.PORT || 3000;
 const config = {
@@ -29,6 +30,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use(session({
+    secret: 'mi string secreto que debe ser un string aleatorio muy largo, no como éste', 
+    resave: false, //La sesión no se guardará en cada petición, sino sólo se guardará si algo cambió 
+    saveUninitialized: false, //Asegura que no se guarde una sesión para una petición que no lo necesita
+}));
 
 app.set(cookieParser('name', 'value', { sameSite: 'none', secure: true }));
 
