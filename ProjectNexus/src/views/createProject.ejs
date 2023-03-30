@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs') %>
+
+    <body class="font-inter">
+        <%- include('partials/leftNavigation.ejs') %>
+            <main id="main-content" class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
+          p-6 break-words phone:left-0 phone:w-full">
+                <div id="content-wrapper">
+                    <!-- Content goes here -->
+                    <div class="flex justify-end">
+                        <img class="w-20" src="images/dh_logo.png" alt="">
+                        </a>
+                    </div>
+                    <div class="w-full flex items-center mx-12 mt-8 mb-32">
+                        <!-- Creates icon for project like a svg-->
+                        <svg class="h-8 w-8 text-gray-700" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" />
+                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                            <line x1="12" y1="11" x2="12" y2="17" />
+                            <line x1="9" y1="14" x2="15" y2="14" />
+                        </svg>
+                        <h1 class="text-xl">Create Project</h1>
+                    </div>
+
+                    <form class="w-full flex items-center justify-center" action="/createProject/create" method="POST">
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                            <div class="w-full flex justify-center md:w-1/2 px-3 mb-6">
+                                <a target="grid-first-name"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+                                    <i class='bx bxs-folder-open'></i>
+                                    <input class="bg-transparent border-none p-0" id="grid-first-name" type="text"
+                                        placeholder="Name">
+                                </a>
+
+                                <div class="">
+                                    <label for="grid-first-name"></label>
+                                </div>
+                            </div>
+
+                            <div class="w-full md:w-1/2 px-3 mb-6">
+                                <input
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="grid-last-name" type="date">
+                            </div>
+
+                            <div class="w-full md:w-1/2 px-3 mb-6">
+                                <input
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="grid-last-name" type="date" placeholder="End time">
+                            </div>
+
+                            <!--Dropdown of epics-->
+                            <div class="w-full md:w-1/2 px-3 ">
+                                <a class="w-full flex flex-col appearance-none  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    onclick="dropDownButton(event)" target="dropDown">
+                                    Select an epic
+                                </a>
+                                // Iterate every epic
+                                <ul id="dropDown"
+                                    class="appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 hidden overflow-scroll scrollbar-hide">
+                                    <li>
+                                        <input type="checkbox" name="EPIC1" id="EPIC1">
+                                        <label for="EPIC1">PART 234</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="PART-123" id="PART-123">
+                                        <label for="EPIC2">PART-123</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="aaaaa" id="aaaaa">
+                                        <label for="aaaaa">aaaaa</label>
+                                    </li>
+
+                                    <li>
+                                        <input type="checkbox" name="dsandksjdnslk" id="dsandksjdnslk">
+                                        <label for="EPIC4">PART 234</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="PART-123" id="PART-123">
+                                        <label for="EPIC5">PART-123</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="PART-342" id="PART-342">
+                                        <label for="EPIC6">PART-342</label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                </div>
+
+                <div class="grid justify-items-center">
+                    <button type="submit"
+                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline">Save</button>
+                </div>
+                </form>
+                </div>
+            </main>
+            <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
+
+            <script src="./scripts/dropDown.js"></script>
+    </body>
+
+</html>
