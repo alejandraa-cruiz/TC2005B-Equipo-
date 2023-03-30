@@ -55,4 +55,14 @@ module.exports = class Epic {
         let query = `SELECT id_epic FROM Epic WHERE epic_link = ?`;
         return db.execute(query, [epic_link]);
     }
+
+    static fetch_assigned_epics() {
+        let query = `SELECT * FROM epic WHERE id_project IS NULL`;
+        return db.execute(query);
+    }
+
+    static fetch_unassigned_epics() {
+        let query = `SELECT * FROM epic WHERE id_project IS NOT NULL`;
+        return db.execute(query);
+    }
 }

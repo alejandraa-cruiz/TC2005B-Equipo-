@@ -34,17 +34,3 @@ module.exports = class Project {
     }
     
 }
-
-/**
- * 
- * const db = require("../utils/database");
-
-module.exports = class Project {
-    static fetch_id(project_name) {
-        const query = `SELECT id_project FROM project WHERE project_name = ?`;
-        return db.execute(query, [project_name]);
-    }
-}
-
-
- */
