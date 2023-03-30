@@ -1,3 +1,4 @@
+/** @type {import("express").RequestHandler} */
 exports.login = async (req, res) => {
     res.oidc.login({
         returnTo: '/user',
@@ -9,6 +10,7 @@ exports.login = async (req, res) => {
     });
 }
 
+/** @type {import("express").RequestHandler} */
 exports.callback = (req, res) => {
     res.oidc.callback({
         redirectUri: 'http://localhost:3000/callback',

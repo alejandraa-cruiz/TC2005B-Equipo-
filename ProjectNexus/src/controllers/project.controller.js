@@ -1,10 +1,13 @@
 const Project = require('../models/project.model');
 
+/** @type {import("express").RequestHandler} */
 exports.project = async (req, res) => {
     const userInfo = await req.oidc.fetchUserInfo();
     // Render list of unassigned epics
     res.render(__dirname + '/../views/createProject', { user: userInfo });
 }
+
+/** @type {import("express").RequestHandler} */
 exports.postProject = (req, res) => {
     const requestProject = req.body;
     // Keys {PART-232: "on"}
