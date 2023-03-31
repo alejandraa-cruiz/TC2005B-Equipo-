@@ -15,23 +15,12 @@ exports.file = async (req, res) => {
                 const dataset = TicketDataset.parseCSV(csv.data.toString());
             } catch (e) {
                 if (e instanceof RangeError){
-<<<<<<< HEAD
                     req.session.error = 'Rows aren\'t the same lenght';
                     res.redirect('/dashboard');
                 }
                 else if(e instanceof TypeError){
                     req.session.error = 'Row headers don\'t match';
                     res.redirect('/dashboard');
-=======
-                    // 'Not all rows are the same lenght'
-                    req.session.error = 'Not all rows are the same lenght';
-                    res.redirect(req.get('referer'));
-                }
-                else if(e instanceof TypeError){
-                    // 'Row headers don't match'
-                    req.session.error = "Row headers don't match";
-                    res.redirect(req.get('referer'));
->>>>>>> 175898a40735a6fd6df8fbbfb5fd3688da13a63a
                 }
             }
     
