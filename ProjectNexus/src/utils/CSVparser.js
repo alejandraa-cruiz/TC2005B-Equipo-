@@ -72,7 +72,7 @@ module.exports = class TicketDataset {
             for(let i = 1; i < dataMatrix.length; i++) {
                 const row = dataMatrix[i];
                 if(row.length !== rowLenght) {
-                    throw new Error('Not all rows are the same lenght');
+                    throw new RangeError('Not all rows are the same lenght');
                 }
                 
                 pushUnique(ticketDataset.epics, row[6]);
@@ -93,8 +93,7 @@ module.exports = class TicketDataset {
             }
             return ticketDataset;
         } else {
-            // Los headers no coinciden
-            throw new Error(`Row headers don't match`)
+            throw new TypeError(`Row headers don't match`)
         }
     }
 }

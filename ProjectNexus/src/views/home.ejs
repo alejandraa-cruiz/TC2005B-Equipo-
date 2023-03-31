@@ -3,7 +3,9 @@
 <%- include('partials/head.ejs') %>
 
 <body class="font-inter">
-    <%- include('partials/leftNavigation.ejs') %>
+    <%- include('partials/leftNavigation.ejs', {
+        error: error
+    }) %>
     <main id="main-content" 
           class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
           p-6 break-words phone:left-0 phone:w-full">
