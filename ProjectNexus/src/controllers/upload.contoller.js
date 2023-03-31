@@ -12,7 +12,6 @@ exports.file = async (req, res) => {
             res.redirect('/dashboard');
         } else {
             try {
-
                 const dataset = TicketDataset.parseCSV(csv.data.toString());
             } catch (e) {
                 if (e instanceof RangeError){
