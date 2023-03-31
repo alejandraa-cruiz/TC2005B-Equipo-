@@ -93,7 +93,6 @@ module.exports = class TicketDataset {
             }
             return ticketDataset;
         } else {
-            // Los headers no coinciden
             throw new TypeError(`Row headers don't match`)
         }
     }
