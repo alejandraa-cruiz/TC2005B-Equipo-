@@ -22,7 +22,6 @@ exports.file = async (req, res) => {
                     });
                     csv.mv(path.join(__dirname, '..', 'public', 'uploads', 'test.csv'), () => {}); // Move file to uploads directory
                     res.redirect(req.get('referer'));
-
                 } catch (e) {
                     req.session.error = 'Database connection failed';
                     res.redirect(req.get('referer'));

@@ -18,7 +18,7 @@ const config = {
     secret: process.env.SECRET,
     routes: {
         login: false,
-    }
+    },
 };
 app.use(auth(config));
 
