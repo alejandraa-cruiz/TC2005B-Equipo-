@@ -18,10 +18,12 @@ exports.file = async (req, res) => {
                 if (e instanceof RangeError){
                     // 'Not all rows are the same lenght'
                     req.session.error = 'Not all rows are the same lenght';
-                    res.redirect('/dashboard');
+                    res.redirect(req.get('referer'));
                 }
                 else if(e instanceof TypeError){
                     // 'Row headers don't match'
+                    req.session.error = "Row headers don't match";
+                    res.redirect(req.get('referer'));
                 }
             }
     
@@ -33,18 +35,20 @@ exports.file = async (req, res) => {
                 })
             } catch (e) {
                 // 'Connection to db failed'
+                req.session.error = "Connection to database failed";
+                res.redirect(req.get('referer'));
             }
     
             csv.mv(path.join(__dirname, '..', 'public', 'uploads', 'test.csv'), () => {}); // Move file to uploads directory
             
             console.log('redireccion desde el if');
-            res.redirect('/dashboard');
+            res.redirect(req.get('referer'));
         }
         
     } else {
         req.session.error = 'No file selected';
         console.log('redireccion desde el else');
-        res.redirect('/dashboard');
+        res.redirect(req.get('referer'));
         // 'No file or not a csv file' 
     }
     // 'Success! :)'
