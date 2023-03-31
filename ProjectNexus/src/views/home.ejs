@@ -11,6 +11,33 @@
           p-6 break-words phone:left-0 phone:w-full">
         <div id="content-wrapper">
             <!-- Content goes here -->
+            <% if(error=='File must be CSV' || error == 'Database connection failed' || error == 'Rows aren\'t the same lenght' || error == 'Row headers don\'t match') { %>
+                <div class="mx-auto grid-rows-3 grid-flow-col justify-items-center bg-gray-400 rounded-2xl gap-8 w-3/12 text-center">
+                    <div class="text-zinc-200">
+                        Please click the button to procede
+                    </div>
+                    <button onclick="removePopout(event)" id="popOut" class="rounded-xl bg-lime-500 justify-items-center text-zinc-100">
+                        CHECK
+                    </button>
+                    <div class="rounded-xl">
+                        Please
+                    </div>
+                </div>
+            <% } %>
+            <% if(error == 'You do not have unassigned epics' ) { %>
+                <div class="mx-auto grid-rows-3 grid-flow-col justify-items-center bg-gray-400 rounded-xl gap-8 w-3/12 text-center">
+                    <div class="text-zinc-200">
+                        Please click the button to procede
+                    </div>
+                    <button onclick="removePopout(event)" id="popOut"
+                        class="rounded-xl bg-lime-500 justify-items-center text-zinc-100">
+                        CHECK
+                    </button>
+                    <div class="rounded-xl">
+                        Please
+                    </div>
+                </div>
+                <% } %>
         </div>
     </main>
     <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>

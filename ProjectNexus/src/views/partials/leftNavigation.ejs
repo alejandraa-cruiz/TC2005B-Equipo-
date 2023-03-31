@@ -36,7 +36,7 @@
         <div class="flex flex-col gap-12">
             <section>
                 <iframe class="invisible" id="csv-upload" name="csv-upload"></iframe>
-                <center><% if (error != '') { %> 
+                <center><% if (error != '' && error.length < 10) { %> 
                     <%= error %>
                 <% } %></center>
                 <form action="dashboard/upload" method="post" enctype="multipart/form-data">
@@ -79,3 +79,4 @@
 
 
 <script defer src="scripts/navigation.js"></script>
+<script defer src="scripts/popOut.js"></script>
