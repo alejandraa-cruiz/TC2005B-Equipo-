@@ -3,15 +3,27 @@ const Epic = require('../models/epic.model');
 
 /** @type {import("express").RequestHandler} */
 exports.project = async (req, res) => {
-    const userInfo = await req.oidc.fetchUserInfo();
-    // Fetch every unassigned epic
-    Epic.fetch_unassigned_epics()
-    .then((rows, fieldData) => {
-        const Epics = rows[0];
-        res.render(__dirname + '/../views/createProject', { user: userInfo, Epics: Epics });
-    })
-    // Render list of unassigned epics
-    .catch((error)=>{console.log(error);});
+    try {
+        const error = req.session.error || '';
+
+        if(error != '') {
+            req.session.error = '';
+        }
+
+        const userInfo = await req.oidc.fetchUserInfo();
+
+        // Fetch every unassigned epic
+        Epic.fetch_unassigned_epics()
+        .then((rows, fieldData) => {
+            const Epics = rows[0];
+            res.render(__dirname + '/../views/createProject', { user: userInfo, Epics: Epics, error: error });
+        })
+        // Render list of unassigned epics
+        .catch((error)=>{console.log(error);});
+        
+    } catch {
+        res.redirect('/logout');
+    }
 }
 
 /** @type {import("express").RequestHandler} */

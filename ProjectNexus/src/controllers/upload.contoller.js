@@ -10,7 +10,7 @@ exports.file = async (req, res) => {
         const allowedExtension = ['.csv'];
         if(!allowedExtension.includes(extensionName)){
             req.session.error = 'File must be CSV';
-            res.redirect('/dashboard');
+            res.redirect(req.get('referer'));
         } else {
             try {
                 const dataset = TicketDataset.parseCSV(csv.data.toString());
@@ -21,25 +21,25 @@ exports.file = async (req, res) => {
                         await elem.save();
                     });
                     csv.mv(path.join(__dirname, '..', 'public', 'uploads', 'test.csv'), () => {}); // Move file to uploads directory
-                    res.redirect('/dashboard');
+                    res.redirect(req.get('referer'));
 
                 } catch (e) {
                     req.session.error = 'Database connection failed';
-                    res.redirect('/dashboard');
+                    res.redirect(req.get('referer'));
                 }
             } catch (e) {
                 if (e instanceof RangeError){
                     req.session.error = 'Rows aren\'t the same lenght';
-                    res.redirect('/dashboard');
+                    res.redirect(req.get('referer'));
                 }
                 else if(e instanceof TypeError){
                     req.session.error = 'Row headers don\'t match';
-                    res.redirect('/dashboard');
+                    res.redirect(req.get('referer'));
                 }
             }
         }
     } else {
         req.session.error = 'No file selected';
-        res.redirect('/dashboard'); 
+        res.redirect(req.get('referer'));
     }
 }
