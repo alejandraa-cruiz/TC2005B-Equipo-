@@ -2,7 +2,8 @@
 module.exports = {
   content: ["./public/*.{html, js}",
             "./src/views/*.ejs",
-            "./src/views/partials/*.{ejs, html}"],
+            "./src/views/partials/*.{ejs, html}",
+            "./node_modules/flowbite/**/*.js"],
   theme: {
     screens: {
       'phone': {'max': '640px'},
@@ -26,6 +27,7 @@ module.exports = {
     },
   },
   plugins: [
-    require('tailwindcss')
+    require ('tailwindcss'),
+    require('flowbite/plugin'),
   ],
 }
