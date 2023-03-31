@@ -13,6 +13,19 @@ exports.file = async (req, res) => {
         } else {
             try {
                 const dataset = TicketDataset.parseCSV(csv.data.toString());
+                try {
+                    await Epic.create_epics(dataset.epics);
+            
+                    dataset.tickets.forEach(async (elem) => {
+                        await elem.save();
+                    });
+                    csv.mv(path.join(__dirname, '..', 'public', 'uploads', 'test.csv'), () => {}); // Move file to uploads directory
+                    res.redirect('/dashboard');
+
+                } catch (e) {
+                    req.session.error = 'Database connection failed';
+                    res.redirect('/dashboard');
+                }
             } catch (e) {
                 if (e instanceof RangeError){
                     req.session.error = 'Rows aren\'t the same lenght';
@@ -23,23 +36,7 @@ exports.file = async (req, res) => {
                     res.redirect('/dashboard');
                 }
             }
-    
-            try {
-                await Epic.create_epics(dataset.epics);
-        
-                dataset.tickets.forEach(async (elem) => {
-                    await elem.save();
-                })
-            } catch (e) {
-                req.session.error = 'Database connection failed';
-                res.redirect('/dashboard');
-            }
-    
-            csv.mv(path.join(__dirname, '..', 'public', 'uploads', 'test.csv'), () => {}); // Move file to uploads directory
-            
-            res.redirect('/dashboard');
         }
-        
     } else {
         req.session.error = 'No file selected';
         res.redirect('/dashboard'); 
