@@ -28,5 +28,9 @@ module.exports = {
     },
   },
   plugins: [[require('tw-elements/dist/plugin')],
-            require('tailwindcss')]
+            require('tailwindcss')],
+  plugins: [
+    require ('tailwindcss'),
+    require('flowbite/plugin'),
+  ],
 }
