@@ -21,6 +21,7 @@ exports.file = async (req, res) => {
                         await elem.save();
                     });
                     csv.mv(path.join(__dirname, '..', 'public', 'uploads', 'test.csv'), () => {}); // Move file to uploads directory
+                    req.session.error = 'Success';
                     res.redirect(req.get('referer'));
 
                 } catch (e) {

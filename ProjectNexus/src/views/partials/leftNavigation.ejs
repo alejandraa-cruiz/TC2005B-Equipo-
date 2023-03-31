@@ -1,5 +1,5 @@
 <nav id="navbar" class="fixed w-60 h-screen p-5 overflow-x-hidden overflow-y-scroll 
-            scrollbar-hide phone:left-[-15rem] z-10 bg-white">
+            scrollbar-hide phone:left-[-15rem] z-10 bg-white custom-scrollbar">
     <div class="flex flex-col h-full justify-between">
         <div> <!-- To separate top and bottom in flexbox -->
             <section class="flex justify-between items-center p-1 min-h-[2rem]">
@@ -28,7 +28,23 @@
                     <li>
                         <i class='bx bx-chevron-right'></i>
                         <i class='bx bx-folder'></i>
-                        <span>Projects</span>
+                        <a href="/dashboard">Projects</a>
+                        <% if(projects) { %>
+                            <ul class="ml-5">
+                            <% projects.forEach(elem => { %>
+                                <li class="hover:bg-gray-300">
+                                    <i class='bx bx-bar-chart-square'></i>
+                                    <a href="/dashboard/<%= elem.id_project %>">
+                                        <%= elem.project_name %>
+                                    </a>
+                                </li>
+                            <% }); %>
+                            </ul>
+                        <% } %>
+                    </li>
+                    <li>
+                        <i class="bx bx-plus"></i>
+                        <a href="/createProject">Create Project</a>
                     </li>
                 </ul>
             </section>
@@ -58,7 +74,6 @@
                         Import
                         </button>
                     </label>
-                    <input type="text" name="project" value="FJDH" class="invisible"> <!-- Reemplazar FJDH por el nombre del proyecto -->
                 </form>
             </section>
             <section class="flex justify-between items-center">
