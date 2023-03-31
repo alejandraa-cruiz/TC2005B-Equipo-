@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs') %>
+
+    <body class="font-inter">
+        <%- include('partials/leftNavigation.ejs') %>
+            <main id="main-content" class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
+          p-6 break-words phone:left-0 phone:w-full">
+                <div id="content-wrapper">
+                    <!-- Content goes here -->
+                    <div class="flex justify-end">
+                        <img class="w-20" src="images/dh_logo.png" alt="">
+                        </a>
+                    </div>
+                    <div class="w-full flex items-center mx-12 mt-8 mb-32">
+                        <!-- Creates icon for project like a svg-->
+                        <svg class="h-8 w-8 text-gray-700" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" />
+                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                            <line x1="12" y1="11" x2="12" y2="17" />
+                            <line x1="9" y1="14" x2="15" y2="14" />
+                        </svg>
+                        <h1 class="text-xl">Create Project</h1>
+                    </div>
+
+                    <form class="w-full flex items-center justify-center" action="/createProject/create" method="POST">
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                            <div class="w-full flex justify-end md:w-1/2 px-3 mb-6">
+                                <a target="grid-first-name"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+                                    <i class='bx bxs-folder-open'></i>
+                                    <input class="bg-transparent border-none p-0" id="project_name" name="project_name" type="text"
+                                        placeholder="project Name" required >
+                                </a>
+                                <div class="">
+                                    <label for="grid-first-name"></label>
+                                </div>
+                            </div>
+
+                            <div class="w-full md:w-1/2 px-3 mb-6">
+                                <input
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    name="start_date" id="start_date" type="date" required>
+                            </div>
+
+                            <div class="w-full md:w-1/2 px-3 mb-6">
+                                <input
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    name="end_date" id="end_date" type="date" required>
+                            </div>
+
+                            <!--Dropdown of epics-->
+                            <div class="w-full md:w-1/2 px-3 ">
+                                <a class="w-full flex flex-col appearance-none  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    onclick="dropDownButton(event)" target="dropDown">
+                                    Select an epic for creating your Project
+                                </a>
+                                <ul id="dropDown"
+                                    class="appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 hidden overflow-scroll scrollbar-hide space-y-3">
+                                    <% for (epic of Epics) {%>
+                                        <li>
+                                            <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>">
+                                            <label for="<%=epic.epic_link%>"><%=epic.epic_link%></label>
+                                        </li>
+                                    <%}%>
+                                </ul>
+                            </div>
+
+                        </div>
+                </div>
+
+                <div class="grid justify-items-center">
+                    <button type="submit"
+                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline">Save</button>
+                </div>
+                </form>
+                </div>
+            </main>
+            <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
+
+            <script src="./scripts/dropDown.js"></script>
+    </body>
+
+</html>

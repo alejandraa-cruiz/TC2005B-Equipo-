@@ -1,8 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./public/*.{html, js}",
-            "./src/views/*.ejs",
-            "./src/views/partials/*.{ejs, html}"],
+            "./public/scripts/index.min.js",
+            "./src/views/*.{ejs, html, js}",
+            "./src/views/partials/*.{ejs, html, js}",
+            "./node_modules/tw-elements/dist/js/**/*.js"],
   theme: {
     screens: {
       'phone': {'max': '640px'},
@@ -25,7 +27,6 @@ module.exports = {
       }
     },
   },
-  plugins: [
-    require('tailwindcss')
-  ],
+  plugins: [[require('tw-elements/dist/plugin')],
+            require('tailwindcss')]
 }

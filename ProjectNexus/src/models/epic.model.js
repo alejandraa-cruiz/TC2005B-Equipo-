@@ -57,12 +57,12 @@ module.exports = class Epic {
     }
 
     static fetch_assigned_epics() {
-        let query = `SELECT * FROM epic WHERE id_project IS NULL`;
+        let query = `SELECT * FROM epic WHERE id_project IS NOT NULL`;
         return db.execute(query);
     }
 
     static fetch_unassigned_epics() {
-        let query = `SELECT * FROM epic WHERE id_project IS NOT NULL`;
+        let query = `SELECT * FROM epic WHERE id_project IS NULL`;
         return db.execute(query);
     }
 }
