@@ -1,44 +1,52 @@
 const Project = require('../models/project.model');
+const Epic = require('../models/epic.model');
 
 /** @type {import("express").RequestHandler} */
 exports.project = async (req, res) => {
     const userInfo = await req.oidc.fetchUserInfo();
+    // Fetch every unassigned epic
+    Epic.fetch_unassigned_epics()
+    .then((rows, fieldData) => {
+        const Epics = rows[0];
+        res.render(__dirname + '/../views/createProject', { user: userInfo, Epics: Epics });
+    })
     // Render list of unassigned epics
-    res.render(__dirname + '/../views/createProject', { user: userInfo });
+    .catch((error)=>{console.log(error);});
 }
 
 /** @type {import("express").RequestHandler} */
-exports.postProject = (req, res) => {
+exports.postProject = async (req, res) => {
     const requestProject = req.body;
+    let insertId = 0;
     // Keys {PART-232: "on"}
-    Object.keys(requestProject);
+    listEpicLinks = Object.keys(requestProject);
+    const listEpicsToInsert = [];
     // List of strings: ["PART-232", "PART-233", "PART-234"]
     // requestProject[element] === "on"
     // ["PART-232", "PART-234"]
-    // UPDATE EPIC TABLE AND SET TO 
+    // UPDATE EPIC TABLE AND SET TO
     // WHERE Epic_link = list[i]
-    console.log(requestProject.EPIC1);
     Project.fetch_name(requestProject.project_name)
         .then(([rows, fiedlData]) => {
             // If project not in database
-            if (rows === 0) {
-                const newProject = new project({
-                    project_name: data.project_name,
-                    start_date: data.start_date,
-                    end_date: data.end_date
+            if (rows.length === 0) {
+                const newProject = new Project({
+                    project_name: requestProject.project_name,
+                    start_date: requestProject.start_date,
+                    end_date: requestProject.end_date,
                 });
                 newProject.save()
-                    // Check fieldData or rows
-                    // and check where the index is and 
-                    // check the project index
-                    // insert into every epic
-                    .then(([rows, fieldData]) => {
-                        res.redirect('/dashboard');
+                // Check rows where the last id was inserted
+                .then(([rows, fieldData]) => {
+                    insertId = rows.insertId;
+                    listEpicLinks.forEach((epic, index) =>{
+                        if (requestProject[epic] === "on") listEpicsToInsert.push(epic);
                     })
-                    .catch((error) => {console.log(error, fieldData)});
-                // Prompt message of project already in
-                // database
+                    Project.update_epics(insertId, listEpicsToInsert).then((res.redirect('/dashboard'))).catch((error)=>{console.log(error)});
+                })
+                .catch((error) => {console.log(error)});
             } 
+            // Prompt message of project already in database
             else {
                 // TODO: fetch userInfo and then send query with
                 // username
