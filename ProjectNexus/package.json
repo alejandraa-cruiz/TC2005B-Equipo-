@@ -21,8 +21,8 @@
     "express-fileupload": "^1.4.0",
     "express-openid-connect": "^2.12.1",
     "express-session": "^1.17.3",
-    "mysql2": "^3.2.0",
     "flowbite": "^1.6.4",
+    "mysql2": "^3.2.0",
     "tw-elements": "^1.0.0-beta1"
   },
   "devDependencies": {

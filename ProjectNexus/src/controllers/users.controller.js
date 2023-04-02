@@ -30,8 +30,7 @@ exports.getUser = async (req, res) =>{
                     res.send(JSON.stringify(error));
                 });
             } else {
-                // TODO: Create view of not matching regex
-                res.redirect('/login');
+                res.redirect('/logout');
             }
         } else {
             // Logged in user was found in DB!
