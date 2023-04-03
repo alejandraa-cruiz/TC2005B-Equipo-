@@ -3,3 +3,4 @@
 .DS_Store
 .vscode
 dist/
+src/public/styles/output.css
