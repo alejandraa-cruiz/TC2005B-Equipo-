@@ -4,11 +4,13 @@
 
     <body class="font-inter">
         <%- include('partials/leftNavigation.ejs') %>
-            <main id="main-content" class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
+            <main id="main-content" class="absolute left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
           p-6 break-words phone:left-0 phone:w-full">
-          <%- include('partials/modals.ejs') %>
                 <div id="content-wrapper">
                     <!-- Content goes here -->
+                    <div class="flex justify-center">
+                        <%- include('partials/message-errors.ejs') %>
+                    </div>
                     <div class="flex justify-end">
                         <img class="w-20" src="images/dh_logo.png" alt="">
                         </a>
