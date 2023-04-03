@@ -2,7 +2,8 @@ const Project = require("../models/project.model");
 
 /** @type {import("express").RequestHandler} */
 exports.dashboard = async (req, res) => {
-    const [projects] = await Project.fetch_all_id_name();
+    const userInfo = await req.oidc.fetchUserInfo();
+    const [projects] = await Project.fetch_projects_assigned(userInfo.email);
     try {
         const error = req.session.error || '';
 
@@ -10,8 +11,6 @@ exports.dashboard = async (req, res) => {
             req.session.error = '';
         }
 
-        const userInfo = await req.oidc.fetchUserInfo();
-        
         res.render(__dirname + '/../views/home', { 
             user: userInfo,
             projects: projects,

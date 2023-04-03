@@ -33,6 +33,24 @@ module.exports = class Project {
     static fetch_all_id_name() {
         return db.execute(`SELECT id_project, project_name FROM project`);
     }
+
+    static fetch_projects_assigned(email) {
+        if (email != '') {
+            let query = `
+            SELECT id_project, project_name
+            FROM project
+            WHERE id_project IN (
+                SELECT id_project
+                FROM project_teamMember
+                WHERE id_team_member IN (
+                    SELECT id_team_member
+                    FROM teamMember
+                    WHERE email = ?
+                )
+            )`
+            return db.execute(query, [email]);
+        }
+    }
     
     static async update_epics(id, list_epics) {
         let query = `UPDATE epic SET id_project = ? WHERE epic_link = ?`;

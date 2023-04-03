@@ -13,11 +13,12 @@ module.exports = class ProjectTeam {
             query += `FROM project as P, teamMember as T 
             WHERE P.id_project = ? AND T.id_team_member = ?;`;
             return db.execute(query, [this.id_project, this.id_team_member, this.agile_points])
-}
-    static fetch_projects_assigned(member_name){
-        if (member_name != ''){
+    }
+
+    static fetch_projects_assigned_id(id_member){
+        if (id_member  > 0){
             let query = `
-            SELECT project_name
+            SELECT project_name, id_project
             FROM project
             WHERE id_project IN (
                 SELECT id_project
@@ -25,10 +26,27 @@ module.exports = class ProjectTeam {
                 WHERE id_team_member IN (
                     SELECT id_team_member
                     FROM teamMember
-                    WHERE member_name = ?
+                    WHERE id_team_member = ?
                 )
             )`
-            return db.execute(query, [member_name]);
+            return db.execute(query, [id_member]);
+        }
+    }
+    static fetch_projects_assigned_email(email){
+        if (email  != ''){
+            let query = `
+            SELECT project_name, id_project
+            FROM project
+            WHERE id_project IN (
+                SELECT id_project
+                FROM project_teamMember
+                WHERE id_team_member IN (
+                    SELECT id_team_member
+                    FROM teamMember
+                    WHERE email = ?
+                )
+            )`
+            return db.execute(query, [email]);
         }
     }
     static fetch_teamMembers(){

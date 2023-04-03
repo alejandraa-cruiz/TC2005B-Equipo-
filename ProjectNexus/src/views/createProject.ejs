@@ -11,9 +11,9 @@
                     <div class="flex justify-center">
                         <%- include('partials/message-errors.ejs') %>
                     </div>
+                    
                     <div class="flex justify-end">
-                        <img class="w-20" src="images/dh_logo.png" alt="">
-                        </a>
+                        <img class="w-20" src="/images/dh_logo.png" alt="">
                     </div>
                     <div class="w-96 flex items-center mx-12 mt-8 mb-24">
                         <!-- Creates icon for project like a svg-->
@@ -28,7 +28,7 @@
                         <h1 class="text-xl">Create Project</h1>
                     </div>
 
-                    <form class="w-full flex items-center justify-center" action="/createProject/create" method="POST">
+                    <form class="w-full flex items-center justify-center" action="/project/create" method="POST">
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <% if (projectError != '') { %> 
                                 <span class="px-3 text-red-500"><%= projectError %></span>

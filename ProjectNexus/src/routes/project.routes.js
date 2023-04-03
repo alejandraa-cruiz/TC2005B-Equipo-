@@ -6,5 +6,8 @@ let router = express.Router();
 
 router.get('/', requiresAuth(), ProjectController.project);
 router.post('/create', ProjectController.postProject);
+router.get('/list', ProjectController.getListProjects);
+
+// router.post('/list', ProjectController.postListProjects);
 
 module.exports = router;

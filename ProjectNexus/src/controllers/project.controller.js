@@ -1,9 +1,12 @@
 const Project = require('../models/project.model');
 const Epic = require('../models/epic.model');
+const ProjectTeam = require('../models/project_team.model');
 
 /** @type {import("express").RequestHandler} */
 exports.project = async (req, res) => {
-    const [projects] = await Project.fetch_all_id_name();
+    const userInfo = await req.oidc.fetchUserInfo();
+    console.log(userInfo.email);
+    const [projects] = await Project.fetch_projects_assigned(userInfo.email);
     try {
         const error = req.session.error || '';
         const projectError = req.session.projectError || '';
@@ -11,7 +14,6 @@ exports.project = async (req, res) => {
         if(error != '') {
             req.session.error = '';
         }
-        const userInfo = await req.oidc.fetchUserInfo();
         // Fetch every unassigned epic
         Epic.fetch_unassigned_epics()
         .then((rows, fieldData) => {
@@ -34,7 +36,6 @@ exports.project = async (req, res) => {
 
 /** @type {import("express").RequestHandler} */
 exports.postProject = async (req, res) => {
-    console.log(req.body);
     const start_date = new Date(req.body.start_date).getTime();
     const end_date = new Date(req.body.end_date).getTime();
     const requestProject = req.body;
@@ -76,11 +77,33 @@ exports.postProject = async (req, res) => {
             // Prompt message of project already in database
             else {
                 req.session.projectError = 'Project already exists';
-                res.redirect('/createProject');
+                res.redirect('/project');
             }
         });
     } else {
         req.session.projectError = 'Invalid time range';
-        res.redirect('/createProject');
+        res.redirect('/project');
     }
 }
+
+/** @type {import("express").RequestHandler} */
+exports.getListProjects = async (req, res) => {
+    const userInfo = await req.oidc.fetchUserInfo();
+    const [projects] = await ProjectTeam.fetch_projects_assigned_email(userInfo.email);
+    const error = req.session.error || '';
+    const projectError = req.session.projectError || '';
+    const teamMemberError = req.session.teamMemberError || '';
+    if (error != '' || projectError != '' || teamMemberError != '') {
+        req.session.error = '';
+        req.session.projectError = '';
+        req.session.teamMemberError = '';
+    }
+    res.render(__dirname + '/../views/projectsList', {
+        user: userInfo,
+        projects: projects,
+        projectError: projectError
+    });
+    // console.log(projects_assigned);
+}
+
+
