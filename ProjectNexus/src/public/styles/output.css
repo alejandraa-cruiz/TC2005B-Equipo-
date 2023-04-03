@@ -2231,10 +2231,6 @@ input[type="range"]::-ms-fill-lower {
   fill: #afafaf;
 }
 
-.fill-current {
-  fill: currentColor;
-}
-
 .fill-white {
   fill: #ffffff;
 }
@@ -2707,11 +2703,6 @@ input[type="range"]::-ms-fill-lower {
   color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
-.text-green-500 {
-  --tw-text-opacity: 1;
-  color: rgb(14 159 110 / var(--tw-text-opacity));
-}
-
 .text-green-600 {
   --tw-text-opacity: 1;
   color: rgb(5 122 85 / var(--tw-text-opacity));
@@ -2730,11 +2721,6 @@ input[type="range"]::-ms-fill-lower {
 .text-neutral-500 {
   --tw-text-opacity: 1;
   color: rgb(115 115 115 / var(--tw-text-opacity));
-}
-
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgb(240 82 82 / var(--tw-text-opacity));
 }
 
 .text-red-700 {
