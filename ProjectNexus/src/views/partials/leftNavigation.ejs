@@ -22,26 +22,33 @@
                         <span>Projects</span>
                     </li>
                 </ul>
-            
                 <h3 class="mt-5 ml-2 mb-2 font-extralight">Dashboards</h3>
-                <ul class="[&>li]:cursor-pointer [&>li]:mb-2">
-                    <li>
-                        <i class='bx bx-chevron-right'></i>
-                        <i class='bx bx-folder'></i>
-                        <a href="/dashboard">Projects</a>
+                <div class="w-full flex flex-col appearance-none justify-start items-start">
+                    <div class="flex-initial">
+                        <button class="transition duration-300 hover:rounded-sm hover:bg-mainBg" onclick="dropDownButtonProjects(event)" target="dropDownProjects">
+                            <i class='bx bx-chevron-right'></i>
+                            <i class='bx bx-folder'></i>
+                            <a> Projects</a>
+                        </button>
+                    </div>
+                    <ul id="dropDownProjects" class="text-center justify-center hidden appearance-none ml-5">
+                        <li class="transition duration-300 hover:rounded-sm hover:bg-mainBg">
+                            <i class='bx bx-bar-chart-square'></i>
+                            <a href="/dashboard/">Main</a>
+                        </li>
                         <% if(projects) { %>
-                            <ul class="ml-5">
-                            <% projects.forEach(elem => { %>
-                                <li class="hover:bg-gray-300">
+                            <% projects.forEach(elem=> { %>
+                                <li class="transition duration-300 hover:rounded-sm hover:bg-mainBg">
                                     <i class='bx bx-bar-chart-square'></i>
                                     <a href="/dashboard/<%= elem.id_project %>">
                                         <%= elem.project_name %>
                                     </a>
                                 </li>
                             <% }); %>
-                            </ul>
-                        <% } %>
-                    </li>
+                        <%} %>
+                    </ul>
+                </div>
+                <ul class="[&>li]:cursor-pointer [&>li]:mb-2">
                     <li>
                         <i class="bx bx-plus"></i>
                         <a href="/createProject">Create Project</a>
@@ -90,4 +97,3 @@
 </a>
 
 <script defer src="/scripts/navigation.js"></script>
-<script defer src="/scripts/popOut.js"></script>

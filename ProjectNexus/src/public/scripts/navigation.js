@@ -75,3 +75,8 @@ function uploadFile() {
     });
 
 }
+
+const dropdownProjects = document.getElementById('dropDownProjects');
+const dropDownButtonProjects = (event) => {
+    dropdownProjects.classList.toggle('hidden');
+}
