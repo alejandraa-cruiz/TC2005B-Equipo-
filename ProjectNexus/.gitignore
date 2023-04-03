@@ -3,5 +3,4 @@
 .DS_Store
 .vscode
 dist/
-
-ProjectNexus\src\public\styles\output.css
+output.css
