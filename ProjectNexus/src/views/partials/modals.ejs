@@ -1,0 +1,18 @@
+<div id= "alert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative hidden" role="alert">
+  <strong class="font-bold">Error!</strong> 
+  <span id="message-error"></span>
+</div>
+<div id= "alertSucc" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative hidden" role="alert">
+  <strong class="font-bold">Success!</strong> 
+  <span id="message-success"></span>
+</div>
+  <script>
+    function closeAlert(event){
+      let element = event.target;
+      while(element.nodeName !== "BUTTON"){
+        element = element.parentNode;
+      }
+      element.parentNode.parentNode.removeChild(element.parentNode);
+    }
+  </script>
+<script defer src="scripts/navigation.js"></script>
