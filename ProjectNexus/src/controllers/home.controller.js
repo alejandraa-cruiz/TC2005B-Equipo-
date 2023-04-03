@@ -11,7 +11,7 @@ exports.dashboard = async (req, res) => {
         }
 
         const userInfo = await req.oidc.fetchUserInfo();
-
+        
         res.render(__dirname + '/../views/home', { 
             user: userInfo,
             projects: projects,

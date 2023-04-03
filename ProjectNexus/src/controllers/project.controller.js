@@ -11,9 +11,7 @@ exports.project = async (req, res) => {
         if(error != '') {
             req.session.error = '';
         }
-
         const userInfo = await req.oidc.fetchUserInfo();
-
         // Fetch every unassigned epic
         Epic.fetch_unassigned_epics()
         .then((rows, fieldData) => {
@@ -28,7 +26,6 @@ exports.project = async (req, res) => {
         })
         // Render list of unassigned epics
         .catch((error)=>{console.log(error);});
-        
     } catch {
         res.redirect('/logout');
     }
@@ -64,10 +61,15 @@ exports.postProject = async (req, res) => {
                 // Check rows where the last id was inserted
                 .then(([rows, fieldData]) => {
                     insertId = rows.insertId;
-                    listEpicLinks.forEach((epic, index) =>{
-                        if (requestProject[epic] === "on") listEpicsToInsert.push(epic);
-                    })
-                    Project.update_epics(insertId, listEpicsToInsert).then((res.redirect('/dashboard'))).catch((error)=>{console.log(error)});
+                    if(listEpicLinks.length > 0){
+                        listEpicLinks.forEach((epic, index) =>{
+                            if (requestProject[epic] === "on") listEpicsToInsert.push(epic);
+                        })
+                        Project.update_epics(insertId, listEpicsToInsert).then((res.redirect('/dashboard'))).catch((error)=>{console.log(error)});
+                    }
+                    else{
+                        console.log("Please verify your epics, there are no more left");
+                    }
                 })
                 .catch((error) => {console.log(error)});
             } 

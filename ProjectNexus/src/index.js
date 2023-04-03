@@ -18,7 +18,7 @@ const config = {
     secret: process.env.SECRET,
     routes: {
         login: false,
-    }
+    },
 };
 app.use(auth(config));
 
@@ -31,6 +31,27 @@ app.use(cookieParser());
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(errorHandler = (error, req, res, next) => {
+    if (req.url === 'http://localhost:3000/callback') {
+        res.redirect('/logout');
+    }
+    else {
+        // Handler for user rejecting authorization
+        if (error.error == 'access_denied' || error.error_description == 'User did not authorize the request'){
+            res.redirect('/logout');
+        }
+        else{
+            try{
+                app.use(auth(config));
+            }
+            catch(error){
+                console.log("Should not have arrived here");
+                res.redirect('/');
+            }
+        }
+        next(error);
+    }
+});
 
 app.use(session({
     secret: 'mi string secreto que debe ser un string aleatorio muy largo, no como éste', 

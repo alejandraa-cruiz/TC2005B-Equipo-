@@ -52,10 +52,7 @@
         <div class="flex flex-col gap-12">
             <section>
                 <iframe class="invisible" id="csv-upload" name="csv-upload"></iframe>
-                <center><% if (error != '') { %> 
-                    <%= error %>
-                <% } %></center>
-                <form action="dashboard/upload" method="post" enctype="multipart/form-data">
+                <form id="form-upload" action="dashboard/upload" method="post" enctype="multipart/form-data">
                     <label class="flex flex-col items-center gap-4" for="csv-input">
                         <input class="absolute h-[7.5rem] w-[12.5rem] opacity-0 
                                     cursor-pointer" type="file" name="csv" 
@@ -69,14 +66,14 @@
                                 Select or drag and drop a file
                             </span>
                         </div>
-                        <button class="w-[7.5rem] h-[1.625rem] bg-accent-1 
+                        <button type="button" onclick="uploadFile()" class="w-[7.5rem] h-[1.625rem] bg-accent-1 
                                      text-white rounded-[3px] text-sm">
                         Import
                         </button>
                     </label>
                 </form>
             </section>
-            <section class="flex justify-between items-center">
+            <section class="flex w-f justify-between items-center">
                 <img class="w-40" src="images/Logo_invertido.png" alt="">
                 <a class="flex text-2xl rounded-[3px] p-1 hover:ease-out 
                         hover:text-white hover:bg-accent-1" href="/logout">
@@ -92,5 +89,5 @@
     <i id="chevron" class='bx bx-chevron-right'></i>
 </a>
 
-
 <script defer src="scripts/navigation.js"></script>
+<script defer src="scripts/popOut.js"></script>
