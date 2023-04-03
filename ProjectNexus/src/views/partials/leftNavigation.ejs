@@ -29,7 +29,18 @@
                         <i class='bx bx-chevron-right'></i>
                         <i class='bx bx-folder'></i>
                         <a href="/dashboard">Projects</a>
-    
+                        <% if(projects) { %>
+                            <ul class="ml-5">
+                            <% projects.forEach(elem => { %>
+                                <li class="hover:bg-gray-300">
+                                    <i class='bx bx-bar-chart-square'></i>
+                                    <a href="/dashboard/<%= elem.id_project %>">
+                                        <%= elem.project_name %>
+                                    </a>
+                                </li>
+                            <% }); %>
+                            </ul>
+                        <% } %>
                     </li>
                     <li>
                         <i class="bx bx-plus"></i>

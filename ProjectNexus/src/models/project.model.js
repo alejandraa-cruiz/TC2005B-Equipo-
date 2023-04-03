@@ -29,6 +29,10 @@ module.exports = class Project {
     static fetch_all() {
         return db.execute(`SELECT * FROM project`);
     }
+
+    static fetch_all_id_name() {
+        return db.execute(`SELECT id_project, project_name FROM project`);
+    }
     
     static async update_epics(id, list_epics) {
         let query = `UPDATE epic SET id_project = ? WHERE epic_link = ?`;
