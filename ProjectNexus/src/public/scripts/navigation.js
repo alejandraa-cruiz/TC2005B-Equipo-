@@ -47,7 +47,7 @@ function uploadFile() {
             alertErr.classList.remove('hidden');
             setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
         }
-        else if (messages === 'Empty file'){
+        else if (messages === 'The file is empty'){
             messagge.innerText='Empty file';
             alertErr.classList.remove('hidden');
             setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
