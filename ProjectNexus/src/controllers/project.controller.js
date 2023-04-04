@@ -90,6 +90,7 @@ exports.postProject = async (req, res) => {
 exports.getListProjects = async (req, res) => {
     const userInfo = await req.oidc.fetchUserInfo();
     const [projects] = await ProjectTeam.fetch_projects_assigned_email(userInfo.email);
+
     const error = req.session.error || '';
     const projectError = req.session.projectError || '';
     const teamMemberError = req.session.teamMemberError || '';
@@ -98,12 +99,17 @@ exports.getListProjects = async (req, res) => {
         req.session.projectError = '';
         req.session.teamMemberError = '';
     }
-    res.render(__dirname + '/../views/projectsList', {
-        user: userInfo,
-        projects: projects,
-        projectError: projectError
-    });
-    // console.log(projects_assigned);
+    if(projects.length > 0){
+        
+        const teamMembers = await ProjectTeam.fetch_number_members_assigned(projects);
+        console.log(teamMembers);
+        res.render(__dirname + '/../views/projectsList', {
+            user: userInfo,
+            projects: projects,
+            projectError: projectError,
+            members: teamMembers,
+        });
+    }
 }
 
 

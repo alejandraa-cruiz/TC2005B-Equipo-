@@ -1,3 +1,4 @@
+const { project } = require("../controllers/project.controller");
 const db = require("../utils/database");
 
 module.exports = class ProjectTeam {
@@ -12,7 +13,7 @@ module.exports = class ProjectTeam {
             query += `SELECT P.id_project, T.id_team_member, ? `;
             query += `FROM project as P, teamMember as T 
             WHERE P.id_project = ? AND T.id_team_member = ?;`;
-            return db.execute(query, [this.id_project, this.id_team_member, this.agile_points])
+            return db.execute(query, [this.id_project, this.id_team_member, this.agile_points]);
     }
 
     static fetch_projects_assigned_id(id_member){
@@ -28,7 +29,7 @@ module.exports = class ProjectTeam {
                     FROM teamMember
                     WHERE id_team_member = ?
                 )
-            )`
+            )`;
             return db.execute(query, [id_member]);
         }
     }
@@ -45,7 +46,7 @@ module.exports = class ProjectTeam {
                     FROM teamMember
                     WHERE email = ?
                 )
-            )`
+            )`;
             return db.execute(query, [email]);
         }
     }
@@ -53,24 +54,36 @@ module.exports = class ProjectTeam {
         let query = `
         SELECT P.agile_points, T.member_name
         FROM project_teamMember as P, teamMember as T, project as Pr
-        WHERE P.id_project = Pr.id_project AND P.id_team_member = T.id_team_member;`
+        WHERE P.id_project = Pr.id_project AND P.id_team_member = T.id_team_member;`;
         return db.execute(query);
     }
-    static fetch_number_members_assigned(list_projects){
+    
+    static async fetch_number_members_assigned(list_projects){
         let query = `
         SELECT COUNT(member_name)
         FROM teamMember
         WHERE id_team_member IN (
                     SELECT id_team_member
                     FROM project_teamMember
-                    WHERE id_project IN(
+                    WHERE id_project IN (
                         SELECT id_project
                         FROM project
-                        WHERE project_name LIKE ?
+                        WHERE id_project = ?
                     )
-        );`
-        list_projects.forEach((project, index) =>{
-            return db.execute(query, [project]);
+        )`;
+        list_projects.forEach(async (project, index) =>{
+            return db.execute(query, [project.id_project]);
         });
+        // const connection = await db.getConnection();
+        // try {
+        //     await connection.beginTransaction();
+        //     list_projects.forEach(async (project, index) => {
+        //         await connection.query(query, [project]);
+        //     });
+        //     await connection.commit();
+        // } catch (error) {
+        //     await connection.rollback();
+        //     console.log(error);
+        // }
     }
 }

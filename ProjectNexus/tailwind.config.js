@@ -13,10 +13,14 @@ module.exports = {
       fontFamily: {
         inter: ['"Inter"', 'sans-serif']
       },
+      textColor: {
+        membersFont: '#7fb096',
+      },
       colors: {
         mainBg: '#eeeeee',
         dropZone: '#fbfcfd',
         dropBorder: '#0f27761a',
+        members: '#add2be',
         accent: {
           1: '#ee3323',
           2: '#ff3120'
