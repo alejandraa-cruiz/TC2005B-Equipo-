@@ -15,6 +15,15 @@ module.exports = class ProjectTeam {
             WHERE P.id_project = ? AND T.id_team_member = ?;`;
             return db.execute(query, [this.id_project, this.id_team_member, this.agile_points]);
     }
+    static fetch_projects_assigned_search_bar(search_name_project, email){
+        return db.execute (`
+            SELECT P.project_name, P.id_project, COUNT(T.member_name) as count_team_members
+            FROM project as P, teamMember as T, project_teamMember as Tm
+            WHERE P.id_project = Tm.id_project AND Tm.id_team_member = T.id_team_member
+            AND P.project_name = ? AND T.email = ?
+            `, [search_name_project, email]
+        );
+    }
 
     static fetch_projects_assigned_id(id_member){
         if (id_member  > 0){
@@ -60,7 +69,7 @@ module.exports = class ProjectTeam {
     
     static async fetch_number_members_assigned(list_projects){
         let query = `
-        SELECT COUNT(member_name)
+        SELECT COUNT(member_name) AS count_team_members
         FROM teamMember
         WHERE id_team_member IN (
                     SELECT id_team_member
@@ -71,19 +80,15 @@ module.exports = class ProjectTeam {
                         WHERE id_project = ?
                     )
         )`;
-        list_projects.forEach(async (project, index) =>{
-            return db.execute(query, [project.id_project]);
+        const promises = [];
+        list_projects.forEach((project, index) => {
+            promises.push(db.execute(query, [project.id_project]));
         });
-        // const connection = await db.getConnection();
-        // try {
-        //     await connection.beginTransaction();
-        //     list_projects.forEach(async (project, index) => {
-        //         await connection.query(query, [project]);
-        //     });
-        //     await connection.commit();
-        // } catch (error) {
-        //     await connection.rollback();
-        //     console.log(error);
-        // }
+        const result = await Promise.all(promises);
+        const counts = [];
+        result.forEach(([rows], index) => {
+            counts.push(rows[0].count_team_members);
+        });
+        return counts;
     }
 }

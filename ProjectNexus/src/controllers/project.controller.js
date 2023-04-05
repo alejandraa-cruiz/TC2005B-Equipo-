@@ -50,7 +50,7 @@ exports.postProject = async (req, res) => {
     // WHERE Epic_link = list[i]
     if(start_date < end_date) {
         Project.fetch_name(requestProject.project_name)
-        .then(([rows, fiedlData]) => {
+        .then(([rows, fieldData]) => {
             // If project not in database
             if (rows.length === 0) {
                 const newProject = new Project({
@@ -99,16 +99,56 @@ exports.getListProjects = async (req, res) => {
         req.session.projectError = '';
         req.session.teamMemberError = '';
     }
+    // Projects assigned by current user
     if(projects.length > 0){
-        
-        const teamMembers = await ProjectTeam.fetch_number_members_assigned(projects);
-        console.log(teamMembers);
-        res.render(__dirname + '/../views/projectsList', {
-            user: userInfo,
-            projects: projects,
-            projectError: projectError,
-            members: teamMembers,
-        });
+        try{
+            const teamMembers = await ProjectTeam.fetch_number_members_assigned(projects);
+    
+            projects.forEach((project, index) =>{
+                projects[index].count_team_members = teamMembers[index];
+            })
+            res.render(__dirname + '/../views/projectsList', {
+                user: userInfo,
+                projects: projects,
+                projectError: projectError,
+            });
+        } catch(error) {
+            // No assigned members to project
+        }
+        // No projects assigned by current user
+    } else{
+        res.redirect('/project/');
+    }
+}
+
+/** @type {import("express").RequestHandler} */
+exports.getListProjectsSearchBar = async (req, res) => {
+    const query = req.params.query;
+    const userInfo = await req.oidc.fetchUserInfo();
+    const [projects] = await ProjectTeam.fetch_projects_assigned_search_bar(query, userInfo.email);
+    const error = req.session.error || '';
+    const projectError = req.session.projectError || '';
+    const teamMemberError = req.session.teamMemberError || '';
+    if (error != '' || projectError != '' || teamMemberError != '') {
+        req.session.error = '';
+        req.session.projectError = '';
+        req.session.teamMemberError = '';
+    }
+    console.log(projects);
+    // Projects assigned by current user
+    if(projects.length > 0){
+        try{
+            res.status(200).json({
+                user: userInfo,
+                projects: projects,
+                projectError: projectError,
+            });
+        } catch(error) {
+            // No assigned members to project
+        }
+        // No projects assigned found on submit by current user
+    } else{
+        res.status(500).json({message:'Internal Server Error'});
     }
 }
 

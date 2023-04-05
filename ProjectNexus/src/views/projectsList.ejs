@@ -1,115 +1,118 @@
-<!DOCTYPE html>
 <html lang="en">
 <%- include('partials/head.ejs') %>
-
     <body class="font-inter">
         <%- include('partials/leftNavigation.ejs') %>
             <main id="main-content"
                 class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
                     p-6 break-words phone:left-0 phone:w-full overflow-y-scroll overflow-x-hidden custom-scrollbar">
                 <div id="content-wrapper">
-                    <div class="flex justify-end">
-                        <img class="w-20" src="/images/dh_logo.png" alt="">
-                    </div>
-                    <div class="flex justify-around p-5 mt-4">
-                        <div class="pl-2 justify-start w-5/12">
-                            <p class="text-2xl">All projects</p>
+                    <div id="first-wrapper">
+                        <div class="flex justify-end">
+                            <img class="w-20" src="/images/dh_logo.png" alt="">
                         </div>
-                        <div class="justify-items-end w-6/12 content-end">
-                            <div class="flex flex-row w-5/12 content-end">
-                                <div class="w-full mx-auto focus:outline-none text-center rounded-lg content-end">
-                                    <form>
-                                        <label for="teamMember-search" class=""></label>
+                        <div class="flex justify-around p-5 mt-4">
+                            <div class="flex flex-row justify-start w-4/12">
+                                <div>
+                                    <p class="text-[1.500rem] font-semibold">All projects</p>
+                                </div>
+                            </div>
+                            <div class="justify-items-start w-7/12 content-end">
+                                <div class="flex flex-row w-full justify-end">
+                                    <div class="w-full mx-auto focus:outline-none text-center rounded-lg content-end">
+                                        <form>
+                                            <label for="teamMember-search" class=""></label>
+                                            <div class="relative">
+                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search w-5 h-5" height="24"
+                                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                                        <path d="M21 21l-6 -6"></path>
+                                                </div>
+                                                <input type="search" id="teamMember-search" class="block pl-10 p-2 w-full bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg" placeholder="Search Team Member">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-around p-8 mt-3">
+                            <div class="pl-2 justify-start">
+                                <button type="button" class="w-[8.5rem] h-[2.6rem] bg-accent-1 
+                                                                    text-white rounded-[3px] text-sm hover:bg-white hover:text-red-500 duration-300">
+                                    <a href="/project/">Create Project</a>
+                                </button>
+                            </div>
+                            <div class="flex flex-row w-10/12 justify-start content-start">
+                                <div class="w-full mx-auto focus:outline-none text-center rounded-lg justify-start content-start">
+                                    <form id="form-search-projects">
+                                        <label for="project-search" class=" content-start"></label>
                                         <div class="relative">
                                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search w-5 h-5" height="24"
-                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search w-5 h-5"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                     <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                                                     <path d="M21 21l-6 -6"></path>
                                             </div>
-                                            <input type="search" id="teamMember-search" class="block pl-10 p-2 w-full bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg" placeholder="Search Team Member">
+                                            <input type="search" id="project-search"
+                                                class="block pl-10 p-2 w-full bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
+                                                placeholder="Search Project" name="project-search">
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-around p-8 mt-3">
-                        <div class="pl-2 justify-start">
-                            <button type="button" class="w-[8.5rem] h-[2.6rem] bg-accent-1 
-                                                                 text-white rounded-[3px] text-sm">
-                                Create Project
-                            </button>
-                        </div>
-                        <div class="w-10/12 justify-items-end content-start">
-                            <div class="w-5/12 mx-auto focus:outline-none text-center rounded-lg justify-start content-start">
-                                <form>
-                                    <label for="teamMember-search" class=" content-start"></label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search w-5 h-5"
-                                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                                <path d="M21 21l-6 -6"></path>
-                                        </div>
-                                        <input type="search" id="teamMember-search"
-                                            class="block pl-10 p-2 w-full bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
-                                            placeholder="Search Project">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <% if (projects.length > 0) { %>
-                        <div class="flex flex-wrap w-full appearance-none items-center select-none mb-5">
-                            <div class="w-2/12 h-[3rem] content-center">
-                                <div class="flex flex-row justify-start w-full mx-auto items-center text-center pl-12">
-                                    <p class="text-center">
-                                        Title
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="w-4/12 h-[3rem]">
-                                <div class="flex flex-row justify-end w-full mx-auto items-center">
-                                    <div class="">
-                                        <p class="justify-self-center text-center break-words">
-                                            Team Members
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-6/12 h-[3rem] items-center text-center">
-                                <div class="flex flex-row justify-center w-full mx-auto items-center content-center justify-self-center">
-                                    <div class="text-center">
-                                        <p class="justify-self-center text-center break-words">
-                                            Add member
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <% projects.forEach((project, index) => { %>
-                            <div class="flex flex-wrap w-full appearance-none items-center select-none">
-                                <div class="w-2/12 h-[3rem] content-center justify-start">
+                    <div id="containerList">
+                        <% if (projects.length > 0) { %>
+                            <div class="flex flex-wrap w-full appearance-none items-center select-none mb-5 mt-5" id="project-list">
+                                <div class="w-4/12 h-[3rem] content-center">
                                     <div class="flex flex-row justify-start w-full mx-auto items-center text-center pl-12">
-                                        <p class="text-center">
-                                            <%= project.project_name; %>
+                                        <p class="text-center font-medium text-[1.250rem]">
+                                            Title
                                         </p>
                                     </div>
                                 </div>
                                 <div class="w-4/12 h-[3rem]">
-                                    <div class="flex flex-row justify-end w-full mx-auto items-center">
-                                        <div class=" w-4/12 bg-members rounded-lg break-words">
-                                            <p class="justify-self-center text-center break-words text-teal-800">
-                                                <%= project.id_project; %> members
+                                    <div class="flex flex-row justify-center w-full mx-auto items-center">
+                                        <div class="">
+                                            <p class="justify-self-center text-center break-words font-medium text-[1.250rem]">
+                                                Team Members
                                             </p>
                                         </div>
-                                        <div class="break-words">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-edit" width="24" height="24"
+                                    </div>
+                                </div>
+                                <div class="w-4/12 h-[3rem] items-center text-center">
+                                    <div class="flex flex-row justify-center w-full mx-auto items-center content-center justify-self-center">
+                                        <div class="text-center">
+                                            <p class="justify-self-center text-center break-words font-medium text-[1.250rem]">
+                                                Add member
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% projects.forEach((project, index) => { %>
+                                <div class="flex flex-wrap w-full appearance-none items-center select-none">
+                                    <div class="w-4/12 h-[3rem] content-center justify-start">
+                                        <div class="flex flex-row justify-start w-full mx-auto items-center text-center pl-12">
+                                            <p class="text-center">
+                                                <%= project.project_name; %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="w-4/12 h-[3rem]">
+                                        <div class="flex flex-row justify-center w-full mx-auto items-center">
+                                            <div class=" w-3/12 bg-members rounded-lg break-words">
+                                                <p class="justify-self-center text-center break-words text-teal-800">
+                                                    <%= project.count_team_members; %> members
+                                                </p>
+                                            </div>
+                                            <div class="break-words">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-edit" width="24" height="24"
                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                 stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -120,7 +123,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="w-6/12 h-[3rem] content-center text-center mx-auto items-center pl-5">
+                                <div class="w-4/12 h-[3rem] content-center text-center mx-auto items-center pl-5">
                                     <div class="flex flex-row content-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus justify-self-center" width="24" height="24"
                                         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
@@ -130,18 +133,122 @@
                                         <path d="M16 19h6"></path>
                                         <path d="M19 16v6"></path>
                                         <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
-                                    </div>
-                                </svg>
-                            </div>
-                            <div class="w-full h-1 bg-slate-50 mt-[2.625rem] mb-[2.625rem]">
-
-                            </div>
+                                        </div>
+                                        </svg>
+                                </div>
+                                <div class="w-full h-1 bg-slate-50 mt-[2.325rem] mb-[2.325rem]">
+                                
+                                </div>
                         <%}) %>
-                    <% } else{ %>
-                        <div class="flex justify-around p-5 mt-4">
-                            NO HAY PROJECTOS
-                        </div>
-                    <% }%>
-            </main>
-    </body>
+                    </div>
+                        <% } else{ %>
+                            <div class="flex justify-around p-5 mt-4">
+                                NO HAY PROJECTOS
+                            </div>
+                        <% }%>
+                </main>
+                        <script>
+                            const formSearchProject = document.getElementById('form-search-projects');
+                            const projectSearchBar = document.getElementById('project-search');
+                            formSearchProject.addEventListener("submit", handleSubmit);
+                            const mainContent = document.getElementById('main-content');
+                            const contentWrapperMain = document.getElementById('content-wrapper');
+                            const firstWrapper = document.getElementById('first-wrapper');
+                            function handleSubmit(event) {
+                                event.preventDefault();
+                                const query = projectSearchBar.value;
+                                fetch("/project/list/" + query, {
+                                    method: 'GET',
+                                    headers: { "Content-Type": "application/json" }
+                                })
+                                    .then(res => {
+                                        return res.json();
+                                    })
+                                    .then(data => {
+                                        let containerList = "";
+                                        console.log(data.projects[0].project_name);
+                                        if (data.projects[0].project_name != null){
+                                            containerList += `<div id="containerList">
+                                            <div class="flex flex-wrap w-full appearance-none items-center select-none mb-5 mt-5" id="project-list">
+                                                <div class="w-4/12 h-[3rem] content-center">
+                                                    <div class="flex flex-row justify-start w-full mx-auto items-center text-center pl-12">
+                                                        <p class="text-center font-medium text-[1.250rem]">
+                                                            Title
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="w-4/12 h-[3rem]">
+                                                    <div class="flex flex-row justify-center w-full mx-auto items-center">
+                                                        <div class="">
+                                                            <p class="justify-self-center text-center break-words font-medium text-[1.250rem]">
+                                                                Team Members
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="w-4/12 h-[3rem] items-center text-center">
+                                                    <div class="flex flex-row justify-center w-full mx-auto items-center content-center justify-self-center">
+                                                        <div class="text-center">
+                                                            <p class="justify-self-center text-center break-words font-medium text-[1.250rem]">
+                                                                Add member
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-wrap w-full appearance-none items-center select-none">
+                                                <div class="w-4/12 h-[3rem] content-center justify-start">
+                                                    <div class="flex flex-row justify-start w-full mx-auto items-center text-center pl-12">
+                                                        <p class="text-center">
+                                                            ${data.projects[0].project_name}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="w-4/12 h-[3rem]">
+                                                    <div class="flex flex-row justify-center w-full mx-auto items-center">
+                                                        <div class=" w-3/12 bg-members rounded-lg break-words">
+                                                            <p class="justify-self-center text-center break-words text-teal-800">
+                                                                ${data.projects[0].count_team_members} members
+                                                            </p>
+                                                        </div>
+                                                        <div class="break-words">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-edit" width="24" height="24"
+                                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path>
+                                                            <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z"></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="w-4/12 h-[3rem] content-center text-center mx-auto items-center pl-5">
+                                                <div class="flex flex-row content-center justify-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus justify-self-center" width="24" height="24"
+                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                    <path d="M16 19h6"></path>
+                                                    <path d="M19 16v6"></path>
+                                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                                    </div>
+                                                    </svg>
+                                                </div>
+                                            <div class="w-full h-1 bg-slate-50 mt-[2.325rem] mb-[2.325rem]"></div>`;
+                                            containerList += `</div>`;
+                                        }
+                                        else{
+                                            containerList += `<p class="text-center font-semibold text-[1.250rem]">No Projects were found</p>`;
+                                        }
+                                        document.getElementById("containerList").innerHTML = containerList;
+                                    })
+                                    .catch(error =>{
+                                        console.log(error);
+                                    })
+                            }
+                        </script>
+                        <!-- <script src="/scripts/searchBar.js"></script> -->
+        </body>
 </html>
