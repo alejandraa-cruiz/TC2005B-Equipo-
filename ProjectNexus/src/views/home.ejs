@@ -1,3 +1,8 @@
+<!--
+File name: home.ejs
+Developed by: Alejandra Cabrera A01704463 and Azul Rosales A01706348
+Started on: 06-04-23-->
+
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/head.ejs') %>
@@ -19,9 +24,47 @@
                 </a>
             </div>
 
-            <div style="width: 700px;">
-                <canvas id="myChart"></canvas>
-              </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="grid justify-center">
+                    Burnup chart
+                </div>
+
+                <div class="grid justify-center">
+                    Backend, frontend and team weeks 
+                </div>
+
+                <div class="grid justify-center">
+                    <div style="width: 600px;">
+                        <canvas id="burnup_chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid justify-center">
+                    <!--code progress vs expected points-->
+                </div>
+                
+                <div class="grid justify-center">
+                    Estimate vs.Progress
+                </div>
+
+                <div class="grid justify-center">
+                    Ticket Status Overview
+                </div>
+
+                <div>
+                    <!--Code for plot bar graph-->
+                </div>
+
+                <div class="grid justify-center">
+                    <div style="width: 370px;">
+                        <canvas id="ticket_status"></canvas>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+            
 
         </div>
     </main>
