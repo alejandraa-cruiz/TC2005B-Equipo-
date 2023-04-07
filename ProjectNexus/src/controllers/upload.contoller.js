@@ -1,7 +1,6 @@
 const path = require('path');
 const Epic = require('../models/epic.model');
 const TicketDataset = require('../utils/CSVparser');
-const Swal = require('sweetalert2')
 
 /** @type {import("express").RequestHandler} */
 exports.file = async (req, res) => {
