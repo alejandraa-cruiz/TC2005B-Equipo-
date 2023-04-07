@@ -2,7 +2,7 @@ const db = require("../utils/database");
 
 module.exports = class TeamMember {
     constructor(teamMember) {
-        this.id = teamMember.id; // no se ocupa 
+        // this.id = teamMember.id; // no se ocupa 
         this.email = teamMember.email;
         this.userName = teamMember.userName;
         this.team = teamMember.team || "FE";
@@ -26,7 +26,7 @@ module.exports = class TeamMember {
         }
         return db.execute(query);
     }
-    static fetch_team(userName) { 
+    static fetch_by_team(userName) { 
         let query = `SELECT team FROM teamMember `;
         if (userName != "") {
             query += `WHERE team = ?`
@@ -34,11 +34,18 @@ module.exports = class TeamMember {
         }
         return db.execute(query);
     }
-    static fetch_email(email) { // fetch by email - usar nombres mas descriptivos
+    static fetch_by_email(email) { // fetch by email - usar nombres mas descriptivos
         let query = `SELECT * FROM teamMember `;
         if (email != "") {
             query += `WHERE email = ?;`
-            try { // xq try and catch? 
+            return db.execute(query, [email]);
+        }
+    }
+    static fetch_id_by_email(email) {
+        let query = `SELECT id_team_member FROM teamMember `;
+        if (email != ""){
+            query += `WHERE email = ?;`
+            try {
                 return db.execute(query, [email]);
             }
             catch (error) { console.log(error) };

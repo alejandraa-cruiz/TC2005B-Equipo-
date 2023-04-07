@@ -1,4 +1,3 @@
-const { project } = require("../controllers/project.controller");
 const db = require("../utils/database");
 
 module.exports = class ProjectTeam {
@@ -8,13 +7,14 @@ module.exports = class ProjectTeam {
         this.agile_points = ProjectTeam.agile_points;
     }
     save () {
-        let query = 
-        `INSERT INTO project_teamMember (id_project, id_team_member, agile_points) `;
-            query += `SELECT P.id_project, T.id_team_member, ? `;
-            query += `FROM project as P, teamMember as T 
-            WHERE P.id_project = ? AND T.id_team_member = ?;`;
-            return db.execute(query, [this.id_project, this.id_team_member, this.agile_points]);
+        let query = `
+        INSERT INTO project_teamMember (id_project, id_team_member, agile_points)
+        SELECT P.id_project, T.id_team_member, ?
+        FROM project as P, teamMember as T
+        WHERE P.id_project = ? AND T.id_team_member = ?`;
+        return db.execute(query, [this.agile_points, this.id_project, this.id_team_member]);
     }
+    
     static fetch_projects_assigned_search_bar(search_name_project, email){
         return db.execute (`
             SELECT P.project_name, P.id_project, COUNT(T.member_name) as count_team_members
@@ -90,5 +90,8 @@ module.exports = class ProjectTeam {
             counts.push(rows[0].count_team_members);
         });
         return counts;
+    }
+    static fetch_all() {
+        return db.execute(`SELECT * FROM project`);
     }
 }

@@ -20,7 +20,7 @@ module.exports = class Project {
         }
     }
     static fetch_name(name) {
-        let query = `SELECT * FROM project `;
+        let query = `SELECT project_name FROM project `;
         if(name != "") {
             query += `WHERE project_name = ?`;
             return db.execute(query, [name]);
@@ -66,4 +66,11 @@ module.exports = class Project {
             console.log(error);
         }
     }
+    static fetch_id_by_name(name) {
+        let query = `SELECT id_project FROM project `;
+        if (name != "") {
+            query += `WHERE project_name = ?`;
+            return db.execute(query, [name]);
+        }
+    } 
 }

@@ -1,12 +1,12 @@
 const Project = require('../models/project.model');
 const Epic = require('../models/epic.model');
 const ProjectTeam = require('../models/project_team.model');
+const User = require('../models/teamMember.model');
 
 /** @type {import("express").RequestHandler} */
 exports.project = async (req, res) => {
     const userInfo = await req.oidc.fetchUserInfo();
-    console.log(userInfo.email);
-    const [projects] = await Project.fetch_projects_assigned(userInfo.email);
+    const [projects] = await Project.fetch_all();
     try {
         const error = req.session.error || '';
         const projectError = req.session.projectError || '';
@@ -36,6 +36,7 @@ exports.project = async (req, res) => {
 
 /** @type {import("express").RequestHandler} */
 exports.postProject = async (req, res) => {
+    const userInfo = await req.oidc.fetchUserInfo();
     const start_date = new Date(req.body.start_date).getTime();
     const end_date = new Date(req.body.end_date).getTime();
     const requestProject = req.body;
@@ -66,7 +67,39 @@ exports.postProject = async (req, res) => {
                         listEpicLinks.forEach((epic, index) =>{
                             if (requestProject[epic] === "on") listEpicsToInsert.push(epic);
                         })
-                        Project.update_epics(insertId, listEpicsToInsert).then((res.redirect('/dashboard'))).catch((error)=>{console.log(error)});
+                        Project.update_epics(insertId, listEpicsToInsert)
+                        // Insert into project_team_member
+                        .then(()=>{
+                            // Fetch team member who has created the project
+                            // before
+                            User.fetch_id_by_email(userInfo.email)
+                            .then((rows, fieldData) =>{
+                                const [id_member] = rows[0];
+                                // Fetch id of project by name
+                                Project.fetch_id_by_name(newProject.project_name)
+                                .then((rows, fieldData) =>{
+                                    const [id_project] = rows[0];
+                                    // Create instance of ProjectTeam model
+                                    // (Every time a user creates a project
+                                    // He's assigned to that project automatically
+                                    const newProjectTeam = new ProjectTeam ({
+                                        id_project : id_project.id_project,
+                                        id_team_member : id_member.id_team_member,
+                                        agile_points : 0,
+                                    });
+                                    newProjectTeam.save()
+                                    .then(([rows, fieldData]) =>{
+                                        console.log("Info insertada: ", rows);
+                                        res.redirect('/dashboard');
+                                    })
+                                    .catch((error)=>{console.log(error)});
+                                })
+                                .catch((error)=>{console.log(error)});
+                            })
+                            .catch((error)=>{console.log(error)});
+                        })
+                        // .then((res.redirect('/dashboard')))
+                        .catch((error)=>{console.log(error)});
                     }
                     else{
                         console.log("Please verify your epics, there are no more left");
@@ -88,8 +121,9 @@ exports.postProject = async (req, res) => {
 
 /** @type {import("express").RequestHandler} */
 exports.getListProjects = async (req, res) => {
+    // console.log("Token Claims: ", req.oidc.idTokenClaims);
     const userInfo = await req.oidc.fetchUserInfo();
-    const [projects] = await ProjectTeam.fetch_projects_assigned_email(userInfo.email);
+    const [projects] = await ProjectTeam.fetch_all();
 
     const error = req.session.error || '';
     const projectError = req.session.projectError || '';
@@ -103,7 +137,6 @@ exports.getListProjects = async (req, res) => {
     if(projects.length > 0){
         try{
             const teamMembers = await ProjectTeam.fetch_number_members_assigned(projects);
-    
             projects.forEach((project, index) =>{
                 projects[index].count_team_members = teamMembers[index];
             })
@@ -134,7 +167,6 @@ exports.getListProjectsSearchBar = async (req, res) => {
         req.session.projectError = '';
         req.session.teamMemberError = '';
     }
-    console.log(projects);
     // Projects assigned by current user
     if(projects.length > 0){
         try{
@@ -144,9 +176,11 @@ exports.getListProjectsSearchBar = async (req, res) => {
                 projectError: projectError,
             });
         } catch(error) {
+            console.log(error)
             // No assigned members to project
         }
         // No projects assigned found on submit by current user
+        // May want to create a project
     } else{
         res.status(500).json({message:'Internal Server Error'});
     }

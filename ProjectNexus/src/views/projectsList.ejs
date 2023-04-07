@@ -37,8 +37,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex justify-around p-8 mt-3">
-                            <div class="pl-2 justify-start">
+                        <div class="flex justify-around p-5 mt-3">
+                            <div class="justify-start">
                                 <button type="button" class="w-[8.5rem] h-[2.6rem] bg-accent-1 
                                                                     text-white rounded-[3px] text-sm hover:bg-white hover:text-red-500 duration-300">
                                     <a href="/project/">Create Project</a>
@@ -99,19 +99,19 @@
                                 <div class="flex flex-wrap w-full appearance-none items-center select-none">
                                     <div class="w-4/12 h-[3rem] content-center justify-start">
                                         <div class="flex flex-row justify-start w-full mx-auto items-center text-center pl-12">
-                                            <p class="text-center">
+                                            <p class="text-center select-text">
                                                 <%= project.project_name; %>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="w-4/12 h-[3rem]">
                                         <div class="flex flex-row justify-center w-full mx-auto items-center">
-                                            <div class=" w-3/12 bg-members rounded-lg break-words">
-                                                <p class="justify-self-center text-center break-words text-teal-800">
+                                            <div class=" w-3/12 bg-members rounded-lg break-words text-teal-800 p-[0.180rem]">
+                                                <p class="justify-self-center text-center break-words select-text">
                                                     <%= project.count_team_members; %> members
                                                 </p>
                                             </div>
-                                            <div class="break-words">
+                                            <div class="break-words hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-edit" width="24" height="24"
                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                 stroke-linejoin="round">
@@ -123,18 +123,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="w-4/12 h-[3rem] content-center text-center mx-auto items-center pl-5">
-                                    <div class="flex flex-row content-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus justify-self-center" width="24" height="24"
-                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                        <path d="M16 19h6"></path>
-                                        <path d="M19 16v6"></path>
-                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                <div class="w-4/12 h-[3rem] content-center text-center mx-auto items-center pl-5 justify-center">
+                                    <div class="flex flex-row content-center mx-auto items-center w-full justify-center">
+                                        <div class= "break-words hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus justify-self-center" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                            <path d="M16 19h6"></path>
+                                            <path d="M19 16v6"></path>
+                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                            </svg>
                                         </div>
-                                        </svg>
+                                    </div>
                                 </div>
                                 <div class="w-full h-1 bg-slate-50 mt-[2.325rem] mb-[2.325rem]">
                                 
@@ -206,36 +208,40 @@
                                                 </div>
                                                 <div class="w-4/12 h-[3rem]">
                                                     <div class="flex flex-row justify-center w-full mx-auto items-center">
-                                                        <div class=" w-3/12 bg-members rounded-lg break-words">
-                                                            <p class="justify-self-center text-center break-words text-teal-800">
-                                                                ${data.projects[0].count_team_members} members
-                                                            </p>
+                                                        <div class="flex flex-row justify-center w-full mx-auto items-center">
+                                                            <div class=" w-3/12 bg-members rounded-lg break-words text-teal-800 p-[0.180rem]">
+                                                                <p class="justify-self-center text-center break-words select-text">
+                                                                ${data.projects[0].count_team_members} Members
+                                                                </p>
+                                                            </div>
+                                                            <div class="break-words hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-edit" width="24" height="24"
+                                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                                stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path>
+                                                                <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z"></path>
+                                                            </svg>
                                                         </div>
-                                                        <div class="break-words">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-edit" width="24" height="24"
-                                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                                            stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path>
-                                                            <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z"></path>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="w-4/12 h-[3rem] content-center text-center mx-auto items-center pl-5 justify-center">
+                                                <div class="flex flex-row content-center mx-auto items-center w-full justify-center">
+                                                    <div class= "break-words hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus justify-self-center" width="24" height="24"
+                                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                        <path d="M16 19h6"></path>
+                                                        <path d="M19 16v6"></path>
+                                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
                                                         </svg>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="w-4/12 h-[3rem] content-center text-center mx-auto items-center pl-5">
-                                                <div class="flex flex-row content-center justify-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus justify-self-center" width="24" height="24"
-                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                                    <path d="M16 19h6"></path>
-                                                    <path d="M19 16v6"></path>
-                                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
-                                                    </div>
-                                                    </svg>
-                                                </div>
                                             <div class="w-full h-1 bg-slate-50 mt-[2.325rem] mb-[2.325rem]"></div>`;
                                             containerList += `</div>`;
                                         }

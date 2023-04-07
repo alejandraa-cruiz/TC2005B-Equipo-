@@ -1,13 +1,13 @@
 const express = require('express');
-const { requiresAuth } = require('express-openid-connect');
+const { requiresAuth, claimEquals, claimCheck, claimIncludes } = require('express-openid-connect');
 const ProjectController = require('../controllers/project.controller');
 
 let router = express.Router();
 
 router.get('/', requiresAuth(), ProjectController.project);
-router.post('/create', ProjectController.postProject);
-router.get('/list', ProjectController.getListProjects);
-router.get('/list/:query', ProjectController.getListProjectsSearchBar);
+router.post('/create', requiresAuth(), ProjectController.postProject);
+router.get('/list', requiresAuth(), ProjectController.getListProjects);
+router.get('/list/:query', requiresAuth(), ProjectController.getListProjectsSearchBar);
 
 // router.post('/list', ProjectController.postListProjects);
 
