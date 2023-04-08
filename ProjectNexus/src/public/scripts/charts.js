@@ -88,3 +88,189 @@ new Chart(burnup_chart,{
         }
     }
   });
+
+// Estimate vs Progress Chart
+new Chart(
+document.getElementById('estimate-progress'),{
+    type: 'bar',
+    options: {
+    scales: {
+        x: {
+        stacked: true
+        },
+        y: {
+        stacked: true
+        }
+    },
+    plugins: {
+        legend: {
+        display: true,
+        position: 'bottom',
+        }
+    },
+    responsive: true,
+    aspectRatio: 1
+    },
+    
+    data: {
+    labels: ['Epic 1', 'Epic 2', 'Epic 3'],
+
+    datasets: [{
+        label: 'Progress',
+        data: [12, 15, 10],
+        backgroundColor: [
+            "#b8e0d2",
+            "#809bce",
+            "#95b8d1"
+        ],
+        hoverBackgroundColor: "#8ECDB7"
+    },{
+        label: 'Estimate',
+        data: [7, 8, 5],
+        backgroundColor: "#dcdcdd",
+        hoverBackgroundColor: "#C1C1C2"
+    }]
+    }
+}
+);
+
+// Backend Points
+new Chart(
+document.getElementById('backend-points'),{
+    type: 'bar',
+    options: {
+    indexAxis: 'y',
+    scales: {
+        x: {
+        stacked: true
+        },
+        y: {
+        stacked: true
+        }
+    },
+    plugins: {
+        legend: {
+        display: true,
+        position: 'bottom',
+        }
+    },
+    responsive: true,
+    aspectRatio: 3
+    },
+    
+    data: {
+    labels: [""],
+
+    datasets: [{
+        label: 'Epic 1',
+        data: [7],
+        backgroundColor: "#809bce",
+        hoverBackgroundColor: "#5D80C0"
+    },{
+        label: 'Epic 2',
+        data: [12],
+        backgroundColor: "#b8e0d2",
+        hoverBackgroundColor: "#8ECDB7"
+    },{
+        label:'Epic 3',
+        data: [18],
+        backgroundColor: "#95b8d1",
+        hoverBackgroundColor: "#71A0C1"
+    }]
+    }
+}
+);
+
+// Frontend Points
+new Chart(
+document.getElementById('frontend-points'),{
+    type: 'bar',
+    options: {
+    indexAxis: 'y',
+    scales: {
+        x: {
+        stacked: true
+        },
+        y: {
+        stacked: true
+        }
+    },
+    plugins: {
+        legend: {
+        display: true,
+        position: 'bottom',
+        }
+    },
+    responsive: true,
+    aspectRatio: 3
+    },
+    
+    data: {
+    labels: [""],
+
+    datasets: [{
+        label: 'Epic 1',
+        data: [7],
+        backgroundColor: "#809bce",
+        hoverBackgroundColor: "#5D80C0"
+    },{
+        label: 'Epic 2',
+        data: [12],
+        backgroundColor: "#b8e0d2",
+        hoverBackgroundColor: "#8ECDB7"
+    },{
+        label:'Epic 3',
+        data: [18],
+        backgroundColor: "#95b8d1",
+        hoverBackgroundColor: "#71A0C1"
+    }]
+    }
+}
+);
+
+// Team Weeks
+new Chart(
+document.getElementById('team-weeks'),{
+    type: 'bar',
+    options: {
+    indexAxis: 'y',
+    scales: {
+        x: {
+        stacked: true
+        },
+        y: {
+        stacked: true
+        }
+    },
+    plugins: {
+        legend: {
+        display: true,
+        position: 'bottom',
+        }
+    },
+    responsive: true,
+    aspectRatio: 3
+    },
+    
+    data: {
+    labels: [""],
+
+    datasets: [{
+        label: 'Epic 1',
+        data: [7],
+        backgroundColor: "#809bce",
+        hoverBackgroundColor: "#5D80C0"
+    },{
+        label: 'Epic 2',
+        data: [12],
+        backgroundColor: "#b8e0d2",
+        hoverBackgroundColor: "#8ECDB7"
+    },{
+        label:'Epic 3',
+        data: [18],
+        backgroundColor: "#95b8d1",
+        hoverBackgroundColor: "#71A0C1"
+    }]
+    }
+}
+);
