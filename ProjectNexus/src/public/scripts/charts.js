@@ -106,6 +106,10 @@ document.getElementById('estimate-progress'),{
         legend: {
         display: true,
         position: 'bottom',
+        labels:{
+            padding: 40,
+            usePointStyle: true
+        } 
         }
     },
     responsive: true,
@@ -155,6 +159,9 @@ document.getElementById('backend-points'),{
         legend: {
         display: true,
         position: 'bottom',
+        labels:{
+            usePointStyle: true
+        } 
         }
     },
     responsive: true,
@@ -205,6 +212,9 @@ document.getElementById('frontend-points'),{
         legend: {
         display: true,
         position: 'bottom',
+        labels:{
+            usePointStyle: true
+        } 
         }
     },
     responsive: true,
@@ -252,6 +262,9 @@ document.getElementById('team-weeks'),{
         legend: {
         display: true,
         position: 'bottom',
+        labels:{
+            usePointStyle: true
+        } 
         }
     },
     responsive: true,
