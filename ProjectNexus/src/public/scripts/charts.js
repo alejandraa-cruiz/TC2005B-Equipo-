@@ -119,15 +119,18 @@ document.getElementById('estimate-progress'),{
         label: 'Progress',
         data: [12, 15, 10],
         backgroundColor: [
-            "#b8e0d2",
-            "#809bce",
-            "#95b8d1"
-        ],
-        hoverBackgroundColor: "#8ECDB7"
+            //tailwind red-400
+            'rgb(248, 113, 113)',
+            //tailwind red-600
+            'rgb(220, 38, 38)',
+            //tailwind gray-700
+            'rgb(55,65,81)'
+        ]
     },{
         label: 'Estimate',
         data: [7, 8, 5],
-        backgroundColor: "#dcdcdd",
+        backgroundColor: //tailwind gray-200
+        'rgb(229, 231, 235)',
         hoverBackgroundColor: "#C1C1C2"
     }]
     }
@@ -164,18 +167,21 @@ document.getElementById('backend-points'),{
     datasets: [{
         label: 'Epic 1',
         data: [7],
-        backgroundColor: "#809bce",
-        hoverBackgroundColor: "#5D80C0"
+        backgroundColor: //tailwind red-400
+        'rgb(248, 113, 113)'
+        
     },{
         label: 'Epic 2',
         data: [12],
-        backgroundColor: "#b8e0d2",
-        hoverBackgroundColor: "#8ECDB7"
+        backgroundColor: //tailwind red-600
+        'rgb(220, 38, 38)'
+        
     },{
         label:'Epic 3',
         data: [18],
-        backgroundColor: "#95b8d1",
-        hoverBackgroundColor: "#71A0C1"
+        backgroundColor: //tailwind gray-300
+        'rgb(209, 213, 219)'
+
     }]
     }
 }
@@ -211,18 +217,18 @@ document.getElementById('frontend-points'),{
     datasets: [{
         label: 'Epic 1',
         data: [7],
-        backgroundColor: "#809bce",
-        hoverBackgroundColor: "#5D80C0"
+        backgroundColor: //tailwind red-400
+        'rgb(248, 113, 113)'
     },{
         label: 'Epic 2',
         data: [12],
-        backgroundColor: "#b8e0d2",
-        hoverBackgroundColor: "#8ECDB7"
+         backgroundColor://tailwind red-600
+         'rgb(220, 38, 38)'
     },{
         label:'Epic 3',
-        data: [18],
-        backgroundColor: "#95b8d1",
-        hoverBackgroundColor: "#71A0C1"
+        data: [8],
+        backgroundColor: //tailwind gray-300
+        'rgb(209, 213, 219)'
     }]
     }
 }
@@ -257,19 +263,19 @@ document.getElementById('team-weeks'),{
 
     datasets: [{
         label: 'Epic 1',
-        data: [7],
-        backgroundColor: "#809bce",
-        hoverBackgroundColor: "#5D80C0"
+        data: [2],
+        backgroundColor: //tailwind red-400
+        'rgb(248, 113, 113)'
     },{
         label: 'Epic 2',
-        data: [12],
-        backgroundColor: "#b8e0d2",
-        hoverBackgroundColor: "#8ECDB7"
+        data: [1.5],
+        backgroundColor:  //tailwind red-600
+        'rgb(220, 38, 38)'
     },{
         label:'Epic 3',
-        data: [18],
-        backgroundColor: "#95b8d1",
-        hoverBackgroundColor: "#71A0C1"
+        data: [2.5],
+        backgroundColor: //tailwind gray-300
+        'rgb(209, 213, 219)'
     }]
     }
 }
