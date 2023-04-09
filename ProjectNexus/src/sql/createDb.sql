@@ -1,7 +1,3 @@
-DROP DATABASE IF EXISTS project_nexus;
-CREATE DATABASE project_nexus; 
-USE project_nexus;
-
 CREATE TABLE project (
   id_project INT PRIMARY KEY AUTO_INCREMENT,
   project_name VARCHAR(100),

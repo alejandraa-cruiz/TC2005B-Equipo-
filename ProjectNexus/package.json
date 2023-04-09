@@ -7,7 +7,8 @@
     "test": "jest ./tests --coverage --coverageReporters='text'",
     "serve": "nodemon ./src/index.js",
     "build": "tailwindcss -i ./src/public/styles/input.css -o ./src/public/styles/output.css",
-    "dev": "concurrently \"nodemon ./src/index.js\" \"tailwindcss -i ./src/public/styles/input.css -o ./src/public/styles/output.css --watch\" "
+    "dev": "concurrently \"nodemon ./src/index.js\" \"tailwindcss -i ./src/public/styles/input.css -o ./src/public/styles/output.css --watch\" ",
+    "start": "npm install && node \"./cli/project.config.mjs\""
   },
   "keywords": [],
   "author": "",
@@ -24,7 +25,9 @@
     "mysql2": "^3.2.0"
   },
   "devDependencies": {
+    "chalk": "^5.2.0",
     "concurrently": "^7.6.0",
+    "inquirer": "^9.1.5",
     "jest": "^29.5.0",
     "nodemon": "^2.0.21",
     "tailwindcss": "^3.3.1"
