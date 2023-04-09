@@ -8,6 +8,7 @@ router.get('/', requiresAuth(), ProjectController.project);
 router.post('/create', requiresAuth(), ProjectController.postProject);
 router.get('/list', requiresAuth(), ProjectController.getListProjects);
 router.get('/list/:query', requiresAuth(), ProjectController.getListProjectsSearchBar);
+router.delete('/delete/:project', requiresAuth(), ProjectController.deleteProject);
 
 // router.post('/list', ProjectController.postListProjects);
 

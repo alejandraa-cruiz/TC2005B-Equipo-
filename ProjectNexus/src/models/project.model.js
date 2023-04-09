@@ -72,5 +72,19 @@ module.exports = class Project {
             query += `WHERE project_name = ?`;
             return db.execute(query, [name]);
         }
-    } 
+    }
+    static delete_by_id(id) {
+        let query = `DELETE FROM project `;
+        if (id > 0) {
+            query += `WHERE id_project = ?`;
+            return db.execute(query, [id]);
+        }
+    }
+    static delete_by_name(name) {
+        let query = `DELETE FROM project `;
+        if (name != "") {
+            query += `WHERE project_name = ?`;
+            return db.execute(query, [name]);
+        }
+    }
 }

@@ -186,4 +186,8 @@ exports.getListProjectsSearchBar = async (req, res) => {
     }
 }
 
+/** @type {import("express").RequestHandler} */
+exports.deleteProject = async (req, res) =>{
+    Project.delete_by_name(req.params.project);
+}
 
