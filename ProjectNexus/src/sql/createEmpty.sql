@@ -32,9 +32,9 @@ CREATE TABLE project_teamMember (
 
 CREATE TABLE teamMember (
   id_team_member INT PRIMARY KEY AUTO_INCREMENT,
-  email VARCHAR(255),
-  member_name VARCHAR(50),
-  team VARCHAR(2)
+  email VARCHAR(255) NOT NULL,
+  member_name VARCHAR(50) NOT NULL,
+  team VARCHAR(2) NOT NULL
 );
 
 CREATE TABLE csv (
