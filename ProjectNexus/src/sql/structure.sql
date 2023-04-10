@@ -36,9 +36,9 @@ CREATE TABLE project_teamMember (
 
 CREATE TABLE teamMember (
   id_team_member INT PRIMARY KEY AUTO_INCREMENT,
-  email VARCHAR(255),
-  member_name VARCHAR(50),
-  team VARCHAR(2)
+  email VARCHAR(255) NOT NULL,
+  member_name VARCHAR(50) NOT NULL,
+  team VARCHAR(2) NOT NULL
 );
 
 CREATE TABLE csv (
@@ -57,7 +57,7 @@ INSERT INTO teammember (member_name, email, team) VALUES
 ('Dan Cohn','dan_cohn@dispatchhealth.com', 'BE'),
 ('Bernardo Gomez-Romero', 'bernardo_gomez_romero@dispatchhealth.com', 'BE'),
 ('Giorgi Gelashvili', 'giorgi_gelashvili@dispatchhealth.com', 'FE'),
-('Alan Malagon', 'alan_malagon@dispatchhealth.com', null),
+('Alan Malagon', 'alan_malagon@dispatchhealth.com', 'FE'),
 ('Itzel Barreto', 'itzel_barreto@dispatchhealth.com', 'FE');
 
 
