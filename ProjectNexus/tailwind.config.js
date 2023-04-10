@@ -8,6 +8,9 @@ module.exports = {
   theme: {
     screens: {
       'phone': {'max': '640px'},
+      'tablet':{'max': '768px'},
+      'laptop': {'min': '1024px'},
+      'desktop': {'min': '1280px'},
     },
     extend: {
       fontFamily: {
