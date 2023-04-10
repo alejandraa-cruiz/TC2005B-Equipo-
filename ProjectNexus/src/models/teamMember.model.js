@@ -2,9 +2,9 @@ const db = require("../utils/database");
 
 module.exports = class TeamMember {
     constructor(teamMember) {
-        // this.id = teamMember.id; // no se ocupa 
-        this.email = teamMember.email;
-        this.userName = teamMember.userName;
+        this.id = teamMember.id; // no se ocupa 
+        this.email = teamMember.email || null;
+        this.userName = teamMember.userName || null;
         this.team = teamMember.team || "FE";
     }
     // method for saving a new teamMember in database
@@ -12,8 +12,9 @@ module.exports = class TeamMember {
     save() {
         return db.execute(
             `INSERT INTO teamMember(email, member_name, team)
-            VALUES(?, ?, ?)`,
-            [this.email, this.userName, this.team]
+             SELECT ?, ?, ?
+             WHERE (SELECT count(*) FROM teammember WHERE email = ?) = 0`,
+            [this.email, this.userName, this.team, this.email]
         );
     }
 

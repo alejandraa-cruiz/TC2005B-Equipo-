@@ -2,13 +2,16 @@ const db = require("../utils/database");
 
 module.exports = class Epic {
     constructor(Epic) {
-        this.id_project = Epic.id_project;
+        this.id_project = Epic.id_project || null;
         this.epic_link = Epic.epic_link;
     }
 
     save() {
-        let query = `INSERT INTO epic (id_project, epic_link) VALUES (?,?)`;
-        return db.excecute(query, [this.id_project, this.epic_link]);
+        let query = `INSERT INTO epic (epic_link) 
+                     SELECT ?
+                     WHERE (SELECT count(epic_link) 
+                            FROM epic WHERE epic_link = ?) = 0;`;
+        return db.execute(query, [this.epic_link, this.epic_link]);
     }
 
     /**
