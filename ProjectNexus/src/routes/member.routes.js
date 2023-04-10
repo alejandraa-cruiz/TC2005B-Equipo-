@@ -5,7 +5,8 @@ const createMemberController = require('../controllers/member.controller');
 
 let router = express.Router();
 
-router.get('/', requiresAuth(), createMemberController.createMember);
+router.get('/',requiresAuth(), createMemberController.createMember);
+router.post('/create', createMemberController.postMember);
 
 
 module.exports = router;
