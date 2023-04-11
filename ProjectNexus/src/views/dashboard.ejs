@@ -1,0 +1,382 @@
+<!--
+File name: home.ejs
+Developed by: Alejandra Cabrera A01704463 and Azul Rosales A01706348
+Started on: 06-04-23-->
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs') %>
+
+<body class="font-inter">
+    <%- include('partials/leftNavigation.ejs', {
+        error: error
+    }) %>
+    <main id="main-content" 
+          class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
+          p-6 break-words phone:left-0 phone:w-full">
+        <div id="content-wrapper">
+            <!-- Content goes here -->
+            <div class="flex justify-center">
+                <%- include('partials/message-errors.ejs') %>
+            </div>
+            <div class="flex justify-end">
+                <img class="w-20" src="images/dh_logo.png" alt="">
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="grid justify-center">
+                    Burnup chart
+                </div>
+
+                <div class="grid justify-left ml-64">
+                    Backend Points:37
+                </div>
+
+                <div class="grid justify-center items-center">
+                    <div style="width: 600px;">
+                        <canvas id="burnup_chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid justify-left ml-64">
+                    <div style="width:300px;">
+                        <canvas id="backend-points"></canvas>
+                        Frontend Points: 32
+                        <canvas id="frontend-points"></canvas>
+                        Team Weeks: 6
+                        <canvas id="team-weeks"></canvas>
+                    </div>
+                </div>
+                
+                <div class="grid justify-center mt-12">
+                    Estimate vs.Progress
+                </div>
+
+                <div class="grid justify-center mt-12">
+                    Ticket Status Overview
+
+                </div>
+
+                <div class="grid justify-center">
+                    <div style="width: 370px;">
+                        <canvas id="estimate-progress"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid justify-center">
+                    <div style="width: 370px;">
+                        <canvas id="ticket_status"></canvas>
+                    </div>
+                    
+                </div>
+
+            </div>
+        
+        </div>
+    </main>
+    <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
+    <!-- <script defer src="scripts/index.min.js" type="text/javascript"></script> -->
+    <script defer src="scripts/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <script src ="./scripts/charts.js"></script> -->
+    <script>
+        //File name: charts.js
+//Developed by: Alejandra Cabrera A01704463 and Azul Rosales A01706348
+//Started on: 06-04-23
+
+const ticket_status= document.getElementById('ticket_status');
+const burnup_chart= document.getElementById('burnup_chart');
+
+//Burnup Chart
+new Chart(burnup_chart,{
+    type:'line',
+    data:{
+        labels: [<%= burnupChart.weeks %>],
+        datasets:[
+            {
+            label:'Goal Points',
+            data: [<%= burnupChart.goal_points %>],
+            //tailwind red-400
+            borderColor:'rgb(248, 113, 113)',
+            backgroundColor:'rgb(248, 113, 113)'
+            },
+            {
+            label:'Points Done',
+            data:[<%= burnupChart.points_done %>],
+            //tailwind red-600
+            borderColor:'rgb(220, 38, 38)',
+            backgroundColor:'rgb(220, 38, 38)'
+            },
+            {
+            label:'Scope Points',
+            data:[<%= burnupChart.scope %>],
+            //tailwind gray-700
+            borderColor:'rgb(55,65,81)',
+            backgroundColor:'rgb(55,65,81)'
+            }
+        ]
+    },
+
+    options: {
+        responsive: true,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels:{
+                    padding: 30,
+                    usePointStyle: true
+                }     
+            }
+        },
+    }
+})
+
+//Ticket Status Chart
+  new Chart(ticket_status, {
+    type: 'doughnut',
+    data: {
+      labels: ['Done', 'In Review', 'Closed', 'Backlog'],
+      datasets: [{
+        label: 'Ticket Percentage',
+        data: [38.6, 22.5, 30.8, 8.1],
+        backgroundColor: [
+            //tailwind red-400
+            'rgb(248, 113, 113)',
+            //tailwind red-600
+            'rgb(220, 38, 38)',
+            //tailwind gray-200
+            'rgb(229, 231, 235)',
+            //tailwind gray-700
+            'rgb(55,65,81)'
+
+          ],
+          hoverOffset: 4
+      }]
+    },
+    
+    options: {
+        plugins: {
+            legend: {
+                position: 'right',
+                labels:{
+                    padding: 40,
+                    usePointStyle: true
+                }     
+            }
+        }
+    }
+  });
+
+// Estimate vs Progress Chart
+new Chart(
+document.getElementById('estimate-progress'),{
+    type: 'bar',
+    options: {
+    scales: {
+        x: {
+        stacked: true
+        },
+        y: {
+        stacked: true
+        }
+    },
+    plugins: {
+        legend: {
+        display: true,
+        position: 'bottom',
+        labels:{
+            padding: 40,
+            usePointStyle: true
+        } 
+        }
+    },
+    responsive: true,
+    aspectRatio: 1
+    },
+    
+    data: {
+    labels: ['Epic 1', 'Epic 2', 'Epic 3'],
+
+    datasets: [{
+        label: 'Progress',
+        data: [12, 15, 10],
+        backgroundColor: [
+            //tailwind red-400
+            'rgb(248, 113, 113)',
+            //tailwind red-600
+            'rgb(220, 38, 38)',
+            //tailwind gray-700
+            'rgb(55,65,81)'
+        ]
+    },{
+        label: 'Estimate',
+        data: [7, 8, 5],
+        backgroundColor: //tailwind gray-200
+        'rgb(229, 231, 235)',
+        hoverBackgroundColor: "#C1C1C2"
+    }]
+    }
+}
+);
+
+// Backend Points
+new Chart(
+document.getElementById('backend-points'),{
+    type: 'bar',
+    options: {
+    indexAxis: 'y',
+    scales: {
+        x: {
+        stacked: true
+        },
+        y: {
+        stacked: true
+        }
+    },
+    plugins: {
+        legend: {
+        display: true,
+        position: 'bottom',
+        labels:{
+            usePointStyle: true
+        } 
+        }
+    },
+    responsive: true,
+    aspectRatio: 3
+    },
+    
+    data: {
+    labels: [""],
+
+    datasets: [{
+        label: 'Epic 1',
+        data: [7],
+        backgroundColor: //tailwind red-400
+        'rgb(248, 113, 113)'
+        
+    },{
+        label: 'Epic 2',
+        data: [12],
+        backgroundColor: //tailwind red-600
+        'rgb(220, 38, 38)'
+        
+    },{
+        label:'Epic 3',
+        data: [18],
+        backgroundColor: //tailwind gray-300
+        'rgb(209, 213, 219)'
+
+    }]
+    }
+}
+);
+
+// Frontend Points
+new Chart(
+document.getElementById('frontend-points'),{
+    type: 'bar',
+    options: {
+    indexAxis: 'y',
+    scales: {
+        x: {
+        stacked: true
+        },
+        y: {
+        stacked: true
+        }
+    },
+    plugins: {
+        legend: {
+        display: true,
+        position: 'bottom',
+        labels:{
+            usePointStyle: true
+        } 
+        }
+    },
+    responsive: true,
+    aspectRatio: 3
+    },
+    
+    data: {
+    labels: [""],
+
+    datasets: [{
+        label: 'Epic 1',
+        data: [7],
+        backgroundColor: //tailwind red-400
+        'rgb(248, 113, 113)'
+    },{
+        label: 'Epic 2',
+        data: [12],
+         backgroundColor://tailwind red-600
+         'rgb(220, 38, 38)'
+    },{
+        label:'Epic 3',
+        data: [8],
+        backgroundColor: //tailwind gray-300
+        'rgb(209, 213, 219)'
+    }]
+    }
+}
+);
+
+// Team Weeks
+new Chart(
+document.getElementById('team-weeks'),{
+    type: 'bar',
+    options: {
+    indexAxis: 'y',
+    scales: {
+        x: {
+        stacked: true
+        },
+        y: {
+        stacked: true
+        }
+    },
+    plugins: {
+        legend: {
+        display: true,
+        position: 'bottom',
+        labels:{
+            usePointStyle: true
+        } 
+        }
+    },
+    responsive: true,
+    aspectRatio: 3
+    },
+    
+    data: {
+    labels: [""],
+
+    datasets: [{
+        label: 'Epic 1',
+        data: [2],
+        backgroundColor: //tailwind red-400
+        'rgb(248, 113, 113)'
+    },{
+        label: 'Epic 2',
+        data: [1.5],
+        backgroundColor:  //tailwind red-600
+        'rgb(220, 38, 38)'
+    },{
+        label:'Epic 3',
+        data: [2.5],
+        backgroundColor: //tailwind gray-300
+        'rgb(209, 213, 219)'
+    }]
+    }
+}
+);
+    </script>
+    
+</body>
+</html>

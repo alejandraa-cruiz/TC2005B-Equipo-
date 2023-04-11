@@ -22,4 +22,22 @@ module.exports = class Ticket {
                                 this.storyPoints, this.ticket_status, this.label,
                                 this.update_date, this.epic_link]);
     }
+
+    static fetch_done_week(id_project, start_date, end_date) {
+        let query = `SELECT SUM(storyPoints) as points_done FROM ticket 
+        WHERE update_date BETWEEN ? AND ? 
+        AND ticket_status = 'Done'
+        AND id_epic IN
+        (SELECT id_epic FROM epic WHERE id_project = ?)`
+
+        return db.execute(query, [start_date, end_date, id_project]);
+    }
+
+    static fetch_scope(id_project) {
+        let query = `SELECT SUM(storyPoints) as scope FROM ticket 
+        WHERE id_epic IN
+        (SELECT id_epic FROM epic WHERE id_project = ?)`
+
+        return db.execute(query, [id_project]);
+    }
 }

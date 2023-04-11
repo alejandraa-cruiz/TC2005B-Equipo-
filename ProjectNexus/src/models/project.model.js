@@ -48,4 +48,10 @@ module.exports = class Project {
             console.log(error);
         }
     }
+
+    static fetch_dates(id_project) {
+        let query = `SELECT start_date, end_date
+        FROM project WHERE id_project = ?`
+        return db.execute(query, [id_project]);
+    }
 }
