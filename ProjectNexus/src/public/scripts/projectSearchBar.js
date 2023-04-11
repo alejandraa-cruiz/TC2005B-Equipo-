@@ -7,9 +7,12 @@ const firstWrapper = document.getElementById('first-wrapper');
 function handleSubmit(event) {
     event.preventDefault();
     const query = projectSearchBar.value;
+    const url = window.location.href;
+    let flag = false;
+    // console.log(url);
     fetch("/project/list/" + query, {
         method: 'GET',
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
     })
         .then(res => {
             return res.json();
@@ -137,9 +140,17 @@ function handleSubmit(event) {
                 containerList += `</div>`;
             }
             else {
+                flag = true;
                 containerList += `<p class="text-center font-semibold text-[1.250rem]">No Projects were found</p>`;
             }
-            document.getElementById("containerList").innerHTML = containerList;
+            if(flag){
+                document.getElementById("containerList").innerHTML = containerList;
+                setTimeout(()=> {
+                    window.location.replace("http://localhost:3000/project/list")
+                }, 3000);
+            } else{
+                document.getElementById("containerList").innerHTML = containerList;
+            }
         })
         .catch(error => {
             console.log(error);

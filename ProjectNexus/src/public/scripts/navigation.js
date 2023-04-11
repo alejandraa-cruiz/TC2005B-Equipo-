@@ -32,7 +32,7 @@ const toggleNavbar = (ev) => {
 function uploadFile() {
     const data = new FormData();
     data.append('csv', csvInput.files[0]);
-    fetch('dashboard/upload', {
+    fetch('/dashboard/upload', {
         method: 'POST',
         body: data,
     }).then(res => res.json()).then(res => {
