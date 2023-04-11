@@ -23,7 +23,16 @@ module.exports = {
         mainBg: '#eeeeee',
         dropZone: '#fbfcfd',
         dropBorder: '#0f27761a',
-        members: '#add2be',
+        members: {
+          bg: {
+            green: '#deede5',
+            yellow: '#fdf8ce'
+          },
+          text: {
+            green: '#427a5B',
+            yellow: '#938406'
+          }
+        },
         accent: {
           1: '#ee3323',
           2: '#ff3120'

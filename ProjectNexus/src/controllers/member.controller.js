@@ -3,6 +3,22 @@ const TeamMember = require('../models/teamMember.model');
 const { emailValidation } = require('../utils/emailValidation');
 
 /** @type {import("express").RequestHandler} */
+exports.memberList= async (req,res) => {
+    const [projects] = await Project.fetch_all_id_name();
+    try {
+        const userInfo = await req.oidc.fetchUserInfo();
+        res.render(__dirname+'/../views/memberList', { 
+            user: userInfo, 
+            projects: projects,
+        })
+    } catch(e) {
+        console.log(e);
+        res.redirect('/logout');
+    }
+    
+}
+
+/** @type {import("express").RequestHandler} */
 exports.createMember = async (req, res) => {
     const [projects] = await Project.fetch_all_id_name();
     try {
