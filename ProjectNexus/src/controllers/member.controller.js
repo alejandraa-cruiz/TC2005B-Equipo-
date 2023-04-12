@@ -5,11 +5,13 @@ const { emailValidation } = require('../utils/emailValidation');
 /** @type {import("express").RequestHandler} */
 exports.memberList= async (req,res) => {
     const [projects] = await Project.fetch_all_id_name();
+    const [members]= await TeamMember.fetchAll();
     try {
         const userInfo = await req.oidc.fetchUserInfo();
         res.render(__dirname+'/../views/memberList', { 
             user: userInfo, 
             projects: projects,
+            members: members,
         })
     } catch(e) {
         console.log(e);

@@ -5,7 +5,7 @@
 <body class="font-inter">
     <%- include('partials/leftNavigation.ejs')%>
     <main id="main-content" 
-          class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
+          class="relative left-60 w-[calc(100%-15rem)] bg-mainBg 
           p-6 break-words phone:left-0 phone:w-full">
         <div id="content-wrapper">
             <!-- Content goes here -->
@@ -22,7 +22,7 @@
                     class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline">Create Member</a>
             </div>
 
-            <div class="flex gap-5 items-center justify-between" >
+            <div class="flex gap-5 items-center justify-between mb-12" >
                     <h1 class="font-semibold text-2xl">Team members</h1>
                     <!--Search Bar NO FUNCIONA-->
                     <form id="form-search-members">
@@ -47,27 +47,42 @@
                 <table>
                     <thead>
                         <tr>
-                            <th class="pr-24 pb-4">Member</th>
+                            <th class="pr-80 pb-4 phone:pr-16">Member</th>
                             <th class="pb-4">Development Team</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="h-20 border-b-2 border-white">
-                            <td>Bernardo</td>
-                            <td>
-                                <span class="p-2 bg-members-bg-green rounded-lg text-members-text-green">
-                                    Frontend
-                                </span>
-                            </td>
-                        </tr>
-                        <tr class="h-20 border-b-2 border-white">
-                            <td>Luis</td>
-                            <td>
-                                <span class="p-2 bg-members-bg-yellow rounded-lg text-members-text-yellow">
-                                    Backend
-                                </span>
-                            </td>
-                        </tr>
+                        <% members.forEach(member=>{
+                            if (member.team == "FE"){%>
+                                <tr class="h-20 border-b-2 border-white">
+                                    <td class="flex">
+                                        <span class= "max-w-[12rem] overflow-hidden break-words phone:max-w-[8rem]">
+                                            <%= member.member_name%>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="p-2 bg-members-bg-green rounded-lg text-members-text-green">
+                                            Frontend
+                                        </span>
+                                    </td>
+                                </tr>
+                            <%}
+                            else{ %>
+                                <tr class="h-20 border-b-2 border-white">
+                                    <td class="flex">
+                                        <span class= "max-w-[12rem] overflow-hidden break-words phone:max-w-[8rem]">
+                                            <%= member.member_name%>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="p-2 bg-members-bg-yellow rounded-lg text-members-text-yellow">
+                                            Backend
+                                        </span>
+                                    </td>
+                                </tr>
+                            <%}
+                        }) %>
+                        
                     </tbody>
                 </table>
             </div>

@@ -27,6 +27,18 @@ module.exports = class TeamMember {
         }
         return db.execute(query);
     }
+    static fetchAll() { // fetch by id - usar nombres mas descriptivos
+        let query = `SELECT * FROM teamMember `; 
+        return db.execute(query);
+    }
+
+    static search_by_name(name){
+        let query= `SELECT name FROM teamMember 
+        WHERE member_name LIKE "?_%"`;
+        return db.execute(query,[name])
+        
+    }
+    
     static fetch_by_team(userName) { 
         let query = `SELECT team FROM teamMember `;
         if (userName != "") {
