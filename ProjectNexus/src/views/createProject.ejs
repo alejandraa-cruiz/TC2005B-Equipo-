@@ -27,7 +27,7 @@
                         </svg>
                         <h1 class="text-xl">Create Project</h1>
                     </div>
-                    <form class="w-full flex-row items-center justify-center" action="/project/create" method="POST">
+                    <form id="form-postproject" class="w-full flex-row items-center justify-center" action="project/create" method="POST">
                         <div class=" ml-[8rem] w-9/12 flex flex-wrap -mx-3 mb-6 justify-center">
                             <% if (projectError != '') { %> 
                                 <span class="px-3 text-red-500"><%= projectError %></span>
@@ -73,19 +73,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-row justify-center w-9/12 ml-[8rem] mb-5">
+                        <div class="flex flex-row justify-center mb-5 ml-[8rem] -mx-3 w-9/12">
                             <ul id="dropDown"
                                 class="hover:cursor-pointer appearance-none bg-gray-200 text-gray-700 rounded leading-tight hidden overflow-y-scroll overflow-x-clip custom-scrollbar h-[5.0rem]">
                                 <% Epics.forEach((epic, index)=> { %>
-                                    <li class=" text-[14px] rounded hover:cursor-pointer p-3 border hover:bg-slate-50 hover:border-gray-500 duration-500">
+                                    <li class="text-[14px] rounded hover:cursor-pointer p-3 border hover:bg-slate-50 hover:border-gray-500 duration-500">
                                         <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>">
                                         <label for="<%=epic.epic_link%>"><%=epic.epic_link%></label>
                                     </li>
                                 <%})%>
+                                
                             </ul>
                         </div>
                         <div class="flex flex-row justify-center w-9/12 ml-[8rem]">
-                            <button type="submit"
+                            <button type="button" onclick="handleSubmitProject()"
                                 class="w-[8rem] h-[2.6rem] bg-accent-1 text-white rounded-[3px] text-sm hover:bg-white hover:text-red-500 duration-300 shadow-sm ">
                                 Save
                             </button>
@@ -96,6 +97,7 @@
             <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
 
             <script defer src="/scripts/dropDown.js"></script>
+            <script defer src="/scripts/project.js"></script>
     </body>
 
 </html>
