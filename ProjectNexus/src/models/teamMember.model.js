@@ -32,13 +32,14 @@ module.exports = class TeamMember {
         return db.execute(query);
     }
 
-    static search_by_name(name){
-        let query= `SELECT name FROM teamMember 
+    static search_by_name(member_name){
+        let query= `SELECT member_name FROM teamMember 
         WHERE member_name LIKE "?_%"`;
-        return db.execute(query,[name])
+        return db.execute(query,[member_name])
         
     }
     
+    //fetchs all of team members that start 
     static fetch_by_team(userName) { 
         let query = `SELECT team FROM teamMember `;
         if (userName != "") {

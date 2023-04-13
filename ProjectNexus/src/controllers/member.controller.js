@@ -21,6 +21,20 @@ exports.memberList= async (req,res) => {
 }
 
 /** @type {import("express").RequestHandler} */
+exports.search = async (req,res) => {
+    let teamMember;
+    const member_name =req.query.memberid;
+    if(member_name){
+        [teamMember]=await TeamMember.search_by_name(member_name)
+    }
+    else{
+        [teamMember]= await TeamMember.fetchAll();
+    }    
+    res.json({teamMembers:teamMember})
+    
+}
+
+/** @type {import("express").RequestHandler} */
 exports.createMember = async (req, res) => {
     const [projects] = await Project.fetch_all_id_name();
     try {
