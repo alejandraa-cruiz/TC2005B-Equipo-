@@ -3,11 +3,6 @@ function openPopup(index) {
     popup.classList.toggle("hidden");
 }
 
-function openPopupAddMember(index) {
-    const popup = document.getElementById(`popupAddMember-${index}`);
-    popup.classList.toggle("hidden");
-}
-
 function deleteProject(project_name){
     fetch(`/project/delete/${project_name}`,{
         method: 'DELETE'

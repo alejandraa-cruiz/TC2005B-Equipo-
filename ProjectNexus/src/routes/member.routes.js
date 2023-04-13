@@ -1,15 +1,12 @@
 const express = require('express');
 const { requiresAuth } = require('express-openid-connect');
-const memberController = require('../controllers/member.controller');
+const createMemberController = require('../controllers/member.controller');
 
 
 let router = express.Router();
 
-router.get('/',requiresAuth(),memberController.memberList)
-router.get('/create', requiresAuth(), memberController.createMember);
-router.get('/search', requiresAuth(), memberController.search);
-router.post('/create', memberController.postMember);
-
+router.get('/create', requiresAuth(), createMemberController.createMember);
+router.post('/create', createMemberController.postMember);
 
 
 module.exports = router;

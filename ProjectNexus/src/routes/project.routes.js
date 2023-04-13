@@ -4,7 +4,6 @@ const ProjectController = require('../controllers/project.controller');
 
 let router = express.Router();
 
-router.get('/epics',requiresAuth(), ProjectController.getEpicsProjects);
 router.get('/', requiresAuth(), ProjectController.project);
 router.post('/create', requiresAuth(), ProjectController.postProject);
 router.get('/list', requiresAuth(), ProjectController.getListProjects);
@@ -12,5 +11,7 @@ router.get('/list/:query', requiresAuth(), ProjectController.getListProjectsSear
 router.delete('/delete/:project', requiresAuth(), ProjectController.deleteProject);
 router.get('/modify/:project',requiresAuth(),ProjectController.modifyProject);
 router.post('/modify/:project',requiresAuth(),ProjectController.modifyProjectPost);
+
+// router.post('/list', ProjectController.postListProjects);
 
 module.exports = router;
