@@ -223,10 +223,10 @@ exports.postProject = async (req, res) => {
 
 /** 
  * Fetch method `DELETE`
- * Delete project by name
+ * Delete project by id
  * @type {import("express").RequestHandler}
 */exports.deleteProject = async (req, res) =>{
-    const [rows] = await Project.delete_by_name(req.params.project);
+    const [rows] = await Project.delete_by_id(req.params.project);
     if(rows.affectedRows > 0) res.status(200).json({e:'Success, project was erased'});
     else res.status(500).json({ e: 'Database conection failed' });
 }
