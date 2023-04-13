@@ -27,19 +27,6 @@ module.exports = class TeamMember {
         }
         return db.execute(query);
     }
-    static fetchAll() { // fetch by id - usar nombres mas descriptivos
-        let query = `SELECT * FROM teamMember `; 
-        return db.execute(query);
-    }
-
-    static search_by_name(member_name){
-        let query= `SELECT member_name FROM teamMember 
-        WHERE member_name LIKE "${member_name}_%"`;
-        return db.execute(query)
-        
-    }
-    
-    //fetchs all of team members that start 
     static fetch_by_team(userName) { 
         let query = `SELECT team FROM teamMember `;
         if (userName != "") {

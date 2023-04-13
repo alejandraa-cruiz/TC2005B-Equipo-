@@ -1,7 +1,7 @@
 const createMember = () => {
   const form = document.getElementById('form');
   const data = new FormData(form);
-  fetch('/members/create',{
+  fetch('/createMember/create',{
     method: 'POST',
     body: data,
   }).then(res=>res.json()).then(res => {

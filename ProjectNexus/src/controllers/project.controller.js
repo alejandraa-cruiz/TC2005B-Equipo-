@@ -27,30 +27,11 @@ exports.project = async (req, res) => {
             });
         })
         // Render list of unassigned epics
-        .catch((error)=>{
-            res.status(400).json({e: "You don't have assigned epics"})
-        });
+        .catch((error)=>{console.log(error);});
     } catch {
         res.redirect('/logout');
     }
     req.session.projectError = '';
-}
-
-exports.getEpicsProjects = (req, res) => {
-    Epic.fetch_unassigned_epics()
-    .then((rows, fieldData) => {
-        const Epics = rows[0];
-        if (Epics.length == 0){
-            res.status(200).json({
-                e: "You don't have assigned epics", Epics: Epics
-            })
-        }
-        else {
-            res.status(200).json({
-                Epics: Epics, 
-            })
-        }
-    })
 }
 
 /** @type {import("express").RequestHandler} */
@@ -88,7 +69,7 @@ exports.postProject = async (req, res) => {
                         })
                         Project.update_epics(insertId, listEpicsToInsert)
                         // Insert into project_team_member
-                        .then((rows, fieldData)=>{
+                        .then(()=>{
                             // Fetch team member who has created the project
                             // before
                             User.fetch_id_by_email(userInfo.email)
@@ -108,17 +89,17 @@ exports.postProject = async (req, res) => {
                                     });
                                     newProjectTeam.save()
                                     .then(([rows, fieldData]) =>{
-                                        res.status(200).json({e: 'Success'});
+                                        console.log("Info insertada: ", rows);
+                                        res.redirect('/dashboard');
                                     })
-                                    .catch((e)=>{res.status(500).json({e: 'Database conection failed'})});
+                                    .catch((error)=>{console.log(error)});
                                 })
-                                .catch((e)=>{res.status(500).json({e: 'Database conection failed'})});
-                                
+                                .catch((error)=>{console.log(error)});
                             })
-                            .catch((e)=>{res.status(500).json({e: 'Database conection failed'})});
-                            
+                            .catch((error)=>{console.log(error)});
                         })
-                        .catch((e)=>{res.status(500).json({e: 'Database conection failed'})});
+                        // .then((res.redirect('/dashboard')))
+                        .catch((error)=>{console.log(error)});
                     }
                     else{
                         console.log("Please verify your epics, there are no more left");
@@ -128,12 +109,13 @@ exports.postProject = async (req, res) => {
             } 
             // Prompt message of project already in database
             else {
-                res.status(400).json({e: 'Project already exists'});
+                req.session.projectError = 'Project already exists';
+                res.redirect('/project');
             }
         });
     } else {
-        res.status(400).json({e: 'Invalid time range'});
-        //res.redirect('/project');
+        req.session.projectError = 'Invalid time range';
+        res.redirect('/project');
     }
 }
 
@@ -206,50 +188,6 @@ exports.getListProjectsSearchBar = async (req, res) => {
 
 /** @type {import("express").RequestHandler} */
 exports.deleteProject = async (req, res) =>{
-    Project.delete_by_id(req.params.project);
-
-}
-
-/** @type {import("express").RequestHandler} */
-exports.modifyProject = async (req,res) =>{
-    const [projects] = await Project.fetch_all_id_name();
-    try {
-        const userInfo = await req.oidc.fetchUserInfo();
-        Epic.fetch_modify_epics(req.params.project)
-            .then((rows, fieldData) => {
-                const Epics = rows[0];
-                res.render(__dirname + '/../views/modifyProject', {
-                    user: userInfo,
-                    Epics: Epics,
-                    projects: projects,
-                    id: req.params.project
-                });
-            })
-
-    } catch(e) {
-        console.log(e);
-        res.redirect('/logout');
-    }
-}
-
-/** @type {import("express").RequestHandler} */
-exports.modifyProjectPost = async (req,res) =>{
-    const start_date = new Date(req.body.start_date).getTime();
-    const end_date = new Date(req.body.end_date).getTime();
-    let insertId = 0;
-    if(start_date < end_date) {
-        Project.modify_by_id(req.body.project_name,req.body.start_date, req.body.end_date, req.params.project);
-        Epic.set_null_by_id(req.params.project);
-
-        delete req.body.project_name;
-        delete req.body.start_date;
-        delete req.body.end_date;
-        const listEpicsToInsert= Object.keys(req.body);
-        await Project.update_epics(req.params.project, listEpicsToInsert);
-        res.json({e:'Success!'});
-
-    } else {
-        res.json({e:'Invalid time range'});
-    }
+    Project.delete_by_name(req.params.project);
 }
 
