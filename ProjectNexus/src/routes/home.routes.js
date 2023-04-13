@@ -2,7 +2,7 @@ const express = require('express');
 const { requiresAuth } = require('express-openid-connect');
 const homeController = require('../controllers/home.controller');
 const uploadController = require('../controllers/upload.contoller');
-// const projectController = require('../controllers/project.controller');
+const projectController = require('../controllers/project.controller');
 
 let router = express.Router();
 
