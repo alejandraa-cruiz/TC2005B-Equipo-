@@ -1,4 +1,4 @@
-const TeamMember = require('../models/TeamMember.model');
+const TeamMember = require('../models/teamMember.model');
 
 const emailRegex = /^[\w-\.]+(@(dispatchhealth|gmail))\.(com)|a(\d{8}|\d{9})(@tec)\.(mx)$/;
 
@@ -10,7 +10,7 @@ const isObjectEmpty = (objectName) => {
 exports.getUser = async (req, res) =>{
     const userInfo = await req.oidc.fetchUserInfo();
     // Retrieve the logged-in user's info from DB
-    TeamMember.fetch_email(userInfo.email)
+    TeamMember.fetch_by_email(userInfo.email)
     .then(([rows, fieldData]) =>{
         // Check if user is in DB
         if(rows.length === 0) {

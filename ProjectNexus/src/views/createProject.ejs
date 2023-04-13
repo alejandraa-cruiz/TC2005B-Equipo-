@@ -8,12 +8,12 @@
                         p-6 break-words phone:left-0 phone:w-full overflow-y-scroll overflow-x-hidden custom-scrollbar">
                 <div id="content-wrapper">
                     <!-- Content goes here -->
-                    <div class="flex justify-center">
+                    <div class="flex justify-center items-center">
                         <%- include('partials/message-errors.ejs') %>
                     </div>
+                    
                     <div class="flex justify-end">
-                        <img class="w-20" src="images/dh_logo.png" alt="">
-                        </a>
+                        <img class="w-20" src="/images/dh_logo.png" alt="">
                     </div>
                     <div class="w-96 flex items-center mx-12 mt-8 mb-24">
                         <!-- Creates icon for project like a svg-->
@@ -27,21 +27,19 @@
                         </svg>
                         <h1 class="text-xl">Create Project</h1>
                     </div>
-
-                    <form class="w-full flex items-center justify-center" action="/createProject/create" method="POST">
-                        <div class="flex flex-wrap -mx-3 mb-6">
+                    <form id="form-postproject" class="w-full flex-row items-center justify-center" action="project/create" method="POST">
+                        <div class=" ml-[8rem] w-9/12 flex flex-wrap -mx-3 mb-6 justify-center">
                             <% if (projectError != '') { %> 
                                 <span class="px-3 text-red-500"><%= projectError %></span>
                             <% } %>
-                            <div class="w-full flex justify-end md:w-1/2 px-3 mb-1">
-                                <a target="grid-first-name"
-                                    class="appearance-none flex items-center justify-between w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
-                                    <input class="bg-transparent border-none p-0" id="project_name" name="project_name" type="text"
+                            <div class="w-full flex px-3 mb-1 mx-auto">
+                                <div class="relative w-full">
+                                    <div class="absolute inset-y-4 right-5 flex w-full pointer-events-none justify-end">
+                                        <i class='bx bxs-folder-open'></i>
+                                    </div>
+                                    <input class="hover:cursor-text mx-auto w-full block border p-0 bg-gray-200 text-gray-700 border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none hover:bg-white hover:border-gray-500 duration-500"
+                                     id="project_name" name="project_name" type="text"
                                         placeholder="Name" required >
-                                    <i class='bx bxs-folder-open'></i>
-                                </a>
-                                <div class="">
-                                    <label for="grid-first-name"></label>
                                 </div>
                             </div>
 
@@ -50,7 +48,7 @@
                                     Start date
                                 </label>
                                 <input
-                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    class="w-full appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none hover:bg-white hover:border-gray-500 duration-500"
                                     name="start_date" id="start_date" type="date" required>
                             </div>
 
@@ -59,40 +57,47 @@
                                     End date
                                 </label>
                                 <input
-                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none hover:bg-white hover:border-gray-500 duration-500"
                                     name="end_date" id="end_date" type="date" required>
                             </div>
 
                             <!--Dropdown of epics-->
-                            <div class="w-full md:w-1/2 px-3 ">
-                                <a class="w-full flex appearance-none items-center justify-between bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    onclick="dropDownButton(event)" target="dropDown">
-                                    <span>Select your Project epics</span>
-                                    <i class='bx bxs-zap'></i>
-                                </a>
-                                <ul id="dropDown"
-                                    class="appearance-none w-full h-20 bg-gray-200 text-gray-700 border border-gray-200 rounded px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 hidden overflow-y-scroll overflow-x-clip space-y-1 custom-scrollbar">
-                                    <% for (epic of Epics) {%>
-                                        <li>
-                                            <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>">
-                                            <label for="<%=epic.epic_link%>"><%=epic.epic_link%></label>
-                                        </li>
-                                    <%}%>
-                                </ul>
+                            <div class="w-full flex flex-row px-3 mb-1 mx-auto mt-3">
+                                <div class="relative w-full">
+                                    <div class="absolute inset-y-4 flex w-full pointer-events-none justify-end right-5">
+                                        <i class='bx bxs-zap'></i>
+                                    </div>
+                                    <a onclick="dropDownButton(event)" target="dropDown" class="hover:cursor-text mx-auto w-full block border p-0 bg-gray-200 text-gray-700 border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 hover:bg-white hover:border-gray-500 duration-500">
+                                        Select your Project epics
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                </div>
-
-                <div class="grid justify-items-center">
-                    <button type="submit"
-                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline">Save</button>
-                </div>
-                </form>
+                        <div class="flex flex-row justify-center mb-5 ml-[8rem] -mx-3 w-9/12">
+                            <ul id="dropDown"
+                                class="hover:cursor-pointer appearance-none bg-gray-200 text-gray-700 rounded leading-tight hidden overflow-y-scroll overflow-x-clip custom-scrollbar h-[5.0rem]">
+                                <% Epics.forEach((epic, index)=> { %>
+                                    <li class="text-[14px] rounded hover:cursor-pointer p-3 border hover:bg-slate-50 hover:border-gray-500 duration-500">
+                                        <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>">
+                                        <label for="<%=epic.epic_link%>"><%=epic.epic_link%></label>
+                                    </li>
+                                <%})%>
+                                
+                            </ul>
+                        </div>
+                        <div class="flex flex-row justify-center w-9/12 ml-[8rem]">
+                            <button type="button" onclick="handleSubmitProject()"
+                                class="w-[8rem] h-[2.6rem] bg-accent-1 text-white rounded-[3px] text-sm hover:bg-white hover:text-red-500 duration-300 shadow-sm ">
+                                Save
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </main>
             <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
 
-            <script src="./scripts/dropDown.js"></script>
+            <script defer src="/scripts/dropDown.js"></script>
+            <script defer src="/scripts/project.js"></script>
     </body>
 
 </html>

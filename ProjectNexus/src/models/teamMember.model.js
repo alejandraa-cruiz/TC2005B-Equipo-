@@ -3,8 +3,8 @@ const db = require("../utils/database");
 module.exports = class TeamMember {
     constructor(teamMember) {
         this.id = teamMember.id; // no se ocupa 
-        this.email = teamMember.email;
-        this.userName = teamMember.userName;
+        this.email = teamMember.email || null;
+        this.userName = teamMember.userName || null;
         this.team = teamMember.team || "FE";
     }
     // method for saving a new teamMember in database
@@ -12,8 +12,9 @@ module.exports = class TeamMember {
     save() {
         return db.execute(
             `INSERT INTO teamMember(email, member_name, team)
-            VALUES(?, ?, ?)`,
-            [this.email, this.userName, this.team]
+             SELECT ?, ?, ?
+             WHERE (SELECT count(*) FROM teammember WHERE email = ?) = 0`,
+            [this.email, this.userName, this.team, this.email]
         );
     }
 
@@ -26,7 +27,7 @@ module.exports = class TeamMember {
         }
         return db.execute(query);
     }
-    static fetch_team(userName) { 
+    static fetch_by_team(userName) { 
         let query = `SELECT team FROM teamMember `;
         if (userName != "") {
             query += `WHERE team = ?`
@@ -34,11 +35,18 @@ module.exports = class TeamMember {
         }
         return db.execute(query);
     }
-    static fetch_email(email) { // fetch by email - usar nombres mas descriptivos
+    static fetch_by_email(email) { // fetch by email - usar nombres mas descriptivos
         let query = `SELECT * FROM teamMember `;
         if (email != "") {
             query += `WHERE email = ?;`
-            try { // xq try and catch? 
+            return db.execute(query, [email]);
+        }
+    }
+    static fetch_id_by_email(email) {
+        let query = `SELECT id_team_member FROM teamMember `;
+        if (email != ""){
+            query += `WHERE email = ?;`
+            try {
                 return db.execute(query, [email]);
             }
             catch (error) { console.log(error) };

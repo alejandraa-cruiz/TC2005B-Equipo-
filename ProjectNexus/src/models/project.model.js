@@ -20,7 +20,7 @@ module.exports = class Project {
         }
     }
     static fetch_name(name) {
-        let query = `SELECT * FROM project `;
+        let query = `SELECT project_name FROM project `;
         if(name != "") {
             query += `WHERE project_name = ?`;
             return db.execute(query, [name]);
@@ -32,6 +32,24 @@ module.exports = class Project {
 
     static fetch_all_id_name() {
         return db.execute(`SELECT id_project, project_name FROM project`);
+    }
+
+    static fetch_projects_assigned(email) {
+        if (email != '') {
+            let query = `
+            SELECT id_project, project_name
+            FROM project
+            WHERE id_project IN (
+                SELECT id_project
+                FROM project_teamMember
+                WHERE id_team_member IN (
+                    SELECT id_team_member
+                    FROM teamMember
+                    WHERE email = ?
+                )
+            )`
+            return db.execute(query, [email]);
+        }
     }
     
     static async update_epics(id, list_epics) {
@@ -53,5 +71,27 @@ module.exports = class Project {
         let query = `SELECT start_date, end_date
         FROM project WHERE id_project = ?`
         return db.execute(query, [id_project]);
+    }
+
+    static fetch_id_by_name(name) {
+        let query = `SELECT id_project FROM project `;
+        if (name != "") {
+            query += `WHERE project_name = ?`;
+            return db.execute(query, [name]);
+        }
+    }
+    static delete_by_id(id) {
+        let query = `DELETE FROM project `;
+        if (id > 0) {
+            query += `WHERE id_project = ?`;
+            return db.execute(query, [id]);
+        }
+    }
+    static delete_by_name(name) {
+        let query = `DELETE FROM project `;
+        if (name != "") {
+            query += `WHERE project_name = ?`;
+            return db.execute(query, [name]);
+        }
     }
 }
