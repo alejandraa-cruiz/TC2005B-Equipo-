@@ -1,6 +1,7 @@
-require('dotenv').config()
+require('dotenv').config();
 const Project = require("../models/project.model");
 const Ticket = require("../models/ticket.model");
+const Epic = require("../models/epic.model");
 
 // Add (sum) days to date - prototype
 Date.prototype.addDays = function(days) {
@@ -8,8 +9,6 @@ Date.prototype.addDays = function(days) {
     date.setDate(date.getDate() + days);
     return date;
 }
-
-const project_id = 1;
 
 class BurnupChart {
     constructor(scope, points_done, goal_points, weeks) {
@@ -62,4 +61,32 @@ exports.burnup = async (project_id) => {
 
     return new BurnupChart(scope, points_done, goal_points, week_list);
 }
+
+class EstimateProgressChart {
+    constructor(epics, progress, estimate) {
+        this.epics = epics;
+        this.progress = progress;
+        this.estimate = estimate;
+    }
+}
+
+exports.estimateProgress = async (project_id) => {
+    const [epics_rows] = await Epic.fetch_epic_link(project_id);
+    let epics = epics_rows.flat();
+    epics = epics.map(item => item.epic_link);
+
+    let progress = [];
+    let estimate = [];
+    for (const epic of epics) {
+        const [progress_rows] = await Ticket.fetch_done(epic);
+        progress.push(progress_rows[0].tickets_done);
+        const [estimate_rows] = await Ticket.fetch_not_done(epic);
+        estimate.push(estimate_rows[0].tickets_pending);
+    }
+
+
+
+    return new EstimateProgressChart(epics, progress, estimate);
+}
+
 
