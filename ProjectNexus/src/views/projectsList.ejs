@@ -16,7 +16,7 @@
                         <div class="flex flex-row mt-4 w-full mx-auto">
                             <div class="flex flex-row justify-center text-center w-3/12 ml-5 phone:w-full phone:text-center tablet:w-full tablet:text-center">
                                 <div class="w-full">
-                                    <p class="phone:text-[1.2rem] laptop:text-[2rem] desktop:text-[2.25rem] font-semibold">All projects</p>
+                                    <p class="phone:text-[1.2rem] laptop:text-[2rem] desktop:text-[1.7rem] font-semibold">All projects</p>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,9 @@
                                 </div>
                             </div>
                             <% projects.forEach((project, index) => { %>
+
                                 <%- include('partials/cancel-popup.ejs', {project: project.id_project, popupId : index}); %>
+
                                 <div class="flex flex-row w-full appearance-none select-none mb-[1.5rem] mt-[1.5rem]">
                                     <div class="w-1/5 flex flex-row justify-center">
                                         <div class="flex flex-row justify-center w-2/3 items-center text-center laptop:pl-12 phone:pl-0">
@@ -134,29 +136,36 @@
                                                 </p>
                                             </div>
                                             <div class="break-words hover:bg-members rounded-lg p-[0.150rem] hover:cursor-pointer text-teal-800 duration-200">
-                                                <svg class="phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem] icon icon-tabler icon-tabler-user-edit" xmlns="http://www.w3.org/2000/svg"
+
+                                                <button>
+                                                    <svg class="phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem] icon icon-tabler icon-tabler-user-edit" xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                     stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                     <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
                                                     <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path>
                                                     <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z"></path>
-                                                </svg>
+                                                    </svg>
+                                                </button>  
+
+
                                             </div>
                                         </div>
                                     </div>
                                     <div class="w-1/5 flex flex-row justify-center content-center">
                                         <div class="flex flex-row w-full justify-center content-center items-center">
                                             <div class= "hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] justify-self-center laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]" 
-                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                                <path d="M16 19h6"></path>
-                                                <path d="M19 16v6"></path>
-                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
-                                                </svg>
+                                                <button onclick="openPopupAddMember('<%=index%>')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] justify-self-center laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]" 
+                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                    <path d="M16 19h6"></path>
+                                                    <path d="M19 16v6"></path>
+                                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
