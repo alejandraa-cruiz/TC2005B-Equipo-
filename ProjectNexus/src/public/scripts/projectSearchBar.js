@@ -1,25 +1,20 @@
 const formSearchProject = document.getElementById('form-search-projects');
 const projectSearchBar = document.getElementById('project-search');
 formSearchProject.addEventListener("submit", handleSubmit);
-const mainContent = document.getElementById('main-content');
-const contentWrapperMain = document.getElementById('content-wrapper');
-const firstWrapper = document.getElementById('first-wrapper');
+const alertProjectSearchBar = document.getElementById("alert");
+const messaggeProjectErrors = document.getElementById("message-error");
 function handleSubmit(event) {
     event.preventDefault();
     const query = projectSearchBar.value;
-    const url = window.location.href;
-    let flag = false;
-    // console.log(url);
     fetch("/project/list/" + query, {
         method: 'GET',
         headers: { "Content-Type": "application/json" },
     })
         .then(res => {
-            return res.json();
+            return (res.json());
         })
         .then(data => {
             let containerList = "";
-            console.log(data.projects[0].project_name);
             if (data.projects[0].project_name != null) {
                 containerList += `<div id="containerList" class="relative" >
                                             <div class="flex flex-wrap w-full appearance-none items-center select-none mb-5 mt-5" id="project-list">
@@ -140,17 +135,17 @@ function handleSubmit(event) {
                 containerList += `</div>`;
             }
             else {
-                flag = true;
-                containerList += `<p class="text-center font-semibold text-[1.250rem]">No Projects were found</p>`;
+                let messages = data.e;
+                if (messages === 'No project was found'){
+                    messaggeProjectErrors.innerText = 'No project was found';
+                    alertProjectSearchBar.classList.remove('hidden');
+                    setTimeout(function () {
+                        alertProjectSearchBar.classList.add('hidden');
+                        window.location.href = '/project/list';
+                    }, 3000);
+                }
             }
-            if(flag){
-                document.getElementById("containerList").innerHTML = containerList;
-                setTimeout(()=> {
-                    window.location.replace("http://localhost:3000/project/list")
-                }, 3000);
-            } else{
-                document.getElementById("containerList").innerHTML = containerList;
-            }
+            document.getElementById("containerList").innerHTML = containerList;
         })
         .catch(error => {
             console.log(error);
