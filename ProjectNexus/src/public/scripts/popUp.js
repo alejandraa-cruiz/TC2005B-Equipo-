@@ -32,7 +32,7 @@ function deleteProject(project_name){
             alertDelProject.classList.remove('hidden');
             setTimeout(function () {
                 alertDelProject.classList.add('hidden');
-            }, 3000);
+            }, 5000);
         }
         console.log(data);
     })

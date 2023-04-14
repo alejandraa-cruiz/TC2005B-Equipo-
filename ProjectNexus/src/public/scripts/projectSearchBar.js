@@ -139,9 +139,10 @@ function handleSubmit(event) {
                 if (messages === 'No project was found'){
                     messaggeProjectErrors.innerText = 'No project was found';
                     alertProjectSearchBar.classList.remove('hidden');
-                    setTimeout(function () { 
+                    setTimeout(function () {
                         alertProjectSearchBar.classList.add('hidden');
-                        window.location.href = '/project/list'; }, 3000);
+                        window.location.href = '/project/list';
+                    }, 3000);
                 }
             }
             document.getElementById("containerList").innerHTML = containerList;

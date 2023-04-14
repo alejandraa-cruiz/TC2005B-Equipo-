@@ -15,8 +15,8 @@ module.exports = class ProjectTeam {
         return db.execute(query, [this.agile_points, this.id_project, this.id_team_member]);
     }
     
-    static fetch_projects_assigned_search_bar(search_name_project, email){
-        return db.execute (`
+    static fetch_projects_assigned_search_bar(search_name_project, email) {
+        return db.execute(`
             SELECT P.project_name, P.id_project, COUNT(T.member_name) as count_team_members
             FROM project as P, teamMember as T, project_teamMember as Tm
             WHERE P.id_project = Tm.id_project AND Tm.id_team_member = T.id_team_member
@@ -93,5 +93,13 @@ module.exports = class ProjectTeam {
     }
     static fetch_all() {
         return db.execute(`SELECT * FROM project`);
+    }
+    static fetch_all_projects_count_team() {
+        return db.execute(`
+        SELECT P.project_name, P.id_project, COUNT(T.member_name) as count_team_members
+        FROM project as P, project_teamMember as Tm, teamMember as T
+        WHERE P.id_project = Tm.id_project AND Tm.id_team_member = T.id_team_member
+        GROUP BY P.project_name
+        `);
     }
 }

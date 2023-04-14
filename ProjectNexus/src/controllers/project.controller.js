@@ -187,7 +187,7 @@ exports.postProject = async (req, res) => {
         });
         // No projects assigned by current user
     } else{
-        res.redirect('/project/');
+        setTimeout(function () { res.redirect('/project') }, 3000);
     }
 }
 
@@ -214,8 +214,8 @@ exports.postProject = async (req, res) => {
         // May want to create a project
     } else{
         res.status(500).json({
-            user:userInfo,
-            e:'No project was found',
+            user: userInfo,
+            e: 'No project was found',
             projects: project
         });
     }
