@@ -1,3 +1,6 @@
+// Authors: Karla Alejandra Padilla González A0170331 y Daniel Gutiérrez Gómez A01068056
+// Date: 11/04/2023
+
 const Project = require('../models/project.model');
 const Epic = require('../models/epic.model');
 const ProjectTeam = require('../models/project_team.model');

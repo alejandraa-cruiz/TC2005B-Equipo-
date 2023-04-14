@@ -1,3 +1,6 @@
+// Authors: Karla Alejandra Padilla González A0170331 y Daniel Gutiérrez Gómez A01068056
+// Date: 11/04/2023
+
 const alertProject = document.getElementById("alert");
 const alertSuccProjectErrors = document.getElementById("alertSucc");
 const messaggeProjectErrors = document.getElementById("message-error");
