@@ -34,6 +34,10 @@ module.exports = class Project {
         return db.execute(`SELECT id_project, project_name FROM project`);
     }
 
+    async async_fetch_id_by_name(name){
+        return db.execute('SELECT id_project FROM project WHERE project_name = ?',[name]);
+    }
+
     static fetch_projects_assigned(email) {
         if (email != '') {
             let query = `
@@ -68,7 +72,7 @@ module.exports = class Project {
     }
     static fetch_id_by_name(name) {
         let query = `SELECT id_project FROM project `;
-        if (name != "") {
+        if (name !== "") {
             query += `WHERE project_name = ?`;
             return db.execute(query, [name]);
         }
@@ -87,4 +91,10 @@ module.exports = class Project {
             return db.execute(query, [name]);
         }
     }
+
+    static modify_by_id(name, start_date, end_date, id ) {
+        let query = `UPDATE project SET project_name = ?, start_date = ?, end_date = ? WHERE  id_project = ?`;
+        return db.execute(query,[name, start_date, end_date, id]);
+    }
+
 }
