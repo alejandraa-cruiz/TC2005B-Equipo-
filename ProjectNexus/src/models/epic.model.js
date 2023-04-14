@@ -64,18 +64,8 @@ module.exports = class Epic {
         return db.execute(query);
     }
 
-    static  fetch_modify_epics(id){
-        let query = `SELECT * FROM epic WHERE id_project  = ? UNION SELECT * FROM epic WHERE id_project IS NULL`
-        return db.execute(query, [id]);
-    }
-
     static fetch_unassigned_epics() {
         let query = `SELECT * FROM epic WHERE id_project IS NULL`;
         return db.execute(query);
-    }
-
-    static set_null_by_id(id){
-        let query = `UPDATE epic SET id_project = NULL WHERE id_project = ?`
-        return db.execute(query,[id]);
     }
 }
