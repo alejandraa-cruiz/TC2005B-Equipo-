@@ -12,7 +12,7 @@ Started on: 06-04-23-->
         error: error
     }) %>
     <main id="main-content" 
-          class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
+          class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen overflow-scroll
           p-6 break-words phone:left-0 phone:w-full">
         <div id="content-wrapper">
             <!-- Content goes here -->
@@ -266,8 +266,8 @@ Started on: 06-04-23-->
                 'rgb(220, 38, 38)'
                 
             },{
-                label:'Epic 3',
-                data: [18],
+                label:'Missing',
+                data: [<%= backendPoints.pending %>],
                 backgroundColor: //tailwind gray-300
                 'rgb(209, 213, 219)'
 
@@ -317,8 +317,8 @@ Started on: 06-04-23-->
                 backgroundColor://tailwind red-600
                 'rgb(220, 38, 38)'
             },{
-                label:'Epic 3',
-                data: [8],
+                label:'Missing',
+                data: [<%= frontendPoints.pending %>],
                 backgroundColor: //tailwind gray-300
                 'rgb(209, 213, 219)'
             }]

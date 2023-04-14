@@ -57,4 +57,36 @@ module.exports = class Ticket {
 
         return db.execute(query, [epic_link]);
     }
+
+    static fetch_points_BE(epic_link) {
+        let query = `SELECT COUNT(id_ticket) as tickets_done FROM ticket
+        WHERE ticket_status = 'Done' AND label='part/Backend'AND id_epic IN
+        (SELECT id_epic FROM epic WHERE epic_link = ?);`
+
+        return db.execute(query, [epic_link]);
+    }
+
+    static fetch_estimate_BE(epic_link) {
+        let query = `SELECT COUNT(id_ticket) as tickets_done FROM ticket
+        WHERE ticket_status != 'Done' AND label='part/Backend'AND id_epic IN
+        (SELECT id_epic FROM epic WHERE epic_link = ?);`
+
+        return db.execute(query, [epic_link]);
+    }
+
+    static fetch_points_FE(epic_link) {
+        let query = `SELECT COUNT(id_ticket) as tickets_done FROM ticket
+        WHERE ticket_status = 'Done' AND label='part/Frontend'AND id_epic IN
+        (SELECT id_epic FROM epic WHERE epic_link = ?);`
+
+        return db.execute(query, [epic_link]);
+    }
+
+    static fetch_estimate_FE(epic_link) {
+        let query = `SELECT COUNT(id_ticket) as tickets_done FROM ticket
+        WHERE ticket_status != 'Done' AND label='part/Frontend'AND id_epic IN
+        (SELECT id_epic FROM epic WHERE epic_link = ?);`
+
+        return db.execute(query, [epic_link]);
+    }
 }

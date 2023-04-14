@@ -89,4 +89,51 @@ exports.estimateProgress = async (project_id) => {
     return new EstimateProgressChart(epics, progress, estimate);
 }
 
+class backendPoints {
+    constructor(epics, progress, pending) {
+        this.epics = epics;
+        this.progress = progress;
+        this.pending = pending;
+    }
+}
+exports.backendPoints = async (project_id) => {
+    const [epics_rows] = await Epic.fetch_epic_link(project_id);
+    let epics = epics_rows.flat();
+    epics = epics.map(item => item.epic_link);
+
+    let progress = [];
+    let pending = [];
+    for (const epic of epics) {
+        const [progress_rows] = await Ticket.fetch_points_BE(epic);
+        progress.push(progress_rows[0].tickets_done);
+        const [estimate_rows] = await Ticket.fetch_estimate_BE(epic);
+        pending.push(estimate_rows[0].tickets_pending);
+    }
+
+    return new backendPoints(epics, progress, pending);
+}
+
+class frontendPoints {
+    constructor(epics, progress, pending) {
+        this.epics = epics;
+        this.progress = progress;
+        this.pending = pending;
+    }
+}
+exports.frontendPoints = async (project_id) => {
+    const [epics_rows] = await Epic.fetch_epic_link(project_id);
+    let epics = epics_rows.flat();
+    epics = epics.map(item => item.epic_link);
+
+    let progress = [];
+    let pending = [];
+    for (const epic of epics) {
+        const [progress_rows] = await Ticket.fetch_points_FE(epic);
+        progress.push(progress_rows[0].tickets_done);
+        const [estimate_rows] = await Ticket.fetch_estimate_FE(epic);
+        pending.push(estimate_rows[0].tickets_pending);
+    }
+
+    return new frontendPoints(epics, progress, pending);
+}
 
