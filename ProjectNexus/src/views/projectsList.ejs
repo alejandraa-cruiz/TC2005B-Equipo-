@@ -113,7 +113,9 @@
                                 </div>
                             </div>
                             <% projects.forEach((project, index) => { %>
+
                                 <%- include('partials/cancel-popup.ejs', {project: project.id_project, popupId : index}); %>
+                                
                                 <div class="flex flex-row w-full appearance-none select-none mb-[1.5rem] mt-[1.5rem]">
                                     <div class="w-1/5 flex flex-row justify-center">
                                         <div class="flex flex-row justify-center w-2/3 items-center text-center laptop:pl-12 phone:pl-0">

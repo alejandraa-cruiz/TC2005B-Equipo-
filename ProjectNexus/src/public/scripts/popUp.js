@@ -6,12 +6,6 @@ function openPopup(index) {
     popup.classList.toggle("hidden");
 }
 
-const alertDelProject = document.getElementById("alert");
-const alertSuccDelProjectErrors = document.getElementById("alertSucc");
-const messaggeDelError = document.getElementById("message-error");
-const messaggeSuccDel = document.getElementById("message-success");
-
-
 function openPopupAddMember(index) {
     const popup = document.getElementById(`popupAddMember-${index}`);
     popup.classList.toggle("hidden");
