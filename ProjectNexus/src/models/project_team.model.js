@@ -21,6 +21,7 @@ module.exports = class ProjectTeam {
             FROM project as P, teamMember as T, project_teamMember as Tm
             WHERE P.id_project = Tm.id_project AND Tm.id_team_member = T.id_team_member
             AND P.project_name = ? AND T.email = ?
+            GROUP BY P.project_name, P.id_project
             `, [search_name_project, email]
         );
     }
