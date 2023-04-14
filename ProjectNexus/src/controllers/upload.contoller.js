@@ -1,6 +1,5 @@
 const path = require('path');
 const Csv = require('../models/csv.model');
-const Epic = require('../models/epic.model');
 const TicketDataset = require('../utils/CSVparser');
 
 // Directory where the uploaded files will be saved
@@ -63,10 +62,10 @@ exports.file = async (req, res) => {
         dataset.epics.forEach(async (elem) => {
             await elem.save();
         });
-        
         // We save all the tickets
         dataset.tickets.forEach(async (elem) => {
-            await elem.save();
+            const [rows] = await elem.save();
+            console.log(rows.affectedRows);
         });
 
         // We create a unique file name appending the time and the file name

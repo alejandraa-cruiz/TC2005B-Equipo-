@@ -13,13 +13,20 @@ module.exports = class Ticket {
     }
     save() {
         let query = `
-        INSERT INTO ticket (id_epic, issueKey, summary, issue_type, storyPoints, ticket_status, label, update_date)
+        INSERT INTO ticket (id_epic, issueKey, summary, issue_type, storyPoints, 
+                            ticket_status, label, update_date)
         SELECT id_epic, ?, ?, ?, ?, ?, ?, ?
         FROM epic
-        WHERE epic_link = ?;
-        `;
-        return db.query(query, [this.issueKey , this.summary, this.issue_type, 
-                                this.storyPoints, this.ticket_status, this.label,
-                                this.update_date, this.epic_link]);
+        WHERE epic_link = ?
+        AND (SELECT count(*) 
+             FROM ticket 
+             WHERE issueKey = ? AND update_date >= ? FOR UPDATE) = 0;`;
+        return db.query(query,[this.issueKey , this.summary, this.issue_type, 
+                               this.storyPoints, this.ticket_status, this.label,
+                               this.update_date, this.epic_link, this.issueKey,
+                               this.update_date]);
+    }
+    update() {
+        
     }
 }
