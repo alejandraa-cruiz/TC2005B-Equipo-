@@ -11,7 +11,6 @@ function openPopupAddMember(index) {
     popup.classList.toggle("hidden");
 }
 
-
 function deleteProject(project_name){
     fetch(`/project/delete/${project_name}`,{
         method: 'DELETE'

@@ -38,6 +38,7 @@
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                     <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                                                     <path d="M21 21l-6 -6"></path>
+                                                </svg>
                                             </div>
                                             <input type="search" id="project-search"
                                                 class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
@@ -55,6 +56,7 @@
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                     <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                                                     <path d="M21 21l-6 -6"></path>
+                                                </svg>
                                             </div>
                                             <input type="search" id="teamMember-search"
                                                 class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
@@ -132,35 +134,42 @@
                                                 </p>
                                             </div>
                                             <div class="break-words hover:bg-members rounded-lg p-[0.150rem] hover:cursor-pointer text-teal-800 duration-200">
-                                                <svg class="phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem] icon icon-tabler icon-tabler-user-edit" xmlns="http://www.w3.org/2000/svg"
+
+                                                <button>
+                                                    <svg class="phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem] icon icon-tabler icon-tabler-user-edit" xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                     stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                     <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
                                                     <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path>
                                                     <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z"></path>
-                                                </svg>
+                                                    </svg>
+                                                </button>  
+
+
                                             </div>
                                         </div>
                                     </div>
                                     <div class="w-1/5 flex flex-row justify-center content-center">
                                         <div class="flex flex-row w-full justify-center content-center items-center">
                                             <div class= "hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] justify-self-center laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]" 
-                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                                <path d="M16 19h6"></path>
-                                                <path d="M19 16v6"></path>
-                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
-                                                </svg>
+                                                <button onclick="openPopupAddMember('<%=index%>')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] justify-self-center laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]" 
+                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                    <path d="M16 19h6"></path>
+                                                    <path d="M19 16v6"></path>
+                                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="w-1/5 flex flex-row justify-center content-center items-center">
                                         <div class= "flex flex-row justify-center break-words hover:bg-slate-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
-                                            <button>
+                                            <button onclick="location.href = '/project/modify/<%=project.id_project%>'">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]"
                                                     viewBox="0 0 16 16">
                                                     <path
@@ -193,6 +202,7 @@
                                 NO HAY PROJECTOS
                             </div>
                         <% }%>
+                </div>
                 </main>
                         <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
                         <script defer src="/scripts/projectSearchBar.js"></script>

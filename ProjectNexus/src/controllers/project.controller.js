@@ -228,9 +228,10 @@ exports.postProject = async (req, res) => {
 exports.deleteProject = async (req, res) =>{
     Project.delete_by_id(req.params.project);
 
+
 }
 
-/ @type {import("express").RequestHandler} /
+/** @type {import("express").RequestHandler} */
 exports.modifyProject = async (req,res) =>{
     const [projects] = await Project.fetch_all_id_name();
     try {
@@ -252,7 +253,7 @@ exports.modifyProject = async (req,res) =>{
     }
 }
 
-/ @type {import("express").RequestHandler}/
+/** @type {import("express").RequestHandler} */
 exports.modifyProjectPost = async (req,res) =>{
     const start_date = new Date(req.body.start_date).getTime();
     const end_date = new Date(req.body.end_date).getTime();
