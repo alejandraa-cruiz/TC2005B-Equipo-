@@ -11,6 +11,13 @@ const alertSuccDelProjectErrors = document.getElementById("alertSucc");
 const messaggeDelError = document.getElementById("message-error");
 const messaggeSuccDel = document.getElementById("message-success");
 
+
+function openPopupAddMember(index) {
+    const popup = document.getElementById(`popupAddMember-${index}`);
+    popup.classList.toggle("hidden");
+}
+
+
 function deleteProject(project_name){
     fetch(`/project/delete/${project_name}`,{
         method: 'DELETE'

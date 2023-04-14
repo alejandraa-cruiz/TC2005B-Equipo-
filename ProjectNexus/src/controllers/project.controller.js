@@ -233,3 +233,46 @@ exports.postProject = async (req, res) => {
     if(rows.affectedRows > 0) res.status(200).json({e:'Success, project was erased'});
     else res.status(500).json({ e: 'Database conection failed' });
 }
+
+/ @type {import("express").RequestHandler} */
+exports.modifyProject = async (req,res) =>{
+    const [projects] = await Project.fetch_all_id_name();
+    try {
+        const userInfo = await req.oidc.fetchUserInfo();
+        Epic.fetch_modify_epics(req.params.project)
+            .then((rows, fieldData) => {
+                const Epics = rows[0];
+                res.render(__dirname + '/../views/modifyProject', {
+                    user: userInfo,
+                    Epics: Epics,
+                    projects: projects,
+                    id: req.params.project
+                });
+            })
+
+    } catch(e) {
+        console.log(e);
+        res.redirect('/logout');
+    }
+}
+
+/ @type {import("express").RequestHandler} */
+exports.modifyProjectPost = async (req,res) =>{
+    const start_date = new Date(req.body.start_date).getTime();
+    const end_date = new Date(req.body.end_date).getTime();
+    let insertId = 0;
+    if(start_date < end_date) {
+        Project.modify_by_id(req.body.project_name,req.body.start_date, req.body.end_date, req.params.project);
+        Epic.set_null_by_id(req.params.project);
+
+        delete req.body.project_name;
+        delete req.body.start_date;
+        delete req.body.end_date;
+        const listEpicsToInsert= Object.keys(req.body);
+        await Project.update_epics(req.params.project, listEpicsToInsert);
+        res.json({e:'Success!'});
+
+    } else {
+        res.json({e:'Invalid time range'});
+    }
+}
