@@ -200,36 +200,32 @@ exports.postProject = async (req, res) => {
  * were found and return to project list view
  * @type {import("express").RequestHandler}
 */exports.getListProjectsSearchBar = async (req, res) => {
+    let Projects;
     // Fetch the project name
-    const query = req.params.query;
-    // Fetch userInfo with open id connect and Auth0
-    const userInfo = await req.oidc.fetchUserInfo();
+    let query = req.query.projectName;
     // Fetch only the projects were the logged in user
     // is assigned to
-    const [project] = await ProjectTeam.fetch_projects_assigned_search_bar(query, userInfo.email);
     // Projects assigned by current user
-    if(project[0].project_name !== null){
-        res.status(200).json({
-            user: userInfo,
-            projects: project,
-        });
+    if(query){
+        [Projects] = await ProjectTeam.fetch_projects_assigned_search_bar(query);
         // No projects assigned found on submit by current user
         // May want to create a project
     } else{
-        res.status(500).json({
-            user: userInfo,
-            e: 'No project was found',
-            projects: project
-        });
+        [Projects] = await ProjectTeam.fetch_all_projects_count_team();
     }
+    res.json({Projects: Projects});
 }
 
-/ @type {import("express").RequestHandler} */
-exports.deleteProject = async (req, res) =>{
-    Project.delete_by_id(req.params.project);
-
-
+/** 
+ * Fetch method DELETE
+ * Delete project by id
+ * @type {import("express").RequestHandler}
+*/exports.deleteProject = async (req, res) =>{
+    const [rows] = await Project.delete_by_id(req.params.project);
+    if(rows.affectedRows > 0) res.status(200).json({e:'Success, project was erased'});
+    else res.status(500).json({ e: 'Database conection failed' });
 }
+
 
 /** @type {import("express").RequestHandler} */
 exports.modifyProject = async (req,res) =>{
