@@ -1,6 +1,11 @@
 // Authors: Karla Alejandra Padilla González A0170331 y Daniel Gutiérrez Gómez A01068056
 // Date: 11/04/2023
 
+const alertDelProject = document.getElementById("alert");
+const alertSuccDelProjectErrors = document.getElementById("alertSucc");
+const messaggeDelError = document.getElementById("message-error");
+const messaggeSuccDel = document.getElementById("message-success");
+
 function openPopup(index) {
     const popup = document.getElementById(`popup-${index}`);
     popup.classList.toggle("hidden");
@@ -28,7 +33,7 @@ function deleteProject(project_name){
             alertSuccDelProjectErrors.classList.remove('hidden');
             setTimeout(function () {
                 alertSuccDelProjectErrors.classList.add('hidden');
-            }, 3000);
+            }, 5000);
         }
         else{
             messaggeDelError.innerText = 'Database conncetion failed';
