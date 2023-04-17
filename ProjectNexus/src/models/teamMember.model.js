@@ -27,12 +27,14 @@ module.exports = class TeamMember {
         }
         return db.execute(query);
     }
+<<<<<<<<< Temporary merge branch 1
 
     static fetch_names() {
         let query = `SELECT member_name FROM teamMember`;
         return db.execute(query); 
     }
 
+=========
     static fetchAll() { // fetch by id - usar nombres mas descriptivos
         let query = `SELECT * FROM teamMember `; 
         return db.execute(query);
@@ -46,6 +48,7 @@ module.exports = class TeamMember {
     }
     
     //fetchs all of team members that start 
+>>>>>>>>> Temporary merge branch 2
     static fetch_by_team(userName) { 
         let query = `SELECT team FROM teamMember `;
         if (userName != "") {
