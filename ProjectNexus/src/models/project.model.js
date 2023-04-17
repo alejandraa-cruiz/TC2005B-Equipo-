@@ -104,4 +104,9 @@ module.exports = class Project {
         return db.execute(query,[name, start_date, end_date, id]);
     }
 
+    static fetch_name_by_id(id){
+        let query = 'SELECT project_name, start_date, end_date FROM project WHERE id_project = ?';
+        return db.execute(query,[id]);
+    }
+
 }

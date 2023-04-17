@@ -232,6 +232,8 @@ exports.modifyProject = async (req,res) =>{
     const [projects] = await Project.fetch_all_id_name();
     try {
         const userInfo = await req.oidc.fetchUserInfo();
+        const [name] = await Project.fetch_name_by_id(req.params.project);
+        console.log(name[0].project_name);
         Epic.fetch_modify_epics(req.params.project)
             .then((rows, fieldData) => {
                 const Epics = rows[0];
@@ -239,7 +241,10 @@ exports.modifyProject = async (req,res) =>{
                     user: userInfo,
                     Epics: Epics,
                     projects: projects,
-                    id: req.params.project
+                    id: req.params.project,
+                    name: name[0].project_name,
+                    start_date: name[0].start_date.toISOString().split('T')[0],
+                    end_date: name[0].end_date.toISOString().split('T')[0]
                 });
             })
 

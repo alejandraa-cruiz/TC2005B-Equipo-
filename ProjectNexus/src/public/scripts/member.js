@@ -38,7 +38,7 @@ const createMember = () => {
         break;
         
       case 'There is a member with the same email':
-        messagge.innerText='There is a member with the same email';
+          messagge.innerText='There is a member with the same email';
         alertErr.classList.remove('hidden');
         setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
         break;
