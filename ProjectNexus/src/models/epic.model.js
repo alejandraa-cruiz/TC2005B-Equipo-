@@ -50,12 +50,12 @@ module.exports = class Epic {
     }
 
     static fetch_by_id(id_epic) {
-        let query = `SELECT * FROM Epic WHERE id_epic = ?`;
+        let query = `SELECT * FROM epic WHERE id_epic = ?`;
         return db.execute(query, [id_epic]);
     }
 
     static fetch_id(epic_link) {
-        let query = `SELECT id_epic FROM Epic WHERE epic_link = ?`;
+        let query = `SELECT id_epic FROM epic WHERE epic_link = ?`;
         return db.execute(query, [epic_link]);
     }
 
