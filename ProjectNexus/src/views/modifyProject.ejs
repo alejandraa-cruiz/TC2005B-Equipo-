@@ -64,6 +64,9 @@
                         <i class='bx bxs-zap'></i>
                     </div>
                     <ul id="dropDown" class="hover:cursor-pointer appearance-none hidden overflow-y-scroll overflow-x-clip custom-scrollbar max-h-[5.0rem]">
+                        <% if (Epics.length === 0) {%>
+                        <li class="pt-2 pl-3">You don't have assigned epics</li>
+                            <%}%>
                         <% Epics.forEach((epic, index)=> { %>
                             <li onclick="event.stopPropagation()" class="text-[14px] hover:cursor-pointer p-2 hover:bg-slate-50 hover:border-gray-500 duration-500">
                                 <% if (id == epic.id_project){ %>
