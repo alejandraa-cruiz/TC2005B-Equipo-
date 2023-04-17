@@ -27,6 +27,12 @@ module.exports = class TeamMember {
         }
         return db.execute(query);
     }
+
+    static fetch_all() {
+        let query = `SELECT member_name FROM teamMember`;
+        return db.execute(query); 
+    }
+
     static fetch_by_team(userName) { 
         let query = `SELECT team FROM teamMember `;
         if (userName != "") {
