@@ -4,10 +4,10 @@
             <form>
                 <div class=" bg-zinc-50 rounded-lg w-8/12 break-words space-x-5 p-10 space-y-4 shadow-lg">
                     <p class="">
-                        <%= project%>
                         Are you sure you want to delete this project?
+                        <%= project.project_name %>
                     </p>
-                    <button onclick="deleteProject('<%=project%>')"
+                    <button onclick="deleteProject('<%=project.id_project%>')"
                      class="shadow-md bg-mainBg text-red-500 rounded-lg p-2 hover:bg-red-500 hover:text-zinc-100 duration-200">
                             Delete
                     </button>

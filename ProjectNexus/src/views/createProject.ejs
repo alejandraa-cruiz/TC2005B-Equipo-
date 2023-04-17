@@ -29,9 +29,6 @@
                     </div>
                     <form id="form-postproject" class="w-full flex-row items-center justify-center" action="project/create" method="POST">
                         <div class=" ml-[8rem] w-9/12 flex flex-wrap -mx-3 mb-6 justify-center">
-                            <% if (projectError != '') { %> 
-                                <span class="px-3 text-red-500"><%= projectError %></span>
-                            <% } %>
                             <div class="w-full flex px-3 mb-1 mx-auto">
                                 <div class="relative w-full">
                                     <div class="absolute inset-y-4 right-5 flex w-full pointer-events-none justify-end">
@@ -62,28 +59,24 @@
                             </div>
 
                             <!--Dropdown of epics-->
-                            <div class="w-full flex flex-row px-3 mb-1 mx-auto mt-3">
-                                <div class="relative w-full">
-                                    <div class="absolute inset-y-4 flex w-full pointer-events-none justify-end right-5">
+                                <a onclick="dropDownButton(event)" class="cursor-pointer w-full px-3 mb-1 mx-[12px] mt-3 block border p-0 bg-gray-200 text-gray-700 border-gray-200 rounded py-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 hover:bg-white hover:border-gray-500 duration-500">
+                                    <div class="flex justify-between">
+                                        Select your Project epics
                                         <i class='bx bxs-zap'></i>
                                     </div>
-                                    <a onclick="dropDownButton(event)" target="dropDown" class="hover:cursor-text mx-auto w-full block border p-0 bg-gray-200 text-gray-700 border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 hover:bg-white hover:border-gray-500 duration-500">
-                                        Select your Project epics
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-row justify-center mb-5 ml-[8rem] -mx-3 w-9/12">
-                            <ul id="dropDown"
-                                class="hover:cursor-pointer appearance-none bg-gray-200 text-gray-700 rounded leading-tight hidden overflow-y-scroll overflow-x-clip custom-scrollbar h-[5.0rem]">
-                                <% Epics.forEach((epic, index)=> { %>
-                                    <li class="text-[14px] rounded hover:cursor-pointer p-3 border hover:bg-slate-50 hover:border-gray-500 duration-500">
-                                        <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>">
-                                        <label for="<%=epic.epic_link%>"><%=epic.epic_link%></label>
-                                    </li>
-                                <%})%>
-                                
-                            </ul>
+                                    <ul id="dropDown" class="hover:cursor-pointer appearance-none hidden overflow-y-scroll overflow-x-clip custom-scrollbar max-h-[5.0rem]">
+                                        <% if (Epics.length === 0) {%>
+                                            <li class="pt-2 pl-3">You don't have assigned epics</li>
+                                        <%}%>
+                                        <% Epics.forEach((epic, index)=> { %>
+                                            <li onclick="event.stopPropagation()" class="text-[14px] hover:cursor-pointer p-2 hover:bg-slate-50 hover:border-gray-500 duration-500">
+                                                <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>"  >
+                                                <label for="<%=epic.epic_link%>"><%=epic.epic_link%></label>
+                                            </li>
+                                        <%})%>
+                                    </ul>
+                                </a>
+
                         </div>
                         <div class="flex flex-row justify-center w-9/12 ml-[8rem]">
                             <button type="button" onclick="handleSubmitProject()"

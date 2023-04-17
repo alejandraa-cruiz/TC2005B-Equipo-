@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 /** @type {import("express").RequestHandler} */
 exports.login =  (req, res) => {
     try {
@@ -5,7 +7,7 @@ exports.login =  (req, res) => {
             returnTo : '/user',
             authorizationParams: {
                 response_type: 'code id_token',
-                redirect_uri: 'http://localhost:3000/callback',
+                redirect_uri: process.env.REDIRECT_URI || 'http://localhost:3000/callback',
                 scope: 'openid profile email name picture middle_name',
                 nonce: '',
                 prompt: 'login',
@@ -22,7 +24,7 @@ exports.login =  (req, res) => {
 exports.postCallback = (req, res) =>{
     try{
         res.oidc.callback({
-            redirectUri: 'http://localhost:3000/callback',
+            redirectUri: process.env.REDIRECT_URI || 'http://localhost:3000/callback',
         });
     } catch(error){
         console.log(error);
@@ -34,7 +36,7 @@ exports.postCallback = (req, res) =>{
 exports.getCallback = (req, res) => {
     try{
         res.oidc.callback({
-            redirectUri: 'http://localhost:3000/callback'
+            redirectUri: process.env.REDIRECT_URI || 'http://localhost:3000/callback'
         });
     } catch (error) {
         console.log(error);

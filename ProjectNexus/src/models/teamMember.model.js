@@ -13,7 +13,7 @@ module.exports = class TeamMember {
         return db.execute(
             `INSERT INTO teamMember(email, member_name, team)
              SELECT ?, ?, ?
-             WHERE (SELECT count(*) FROM teammember WHERE email = ?) = 0`,
+             WHERE (SELECT count(*) FROM teamMember WHERE email = ?) = 0`,
             [this.email, this.userName, this.team, this.email]
         );
     }
@@ -27,12 +27,28 @@ module.exports = class TeamMember {
         }
         return db.execute(query);
     }
+<<<<<<< HEAD
 
     static fetch_all() {
         let query = `SELECT member_name FROM teamMember`;
         return db.execute(query); 
     }
 
+=======
+    static fetchAll() { // fetch by id - usar nombres mas descriptivos
+        let query = `SELECT * FROM teamMember `; 
+        return db.execute(query);
+    }
+
+    static search_by_name(member_name){
+        let query= `SELECT member_name FROM teamMember 
+        WHERE member_name LIKE "${member_name}_%"`;
+        return db.execute(query)
+        
+    }
+    
+    //fetchs all of team members that start 
+>>>>>>> e069a54e346eee09970b03e0b513ca5ad75edccd
     static fetch_by_team(userName) { 
         let query = `SELECT team FROM teamMember `;
         if (userName != "") {
