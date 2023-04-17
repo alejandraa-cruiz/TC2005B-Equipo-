@@ -2,75 +2,81 @@
 <html lang="en">
 <%- include('partials/head.ejs') %>
 
-    <body class="font-inter">
-        <%- include('partials/leftNavigation.ejs') %>
-            <main id="main-content" class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
+<body class="font-inter">
+<%- include('partials/leftNavigation.ejs') %>
+<main id="main-content" class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen
                         p-6 break-words phone:left-0 phone:w-full overflow-y-scroll overflow-x-hidden custom-scrollbar">
-                <div id="content-wrapper">
-                    <!-- Content goes here -->
-                    <div class="flex justify-center">
-                        <%- include('partials/message-errors.ejs') %>
-                        <%- include('partials/createMemberErrors.ejs') %>
+    <div id="content-wrapper">
+        <!-- Content goes here -->
+        <div class="flex justify-center">
+            <%- include('partials/message-errors.ejs') %>
+            <%- include('partials/createMemberErrors.ejs') %>
+        </div>
+        <div class="flex justify-end">
+            <img class="w-20" src="/images/dh_logo.png" alt="">
+
+        </div>
+        <div class="w-96 flex items-center mx-12 mt-8 mb-24">
+            <i class='bx bx-user-circle text-[3rem]'></i>
+            <h1 class="text-xl pl-3">Create Member</h1>
+        </div>
+        <br>
+        <br>
+        <form id="form" class="w-full flex items-center justify-center" action="/members/create" method="POST">
+            <div class="w-full md:w-1/2 px-3">
+                <div class="w-full flex justify-end md:w-1/2 px-3 mb-1">
+                    <a target="grid-first-name"
+                       class="appearance-none flex items-center justify-between w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+                        <input class="bg-transparent border-none p-0 w-full focus:outline-none" id="member_name"
+                               name="userName" type="text"
+                               placeholder="Name" required>
+                        <i class='bx bx-user'></i>
+                    </a>
+                    <div class="">
+                        <label for="member_name"></label>
                     </div>
-                    <div class="flex justify-end">
-                        <img class="w-20" src="images/dh_logo.png" alt="">
-                        
-                    </div>
-                    <div class="w-96 flex items-center mx-12 mt-8 mb-24">
-                        <i class='bx bx-user-circle text-[3rem]'  ></i>
-                        <h1 class="text-xl pl-3">Create Member</h1>
-                    </div>
-                    <br>
-                    <br>
-                    <form id="form" class="w-full flex items-center justify-center" action="/createMember/create" method="POST">
-                      <div class="w-full md:w-1/2 px-3">
-                            <div class="w-full flex justify-end md:w-1/2 px-3 mb-1">
-                                <a target="grid-first-name"
-                                    class="appearance-none flex items-center justify-between w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
-                                    <input class="bg-transparent border-none p-0 w-full focus:outline-none" id="member_name" name="userName" type="text"
-                                        placeholder="Name" required >
-                                        <i class='bx bx-user' ></i>
-                                </a>
-                                <div class="">
-                                    <label for="member_name"></label>
-                                </div>
-                            </div>
-
-                            <div class="w-full flex justify-end md:w-1/2 px-3 mb-1">
-                                <a target="grid-first-name"
-                                    class="appearance-none flex items-center justify-between w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
-                                    <input class="bg-transparent border-none p-0 w-full focus:outline-none" id="email" name="email" type="email"
-                                        placeholder="Email" required >
-                                        <i class='bx bx-envelope'></i>
-                                </a>
-                                <div class="">
-                                    <label for="email"></label>
-                                </div>
-                            </div>
-
-
-                            <!--Dropdown of epics-->
-                            <div class="w-full md:w-1/2 px-3 mb-6">
-                              <select name="team" id="area" form="form" class="appearance-none flex items-center justify-between w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
-                                  <option selected>Area</option>  
-                                  <option value="BE">Backend</option>
-                                  <option value="FE">Frontend</option>
-                              </select>
-                            </div>
-                        </div>
-                      </div>
-
-                <div class="grid justify-items-center">
-                    <button type="button" onclick="createMember()"
-                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline">Save</button>
                 </div>
-                </form>
-                
-            </main>
-            <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
 
-            <script src="./scripts/dropDown.js"></script>
-            <script src="./scripts/member.js"></script>
-    </body>
+                <div class="w-full flex justify-end md:w-1/2 px-3 mb-1">
+                    <a target="grid-first-name"
+                       class="appearance-none flex items-center justify-between w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+                        <input class="bg-transparent border-none p-0 w-full focus:outline-none" id="email" name="email"
+                               type="email"
+                               placeholder="Email" required>
+                        <i class='bx bx-envelope'></i>
+                    </a>
+                    <div class="">
+                        <label for="email"></label>
+                    </div>
+                </div>
+
+
+                <!--Dropdown of epics-->
+                <div class="w-full md:w-1/2 px-3 mb-6">
+                    <select name="team" id="area" form="form"
+                            class="appearance-none flex items-center justify-between w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+                        <option selected>Area</option>
+                        <option value="BE">Backend</option>
+                        <option value="FE">Frontend</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="grid justify-items-center">
+        <button type="button" onclick="createMember()"
+                class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline">
+            Save
+        </button>
+    </div>
+
+</main>
+<div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
+
+<script src="/./scripts/dropDown.js"></script>
+<script src="/./scripts/member.js"></script>
+</body>
 
 </html>

@@ -14,13 +14,13 @@ function getEpics () {
         return(res.json());
     })
     .then(data => {
-        if (data.Epics.length === 0) {
-            const messaggeEpics = document.getElementById("message-error");
-            messaggeEpics.innerText= "You don't have assigned epics";
-            const alertErrEpics = document.getElementById("alert");
-            alertErrEpics.classList.remove('hidden');
-            setTimeout(function () {alertErrEpics.classList.add('hidden')}, 3000);
-        }
+        // if (data.Epics.length === 0) {
+        //     const messaggeEpics = document.getElementById("message-error");
+        //     messaggeEpics.innerText= "You don't have assigned epics";
+        //     const alertErrEpics = document.getElementById("alert");
+        //     alertErrEpics.classList.remove('hidden');
+        //     setTimeout(function () {alertErrEpics.classList.add('hidden')}, 3000);
+        // }
 
     })
 }

@@ -45,17 +45,17 @@ module.exports = class Epic {
     }
     
     static fetch_epic_link(id_project) {
-        let query = `SELECT epic_link FROM Epic WHERE id_project = ?`;
+        let query = `SELECT epic_link FROM epic WHERE id_project = ?`;
         return db.execute(query, [id_project]);
     }
 
     static fetch_by_id(id_epic) {
-        let query = `SELECT * FROM Epic WHERE id_epic = ?`;
+        let query = `SELECT * FROM epic WHERE id_epic = ?`;
         return db.execute(query, [id_epic]);
     }
 
     static fetch_id(epic_link) {
-        let query = `SELECT id_epic FROM Epic WHERE epic_link = ?`;
+        let query = `SELECT id_epic FROM epic WHERE epic_link = ?`;
         return db.execute(query, [epic_link]);
     }
 
@@ -64,8 +64,18 @@ module.exports = class Epic {
         return db.execute(query);
     }
 
+    static  fetch_modify_epics(id){
+        let query = `SELECT * FROM epic WHERE id_project  = ? UNION SELECT * FROM epic WHERE id_project IS NULL`
+        return db.execute(query, [id]);
+    }
+
     static fetch_unassigned_epics() {
         let query = `SELECT * FROM epic WHERE id_project IS NULL`;
         return db.execute(query);
+    }
+
+    static set_null_by_id(id){
+        let query = `UPDATE epic SET id_project = NULL WHERE id_project = ?`
+        return db.execute(query,[id]);
     }
 }

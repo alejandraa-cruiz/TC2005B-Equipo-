@@ -3,6 +3,38 @@ const TeamMember = require('../models/teamMember.model');
 const { emailValidation } = require('../utils/emailValidation');
 
 /** @type {import("express").RequestHandler} */
+exports.memberList= async (req,res) => {
+    const [projects] = await Project.fetch_all_id_name();
+    const [members]= await TeamMember.fetchAll();
+    try {
+        const userInfo = await req.oidc.fetchUserInfo();
+        res.render(__dirname+'/../views/memberList', { 
+            user: userInfo, 
+            projects: projects,
+            members: members,
+        })
+    } catch(e) {
+        console.log(e);
+        res.redirect('/logout');
+    }
+    
+}
+
+/** @type {import("express").RequestHandler} */
+exports.search = async (req,res) => {
+    let teamMember;
+    const member_name =req.query.memberid;
+    if(member_name){
+        [teamMember]=await TeamMember.search_by_name(member_name)
+    }
+    else{
+        [teamMember]= await TeamMember.fetchAll();
+    }    
+    res.json({teamMembers:teamMember})
+    
+}
+
+/** @type {import("express").RequestHandler} */
 exports.createMember = async (req, res) => {
     const [projects] = await Project.fetch_all_id_name();
     try {
