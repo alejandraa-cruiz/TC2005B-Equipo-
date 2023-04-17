@@ -13,7 +13,7 @@ module.exports = class TeamMember {
         return db.execute(
             `INSERT INTO teamMember(email, member_name, team)
              SELECT ?, ?, ?
-             WHERE (SELECT count(*) FROM teammember WHERE email = ?) = 0`,
+             WHERE (SELECT count(*) FROM teamMember WHERE email = ?) = 0`,
             [this.email, this.userName, this.team, this.email]
         );
     }

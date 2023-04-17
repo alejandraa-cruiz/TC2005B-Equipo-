@@ -47,7 +47,7 @@ CREATE TABLE csv (
 
 /* Carga de datos */
 
-INSERT INTO teammember (member_name, email, team) VALUES
+INSERT INTO teamMember (member_name, email, team) VALUES
 ('Antonio Antillon','antonio_antillon@dispatchhealth.com', 'BE'),
 ('Kevin Anderson','kevin_anderson@dispatchhealth.com', 'FE'),
 ('Dan Cohn','dan_cohn@dispatchhealth.com', 'BE'),
@@ -69,7 +69,7 @@ INSERT INTO epic (id_project, epic_link) VALUES
 (1, 'PART-306'),
 (1, 'PART-312');
 
-INSERT INTO project_teammember (id_project, id_team_member, agile_points) VALUES 
+INSERT INTO project_teamMember (id_project, id_team_member, agile_points) VALUES 
 (1, 1, 6),
 (1, 2, 9),
 (1, 3, 8),
