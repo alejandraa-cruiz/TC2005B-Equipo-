@@ -44,6 +44,9 @@ const createMember = () => {
         break;
     }
      form.reset();
+     setTimeout(()=>{
+      location.href = '/members'
+     },1000);
     });
 };
 
