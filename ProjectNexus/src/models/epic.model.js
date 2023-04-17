@@ -45,7 +45,7 @@ module.exports = class Epic {
     }
     
     static fetch_epic_link(id_project) {
-        let query = `SELECT epic_link FROM Epic WHERE id_project = ?`;
+        let query = `SELECT epic_link FROM epic WHERE id_project = ?`;
         return db.execute(query, [id_project]);
     }
 
