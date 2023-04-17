@@ -113,8 +113,6 @@
                     <div id="containerList" class="relative">
                             <% projects.forEach((project, index) => { %>
                                 <%- include('partials/cancel-popup.ejs', {project: project, popupId : index}); %>
-                                <%- include('partials/popUpAddMember.ejs', {project: project, popupId : index}); %>
-
                             <div class="flex flex-row w-full appearance-none select-none mb-[1.5rem] mt-[1.5rem]">
                                 <div class="w-1/5 flex flex-row justify-center">
                                     <div class="flex flex-row justify-center w-2/3 items-center text-center laptop:pl-12 phone:pl-0">
@@ -150,7 +148,7 @@
                                 <div class="w-1/5 flex flex-row justify-center content-center">
                                     <div class="flex flex-row w-full justify-center content-center items-center">
                                         <div class= "hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
-                                            <button onclick="openPopupAddMember('<%=index%>')">
+                                            <button onclick="openPopupAddMember(this)" class="relative">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] justify-self-center laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]" 
                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                 stroke-linejoin="round">
@@ -159,7 +157,9 @@
                                                 <path d="M16 19h6"></path>
                                                 <path d="M19 16v6"></path>
                                                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
-                                                </svg>
+                                            </svg>
+                                            <div class="fixed top-0 left-0 w-screen h-screen hidden"></div>
+                                            <%- include('partials/popUpAddMember.ejs', {project: project, popupId : index}); %>
                                             </button>
                                         </div>
                                     </div>

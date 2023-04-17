@@ -11,9 +11,11 @@ function openPopup(index) {
     popup.classList.toggle("hidden");
 }
 
-function openPopupAddMember(index) {
-    const popup = document.getElementById(`popupAddMember-${index}`);
-    popup.classList.toggle("hidden");
+function openPopupAddMember(element) {
+    console.log(element.childNodes);
+    element.childNodes[3].classList.toggle("hidden");
+    element.childNodes[5].classList.toggle("hidden");
+    
 }
 
 function deleteProject(project_name){
