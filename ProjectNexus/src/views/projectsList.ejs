@@ -113,6 +113,7 @@
                     <div id="containerList" class="relative">
                             <% projects.forEach((project, index) => { %>
                                 <%- include('partials/cancel-popup.ejs', {project: project, popupId : index}); %>
+                                <%- include('partials/popUpAddMember.ejs', {project: project, popupId : index}); %>
 
                             <div class="flex flex-row w-full appearance-none select-none mb-[1.5rem] mt-[1.5rem]">
                                 <div class="w-1/5 flex flex-row justify-center">
