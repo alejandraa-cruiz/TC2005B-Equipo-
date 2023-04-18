@@ -10,7 +10,7 @@ module.exports = class Epic {
         let query = `INSERT INTO epic (epic_link) 
                      SELECT ?
                      WHERE (SELECT count(epic_link) 
-                            FROM epic WHERE epic_link = ?) = 0;`;
+                            FROM epic WHERE epic_link = ?) = 0`;
         return db.execute(query, [this.epic_link, this.epic_link]);
     }
 
@@ -24,7 +24,7 @@ module.exports = class Epic {
         let query = `
                 INSERT INTO epic (epic_link) 
                 SELECT ? 
-                WHERE (SELECT count(epic_link) FROM epic WHERE epic_link = ? FOR UPDATE) = 0;`;
+                WHERE (SELECT count(epic_link) FROM epic WHERE epic_link = ? FOR UPDATE) = 0`;
         const connection = await db.getConnection();
         try {
             await connection.beginTransaction();
