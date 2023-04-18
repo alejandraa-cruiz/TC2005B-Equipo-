@@ -25,12 +25,12 @@ exports.dashboard = async (req, res) => {
             burnupChart: burnupChart,
             estimateProgressChart: estimateProgressChart
          });
-    } catch {
+    } catch (e){
         res.redirect('/logout');
     }
 }
 
 /** @type {import("express").RequestHandler} */
 exports.home = async (req, res) => {
-    res.redirect('/dashboard/1')
+    res.redirect('/project/list')
 }

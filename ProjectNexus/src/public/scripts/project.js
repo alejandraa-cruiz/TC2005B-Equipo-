@@ -29,7 +29,6 @@ const modifyProject = () => {
                 }, 3000);
                 break;
         }
-        projectForm.reset();
         setTimeout(()=>{
             location.href = '/project/list'
         }, 1000);
@@ -54,6 +53,9 @@ function handleSubmitProject (){
             messaggeSuccessProjectErrors.innerText = 'Success';
             alertSuccProjectErrors.classList.remove("hidden");
             setTimeout(function () {alertSuccProjectErrors.classList.add('hidden')}, 3000);
+            setTimeout(()=>{
+                location.href = '/project/list'
+            }, 1000);
         }
         else if (messages === 'Project already exists'){
             messaggeProjectErrors.innerText = 'Project already exists';
@@ -70,7 +72,6 @@ function handleSubmitProject (){
             alertProject.classList.remove("hidden");
             setTimeout(function () {alertProject.classList.add('hidden')}, 3000);
         }
-        projectForm.reset();
     })
 }
 
