@@ -104,9 +104,11 @@ exports.postModifyMember = async (req, res) =>{
         if (!emailValidation(req.body.email)) {
             throw new TypeError('Invalid email');
         }
-        if (req.body.userName === ''){
+        else if (req.body.userName === ''){
             throw new SyntaxError('Name can´t be empty')
         }
+
+
         TeamMember.update_by_id(req.body.userName,req.body.email,req.body.team,req.params.user);
         res.json({e:'Success!'});
     }catch (e){

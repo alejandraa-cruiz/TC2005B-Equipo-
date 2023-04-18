@@ -237,7 +237,7 @@ exports.modifyProject = async (req,res) =>{
         Epic.fetch_modify_epics(req.params.project)
             .then((rows, fieldData) => {
                 const Epics = rows[0];
-                res.render(__dirname + '/../views/modifyMember', {
+                res.render(__dirname + '/../views/modifyProject', {
                     user: userInfo,
                     Epics: Epics,
                     projects: projects,
