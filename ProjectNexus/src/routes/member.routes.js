@@ -8,7 +8,9 @@ let router = express.Router();
 router.get('/',requiresAuth(),memberController.memberList)
 router.get('/create', requiresAuth(), memberController.createMember);
 router.get('/search', requiresAuth(), memberController.search);
-router.post('/create', memberController.postMember);
+router.post('/create', requiresAuth(), memberController.postMember);
+router.get('/modify/:user', memberController.getModifyMember);
+router.post('/modify/:user', requiresAuth(), memberController.postModifyMember);
 
 
 
