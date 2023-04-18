@@ -274,3 +274,10 @@ exports.modifyProjectPost = async (req,res) =>{
         res.json({e:'Invalid time range'});
     }
 }
+
+exports.getMembersProject = async (req,res) =>{
+    let project_id = req.params.project;
+    const [members] = await User.fetch_unassigned(project_id);
+    console.log(members);
+    return res.json({members: members});
+}

@@ -11,11 +11,33 @@ function openPopup(index) {
     popup.classList.toggle("hidden");
 }
 
-function openPopupAddMember(element) {
-    console.log(element.childNodes);
-    element.childNodes[3].classList.toggle("hidden");
-    element.childNodes[5].classList.toggle("hidden");
-    
+function getMembers (project_id) {
+    let memberList = document.getElementById("dropDownMembers")
+    fetch(`/project/list/members/${project_id}`,{
+        method: `GET`
+    })
+    .then (res => res.json())
+    .then (res => { 
+        memberList.innerHTML = "";
+        console.log(res.members);
+        res.members.forEach(member => {
+            memberList.innerHTML += `
+            
+            <li onclick="event.stopPropagation()" class="text-[14px] hover:cursor-pointer p-2 hover:bg-slate-50 hover:border-gray-500 duration-500">
+                <input type="checkbox" name="${member.member_name}" id="${member.member_name}"  >
+                <label for="${member.member_name}">${member.member_name}</label>
+            </li>
+            `
+            console.log(member)
+        });
+    })
+}
+
+function openPopupMember(index, project_id) {
+    // Function
+    const popup = document.getElementById(`popupMember-${index}`);
+    popup.classList.toggle("hidden");
+    getMembers(project_id);
 }
 
 function deleteProject(project_name){
@@ -48,3 +70,4 @@ function deleteProject(project_name){
     })
     .catch(error => {console.log(error)});
 }
+
