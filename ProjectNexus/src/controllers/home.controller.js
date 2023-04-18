@@ -32,5 +32,24 @@ exports.dashboard = async (req, res) => {
 
 /** @type {import("express").RequestHandler} */
 exports.home = async (req, res) => {
-    res.redirect('/project/list')
+    const [projects] = await Project.fetch_all_id_name();
+    try {
+        const error = req.session.error || '';
+
+        if(error != '') {
+            req.session.error = '';
+        }
+
+        const userInfo = await req.oidc.fetchUserInfo();
+        
+        res.render(__dirname + '/../views/home', { 
+            user: userInfo,
+            projects: projects,
+            error: error,
+         });
+    } catch (err){
+        console.log(err);
+        res.redirect('/logout');
+    }
+
 }
