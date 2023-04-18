@@ -89,4 +89,12 @@ module.exports = class Ticket {
 
         return db.execute(query, [epic_link]);
     }
+
+    static fetch_done(epic_link) {
+        let query = `SELECT COUNT(id_ticket) as tickets_done FROM ticket
+        WHERE ticket_status = 'Done' AND id_epic IN
+        (SELECT id_epic FROM epic WHERE epic_link = ?)`
+
+        return db.execute(query, [epic_link]);
+    }
 }
