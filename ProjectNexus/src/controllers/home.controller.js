@@ -8,6 +8,7 @@ exports.dashboard = async (req, res) => {
     const estimateProgressChart = await charts.estimateProgress(req.params.id);
     const backendPoints = await charts.backendPoints(req.params.id);
     const frontendPoints = await charts.frontendPoints(req.params.id);
+    const ticket_status = await charts.ticket_status(req.params.id);
     try {
         const error = req.session.error || '';
 
@@ -19,8 +20,9 @@ exports.dashboard = async (req, res) => {
         
         console.log(burnupChart);
         console.log(estimateProgressChart);
-        console.log(backendPoints)
-        console.log(frontendPoints)
+        console.log(backendPoints);
+        console.log(frontendPoints);
+        console.log(ticket_status);
 
         res.render(__dirname + '/../views/dashboard', { 
             user: userInfo,
@@ -30,6 +32,7 @@ exports.dashboard = async (req, res) => {
             estimateProgressChart: estimateProgressChart,
             backendPoints: backendPoints,
             frontendPoints: frontendPoints,
+            ticket_status: ticket_status,
          });
     } catch {
         res.redirect('/logout');

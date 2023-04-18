@@ -94,23 +94,26 @@ Started on: 06-04-23-->
                     {
                     label:'Goal Points',
                     data: [<%= burnupChart.goal_points %>],
-                    //tailwind red-400
-                    borderColor:'rgb(248, 113, 113)',
-                    backgroundColor:'rgb(248, 113, 113)'
+                    borderColor://azul marino
+                    'rgb(1, 41, 95)',
+                    backgroundColor://azul marino
+                    'rgb(1, 41, 95)',
                     },
                     {
                     label:'Points Done',
                     data:[<%= burnupChart.points_done %>],
-                    //tailwind red-600
-                    borderColor:'rgb(220, 38, 38)',
-                    backgroundColor:'rgb(220, 38, 38)'
+                    borderColor://tverde olivo
+                    'rgb(132,147,36)',
+                    backgroundColor://tverde olivo
+                    'rgb(132,147,36)'
                     },
                     {
                     label:'Scope Points',
                     data:[<%= burnupChart.scope %>],
-                    //tailwind gray-700
-                    borderColor:'rgb(55,65,81)',
-                    backgroundColor:'rgb(55,65,81)'
+                    borderColor://azul teal
+                    'rgb(67,127,151)',
+                    backgroundColor://azul teal
+                    'rgb(67,127,151)',
                     }
                 ]
             },
@@ -137,19 +140,21 @@ Started on: 06-04-23-->
         new Chart(ticket_status, {
             type: 'doughnut',
             data: {
-            labels: ['Done', 'In Review', 'Closed', 'Backlog'],
+            labels: ['Done', 'To Do', 'In Progress', 'Code Review', 'Closed'],
             datasets: [{
                 label: 'Ticket Percentage',
-                data: [38.6, 22.5, 30.8, 8.1],
+                data: [<%= ticket_status.done %>, <%= ticket_status.to_do %>, <%= ticket_status.code_review %>, <%= ticket_status.in_progress %>, <%= ticket_status.canceled %>],
                 backgroundColor: [
-                    //tailwind red-400
-                    'rgb(248, 113, 113)',
+                    //azul marino
+                    'rgb(1, 41, 95)',
+                    //azul teal
+                    'rgb(67,127,151)',
+                    //tverde olivo
+                    'rgb(132,147,36)',
+                    //amarillo
+                    'rgb(255, 179, 15)',
                     //tailwind red-600
-                    'rgb(220, 38, 38)',
-                    //tailwind gray-200
-                    'rgb(229, 231, 235)',
-                    //tailwind gray-700
-                    'rgb(55,65,81)'
+                    'rgb(253, 21, 27)',
 
                 ],
                 hoverOffset: 4
@@ -204,14 +209,16 @@ Started on: 06-04-23-->
                 label: 'Progress',
                 data: [<%= estimateProgressChart.progress %>],
                 backgroundColor: [
-                    //tailwind red-400
-                    'rgb(248, 113, 113)',
+                    //azul marino
+                    'rgb(1, 41, 95)',
+                    //azul teal
+                    'rgb(67,127,151)',
+                    //tverde olivo
+                    'rgb(132,147,36)',
+                    //amarillo
+                    'rgb(255, 179, 15)',
                     //tailwind red-600
-                    'rgb(220, 38, 38)',
-                    //tailwind gray-700
-                    'rgb(55,65,81)',
-                    'rgb(54,65,81)',
-                    'rgb(52,65,81)'
+                    'rgb(253, 21, 27)',
                 ]
             },{
                 label: 'Estimate',

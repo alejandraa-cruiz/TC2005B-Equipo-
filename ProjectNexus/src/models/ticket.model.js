@@ -90,11 +90,59 @@ module.exports = class Ticket {
         return db.execute(query, [epic_link]);
     }
 
-    static fetch_done(epic_link) {
-        let query = `SELECT COUNT(id_ticket) as tickets_done FROM ticket
-        WHERE ticket_status = 'Done' AND id_epic IN
-        (SELECT id_epic FROM epic WHERE epic_link = ?)`
+    static tickets_done(id_project) {
+        let query = `SELECT COUNT(id_ticket) as tickets_done
+        FROM ticket 
+        WHERE ticket_status = 'Done'
+        AND id_epic IN (SELECT id_epic 
+                        FROM Epic 
+                        WHERE id_project = ?);`
 
-        return db.execute(query, [epic_link]);
+        return db.execute(query, [id_project]);
     }
+
+    static tickets_to_do(id_project) {
+        let query = `SELECT COUNT(id_ticket) as tickets_to_do
+        FROM ticket 
+        WHERE ticket_status = 'To Do'
+        AND id_epic IN (SELECT id_epic 
+                        FROM Epic 
+                        WHERE id_project = ?);`
+
+        return db.execute(query, [id_project]);
+    }
+
+    static tickets_code_review(id_project) {
+        let query = `SELECT COUNT(id_ticket) as tickets_code_review
+        FROM ticket 
+        WHERE ticket_status = 'Code Review'
+        AND id_epic IN (SELECT id_epic 
+                        FROM Epic 
+                        WHERE id_project = ?);`
+
+        return db.execute(query, [id_project]);
+    }
+    
+    static tickets_in_progress(id_project) {
+        let query = `SELECT COUNT(id_ticket) as tickets_in_progress
+        FROM ticket 
+        WHERE ticket_status = 'In Progress'
+        AND id_epic IN (SELECT id_epic 
+                        FROM Epic 
+                        WHERE id_project = ?);`
+
+        return db.execute(query, [id_project]);
+    }
+
+    static tickets_canceled(id_project) {
+        let query = `SELECT COUNT(id_ticket) as tickets_canceled 
+        FROM ticket 
+        WHERE ticket_status = 'Canceled'
+        AND id_epic IN (SELECT id_epic 
+                        FROM Epic 
+                        WHERE id_project = ?);`
+
+        return db.execute(query, [id_project]);
+    }
+
 }

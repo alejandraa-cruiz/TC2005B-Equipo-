@@ -89,6 +89,25 @@ exports.estimateProgress = async (project_id) => {
     return new EstimateProgressChart(epics, progress, estimate);
 }
 
+class ticket_status{
+    constructor(done, to_do, code_review, in_progress, canceled){
+        this.done=done;
+        this.to_do=to_do;
+        this.code_review=code_review;
+        this.in_progress=in_progress;
+        this.canceled=canceled;
+    }
+}
+
+exports.ticket_status = async (project_id) => {
+    const [done] = await Ticket.tickets_done(project_id);
+    const [to_do] = await Ticket.tickets_to_do(project_id);
+    const [code_review] = await Ticket.tickets_code_review(project_id);
+    const [in_progress] = await Ticket.tickets_in_progress(project_id);
+    const [canceled] = await Ticket.tickets_canceled(project_id)
+    
+    return new ticket_status(done[0].tickets_done,to_do[0].tickets_done,code_review[0].tickets_code_review,in_progress[0].tickets_in_progress,canceled[0].tickets_canceled)
+}
 class backendPoints {
     constructor(epics, progress, pending) {
         this.epics = epics;
