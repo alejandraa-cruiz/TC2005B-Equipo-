@@ -30,7 +30,14 @@ Started on: 06-04-23-->
                 </div>
 
                 <div class="grid justify-left ml-64">
-                    Backend Points:37
+                    <div class="flex flex-row">
+                        <div>
+                            Backend Missing Points: <%= backendPoints.story_points_missing %>
+                        </div>
+                        <div>
+                            Backend Done Points: <%= backendPoints.story_points_done %>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid justify-center items-center">
@@ -42,7 +49,6 @@ Started on: 06-04-23-->
                 <div class="grid justify-left ml-64">
                     <div style="width:300px;">
                         <canvas id="backend-points"></canvas>
-                        Frontend Points: 32
                         <canvas id="frontend-points"></canvas>
                         Team Weeks: 6
                         <canvas id="team-weeks"></canvas>
@@ -83,6 +89,7 @@ Started on: 06-04-23-->
     <script>
         const ticket_status= document.getElementById('ticket_status');
         const burnup_chart= document.getElementById('burnup_chart');
+   
 
         //Burnup Chart
         new Chart(burnup_chart,{
@@ -93,23 +100,26 @@ Started on: 06-04-23-->
                     {
                     label:'Goal Points',
                     data: [<%= burnupChart.goal_points %>],
-                    //tailwind red-400
-                    borderColor:'rgb(248, 113, 113)',
-                    backgroundColor:'rgb(248, 113, 113)'
+                    borderColor://azul marino
+                    'rgb(1, 41, 95)',
+                    backgroundColor://azul marino
+                    'rgb(1, 41, 95)',
                     },
                     {
                     label:'Points Done',
                     data:[<%= burnupChart.points_done %>],
-                    //tailwind red-600
-                    borderColor:'rgb(220, 38, 38)',
-                    backgroundColor:'rgb(220, 38, 38)'
+                    borderColor://tverde olivo
+                    'rgb(132,147,36)',
+                    backgroundColor://tverde olivo
+                    'rgb(132,147,36)'
                     },
                     {
                     label:'Scope Points',
                     data:[<%= burnupChart.scope %>],
-                    //tailwind gray-700
-                    borderColor:'rgb(55,65,81)',
-                    backgroundColor:'rgb(55,65,81)'
+                    borderColor://azul teal
+                    'rgb(67,127,151)',
+                    backgroundColor://azul teal
+                    'rgb(67,127,151)',
                     }
                 ]
             },
@@ -136,19 +146,21 @@ Started on: 06-04-23-->
         new Chart(ticket_status, {
             type: 'doughnut',
             data: {
-            labels: ['Done', 'In Review', 'Closed', 'Backlog'],
+            labels: ['Done', 'To Do', 'In Progress', 'Code Review', 'Closed'],
             datasets: [{
                 label: 'Ticket Percentage',
-                data: [38.6, 22.5, 30.8, 8.1],
+                data: [<%= ticket_status.done %>, <%= ticket_status.to_do %>, <%= ticket_status.code_review %>, <%= ticket_status.in_progress %>, <%= ticket_status.canceled %>],
                 backgroundColor: [
-                    //tailwind red-400
-                    'rgb(248, 113, 113)',
-                    //tailwind red-600
-                    'rgb(220, 38, 38)',
-                    //tailwind gray-200
-                    'rgb(229, 231, 235)',
-                    //tailwind gray-700
-                    'rgb(55,65,81)'
+                    //azul marino
+                    'rgb(1, 41, 95)',
+                    //azul teal
+                    'rgb(67,127,151)',
+                    //tverde olivo
+                    'rgb(132,147,36)',
+                    //amarillo
+                    'rgb(255, 179, 15)',
+                    //rojo
+                    'rgb(253, 21, 27)',
 
                 ],
                 hoverOffset: 4
@@ -203,14 +215,16 @@ Started on: 06-04-23-->
                 label: 'Progress',
                 data: [<%= estimateProgressChart.progress %>],
                 backgroundColor: [
-                    //tailwind red-400
-                    'rgb(248, 113, 113)',
-                    //tailwind red-600
-                    'rgb(220, 38, 38)',
-                    //tailwind gray-700
-                    'rgb(55,65,81)',
-                    'rgb(54,65,81)',
-                    'rgb(52,65,81)'
+                    //azul marino
+                    'rgb(1, 41, 95)',
+                    //azul teal
+                    'rgb(67,127,151)',
+                    //tverde olivo
+                    'rgb(132,147,36)',
+                    //amarillo
+                    'rgb(255, 179, 15)',
+                    //rojo
+                    'rgb(253, 21, 27)',
                 ]
             },{
                 label: 'Estimate',
@@ -253,78 +267,74 @@ Started on: 06-04-23-->
             data: {
             labels: [""],
 
-            datasets: [{
-                label: 'Epic 1',
-                data: [7],
-                backgroundColor: //tailwind red-400
-                'rgb(248, 113, 113)'
-                
-            },{
-                label: 'Epic 2',
-                data: [12],
-                backgroundColor: //tailwind red-600
-                'rgb(220, 38, 38)'
-                
-            },{
-                label:'Epic 3',
-                data: [18],
-                backgroundColor: //tailwind gray-300
-                'rgb(209, 213, 219)'
-
-            }]
-            }
-        }
-        );
-
-        // Frontend Points
-        new Chart(
-        document.getElementById('frontend-points'),{
-            type: 'bar',
-            options: {
-            indexAxis: 'y',
-            scales: {
-                x: {
-                stacked: true
+            datasets: [
+                <% backendPoints.epics.forEach((epic,index) => {%>
+                {
+                    label: '<%= backendPoints.epics[index] %>',
+                    data: [<%= backendPoints.tickets_done_be_by_epic[index] %>],
+                    backgroundColor: //tailwind red-400
+                        'rgb(248, 113, 113)'
                 },
-                y: {
-                stacked: true
-                }
-            },
-            plugins: {
-                legend: {
-                display: true,
-                position: 'bottom',
-                labels:{
-                    usePointStyle: true
-                } 
-                }
-            },
-            responsive: true,
-            aspectRatio: 3
-            },
-            
-            data: {
-            labels: [""],
-
-            datasets: [{
-                label: 'Epic 1',
-                data: [7],
-                backgroundColor: //tailwind red-400
-                'rgb(248, 113, 113)'
-            },{
-                label: 'Epic 2',
-                data: [12],
-                backgroundColor://tailwind red-600
-                'rgb(220, 38, 38)'
-            },{
-                label:'Epic 3',
-                data: [8],
+                <%});%>
+            {
+                label: 'Missing',
+                data: [<%= backendPoints.story_points_missing %>],
                 backgroundColor: //tailwind gray-300
                 'rgb(209, 213, 219)'
             }]
             }
         }
         );
+
+        // // Frontend Points
+        // new Chart(
+        // document.getElementById('frontend-points'),{
+        //     type: 'bar',
+        //     options: {
+        //     indexAxis: 'y',
+        //     scales: {
+        //         x: {
+        //         stacked: true
+        //         },
+        //         y: {
+        //         stacked: true
+        //         }
+        //     },
+        //     plugins: {
+        //         legend: {
+        //         display: true,
+        //         position: 'bottom',
+        //         labels:{
+        //             usePointStyle: true
+        //         } 
+        //         }
+        //     },
+        //     responsive: true,
+        //     aspectRatio: 3
+        //     },
+            
+        //     data: {
+        //     labels: [""],
+
+        //     datasets: [{
+        //         label: 'Epic 1',
+        //         data: [7],
+        //         backgroundColor: //tailwind red-400
+        //         'rgb(248, 113, 113)'
+        //     },{
+        //         label: 'Epic 2',
+        //         data: [12],
+        //         backgroundColor://tailwind red-600
+        //         'rgb(220, 38, 38)'
+        //     },{
+        //         label:'Missing',
+        //         data: [],
+        //         backgroundColor: //tailwind gray-300
+        //         'rgb(209, 213, 219)'
+        //     }]
+        //     }
+        // }
+        // );
 
         // Team Weeks
         new Chart(
