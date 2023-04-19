@@ -58,38 +58,6 @@ module.exports = class Ticket {
         return db.execute(query, [epic_link]);
     }
 
-    static fetch_points_BE(epic_link) {
-        let query = `SELECT COUNT(id_ticket) as tickets_done FROM ticket
-        WHERE ticket_status = 'Done' AND label='part/Backend'AND id_epic IN
-        (SELECT id_epic FROM epic WHERE epic_link = ?);`
-
-        return db.execute(query, [epic_link]);
-    }
-
-    static fetch_estimate_BE(epic_link) {
-        let query = `SELECT COUNT(id_ticket) as tickets_done FROM ticket
-        WHERE ticket_status != 'Done' AND label='part/Backend'AND id_epic IN
-        (SELECT id_epic FROM epic WHERE epic_link = ?);`
-
-        return db.execute(query, [epic_link]);
-    }
-
-    static fetch_points_FE(epic_link) {
-        let query = `SELECT COUNT(id_ticket) as tickets_done FROM ticket
-        WHERE ticket_status = 'Done' AND label='part/Frontend'AND id_epic IN
-        (SELECT id_epic FROM epic WHERE epic_link = ?);`
-
-        return db.execute(query, [epic_link]);
-    }
-
-    static fetch_estimate_FE(epic_link) {
-        let query = `SELECT COUNT(id_ticket) as tickets_done FROM ticket
-        WHERE ticket_status != 'Done' AND label='part/Frontend'AND id_epic IN
-        (SELECT id_epic FROM epic WHERE epic_link = ?);`
-
-        return db.execute(query, [epic_link]);
-    }
-
     static tickets_done(id_project) {
         let query = `SELECT COUNT(id_ticket) as tickets_done
         FROM ticket 
@@ -144,5 +112,50 @@ module.exports = class Ticket {
 
         return db.execute(query, [id_project]);
     }
+
+    static tickets_done_be_by_epic(epic_link){
+        let query = `SELECT COUNT(id_ticket) as tickets_done_be_by_epic FROM ticket
+        WHERE ticket_status = 'Done' 
+        AND label = 'part/Backend'
+        AND id_epic IN
+        (SELECT id_epic FROM epic WHERE epic_link = ?);`
+
+        return db.execute(query,[epic_link]);
+    }
+
+    static tickets_done_fe_by_epic(epic_link){
+        let query = `SELECT COUNT(id_ticket) as tickets_done_fe_by_epic FROM ticket
+        WHERE ticket_status = 'Done' 
+        AND label = 'part/Frontend'
+        AND id_epic IN
+        (SELECT id_epic FROM epic WHERE epic_link = ?);`
+
+        return db.execute(query,[epic_link]);
+    }
+
+    static tickets_pending_be(id_project){
+        let query = `SELECT COUNT(id_ticket) as tickets_pending_be
+        FROM ticket
+        WHERE ticket_status != 'Done'
+        AND label = 'part/Backend'
+        AND id_epic IN (SELECT id_epic
+                        FROM epic
+                        WHERE id_project = 1);`
+
+            return db.execute(query,[id_project])
+    }
+
+    static tickets_pending_fe(id_project){
+        let query = `SELECT COUNT(id_ticket) as tickets_pending_fe
+        FROM ticket
+        WHERE ticket_status != 'Done'
+        AND label = 'part/Frontend'
+        AND id_epic IN (SELECT id_epic
+                        FROM epic
+                        WHERE id_project = 1);`
+
+            return db.execute(query,[id_project])
+    }
+
 
 }

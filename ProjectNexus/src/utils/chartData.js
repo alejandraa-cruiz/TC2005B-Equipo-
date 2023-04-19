@@ -109,10 +109,9 @@ exports.ticket_status = async (project_id) => {
     return new ticket_status(done[0].tickets_done,to_do[0].tickets_done,code_review[0].tickets_code_review,in_progress[0].tickets_in_progress,canceled[0].tickets_canceled)
 }
 class backendPoints {
-    constructor(epics, progress, pending) {
+    constructor(epics, tickets_done_be_by_epic) {
         this.epics = epics;
-        this.progress = progress;
-        this.pending = pending;
+        this.tickets_done_be_by_epic = tickets_done_be_by_epic;
     }
 }
 exports.backendPoints = async (project_id) => {
@@ -120,39 +119,37 @@ exports.backendPoints = async (project_id) => {
     let epics = epics_rows.flat();
     epics = epics.map(item => item.epic_link);
 
-    let progress = [];
-    let pending = [];
+    let tickets_done_be_by_epic = []
+
     for (const epic of epics) {
-        const [progress_rows] = await Ticket.fetch_points_BE(epic);
-        progress.push(progress_rows[0].tickets_done);
-        const [estimate_rows] = await Ticket.fetch_estimate_BE(epic);
-        pending.push(estimate_rows[0].tickets_pending);
+        const [done_be_by_epic] = await Ticket.tickets_done_be_by_epic(epic);
+        tickets_done_be_by_epic.push(done_be_by_epic[0].tickets_done_be_by_epic);
     }
-
-    return new backendPoints(epics, progress, pending);
+    console.log(epics)
+    return new backendPoints(epics, tickets_done_be_by_epic);
 }
 
-class frontendPoints {
-    constructor(epics, progress, pending) {
-        this.epics = epics;
-        this.progress = progress;
-        this.pending = pending;
-    }
-}
-exports.frontendPoints = async (project_id) => {
-    const [epics_rows] = await Epic.fetch_epic_link(project_id);
-    let epics = epics_rows.flat();
-    epics = epics.map(item => item.epic_link);
+// class frontendPoints {
+//     constructor(epics, progress, pending) {
+//         this.epics = epics;
+//         this.progress = progress;
+//         this.pending = pending;
+//     }
+// }
+// exports.frontendPoints = async (project_id) => {
+//     const [epics_rows] = await Epic.fetch_epic_link(project_id);
+//     let epics = epics_rows.flat();
+//     epics = epics.map(item => item.epic_link);
 
-    let progress = [];
-    let pending = [];
-    for (const epic of epics) {
-        const [progress_rows] = await Ticket.fetch_points_FE(epic);
-        progress.push(progress_rows[0].tickets_done);
-        const [estimate_rows] = await Ticket.fetch_estimate_FE(epic);
-        pending.push(estimate_rows[0].tickets_pending);
-    }
+//     let progress = [];
+//     let pending = [];
+//     for (const epic of epics) {
+//         const [progress_rows] = await Ticket.fetch_points_FE(epic);
+//         progress.push(progress_rows[0].tickets_done);
+//         const [estimate_rows] = await Ticket.fetch_estimate_FE(epic);
+//         pending.push(estimate_rows[0].tickets_pending);
+//     }
 
-    return new frontendPoints(epics, progress, pending);
-}
+//     return new frontendPoints(epics, progress, pending);
+// }
 

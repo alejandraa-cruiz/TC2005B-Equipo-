@@ -153,7 +153,7 @@ Started on: 06-04-23-->
                     'rgb(132,147,36)',
                     //amarillo
                     'rgb(255, 179, 15)',
-                    //tailwind red-600
+                    //rojo
                     'rgb(253, 21, 27)',
 
                 ],
@@ -217,7 +217,7 @@ Started on: 06-04-23-->
                     'rgb(132,147,36)',
                     //amarillo
                     'rgb(255, 179, 15)',
-                    //tailwind red-600
+                    //rojo
                     'rgb(253, 21, 27)',
                 ]
             },{
@@ -261,78 +261,75 @@ Started on: 06-04-23-->
             data: {
             labels: [""],
 
-            datasets: [{
-                label: 'Epic 1',
-                data: [7],
+            datasets: [
+                <% backendPoints.epics.forEach((epic,index) => {%>
+                {label: [<%= backendPoints.epics[index] %>],
+                data: [<%= backendPoints.tickets_done_be_by_epic[index] %>],
                 backgroundColor: //tailwind red-400
-                'rgb(248, 113, 113)'
+                'rgb(248, 113, 113)'},
+                <%});%>
                 
-            },{
-                label: 'Epic 2',
-                data: [12],
-                backgroundColor: //tailwind red-600
-                'rgb(220, 38, 38)'
-                
-            },{
-                label:'Missing',
-                data: [<%= backendPoints.pending %>],
-                backgroundColor: //tailwind gray-300
-                'rgb(209, 213, 219)'
-
-            }]
-            }
-        }
-        );
-
-        // Frontend Points
-        new Chart(
-        document.getElementById('frontend-points'),{
-            type: 'bar',
-            options: {
-            indexAxis: 'y',
-            scales: {
-                x: {
-                stacked: true
-                },
-                y: {
-                stacked: true
-                }
-            },
-            plugins: {
-                legend: {
-                display: true,
-                position: 'bottom',
-                labels:{
-                    usePointStyle: true
-                } 
-                }
-            },
-            responsive: true,
-            aspectRatio: 3
-            },
             
-            data: {
-            labels: [""],
-
-            datasets: [{
-                label: 'Epic 1',
-                data: [7],
-                backgroundColor: //tailwind red-400
-                'rgb(248, 113, 113)'
-            },{
-                label: 'Epic 2',
-                data: [12],
-                backgroundColor://tailwind red-600
-                'rgb(220, 38, 38)'
-            },{
+            {
                 label:'Missing',
-                data: [<%= frontendPoints.pending %>],
+                data: [5],
                 backgroundColor: //tailwind gray-300
                 'rgb(209, 213, 219)'
+
             }]
             }
         }
         );
+
+        // // Frontend Points
+        // new Chart(
+        // document.getElementById('frontend-points'),{
+        //     type: 'bar',
+        //     options: {
+        //     indexAxis: 'y',
+        //     scales: {
+        //         x: {
+        //         stacked: true
+        //         },
+        //         y: {
+        //         stacked: true
+        //         }
+        //     },
+        //     plugins: {
+        //         legend: {
+        //         display: true,
+        //         position: 'bottom',
+        //         labels:{
+        //             usePointStyle: true
+        //         } 
+        //         }
+        //     },
+        //     responsive: true,
+        //     aspectRatio: 3
+        //     },
+            
+        //     data: {
+        //     labels: [""],
+
+        //     datasets: [{
+        //         label: 'Epic 1',
+        //         data: [7],
+        //         backgroundColor: //tailwind red-400
+        //         'rgb(248, 113, 113)'
+        //     },{
+        //         label: 'Epic 2',
+        //         data: [12],
+        //         backgroundColor://tailwind red-600
+        //         'rgb(220, 38, 38)'
+        //     },{
+        //         label:'Missing',
+        //         data: [],
+        //         backgroundColor: //tailwind gray-300
+        //         'rgb(209, 213, 219)'
+        //     }]
+        //     }
+        // }
+        // );
 
         // Team Weeks
         new Chart(
