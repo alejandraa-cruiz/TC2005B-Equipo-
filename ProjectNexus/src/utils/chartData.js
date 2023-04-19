@@ -89,4 +89,110 @@ exports.estimateProgress = async (project_id) => {
     return new EstimateProgressChart(epics, progress, estimate);
 }
 
+class ticket_status{
+    constructor(done, to_do, code_review, in_progress, canceled){
+        this.done=done;
+        this.to_do=to_do;
+        this.code_review=code_review;
+        this.in_progress=in_progress;
+        this.canceled=canceled;
+    }
+}
 
+exports.ticket_status = async (project_id) => {
+    const [done] = await Ticket.tickets_done(project_id);
+    const [to_do] = await Ticket.tickets_to_do(project_id);
+    const [code_review] = await Ticket.tickets_code_review(project_id);
+    const [in_progress] = await Ticket.tickets_in_progress(project_id);
+    const [canceled] = await Ticket.tickets_canceled(project_id)
+    
+    return new ticket_status(done[0].tickets_done,to_do[0].tickets_done,code_review[0].tickets_code_review,in_progress[0].tickets_in_progress,canceled[0].tickets_canceled)
+}
+class backendPoints {
+    constructor(epics, tickets_done_be_by_epic, story_points_missing, story_points_done,colors) {
+        this.epics = epics;
+        this.tickets_done_be_by_epic = tickets_done_be_by_epic;
+        this.story_points_missing = story_points_missing;
+        this.story_points_done = story_points_done;
+        this.colors = colors;
+    }
+}
+exports.backendPoints = async (project_id) => {
+    const [epics_rows] = await Epic.fetch_epic_link(project_id);
+    let epics = epics_rows.flat();
+    epics = epics.map(item => item.epic_link);
+    let index = 0, toDopoints = 0, donePoints = 0;
+    let tickets_done_be_by_epic = [];
+    let tickets_to_do_by_epic = [];
+    let tickets_progress_by_epic = [];
+    let tickets_review_by_epic = [];
+    let tickets_missing_be_by_epic = [];
+    let colors = ['rgb(1, 41, 95)','rgb(67,127,151)','rgb(132,147,36)', 'rgb(255, 179, 15)','rgb(253, 21, 27)'];
+
+    for(const epic of epics) {
+        const [done_be_by_epic] = await Ticket.tickets_done_be_by_epic(epic);
+        tickets_done_be_by_epic.push(done_be_by_epic[0].tickets_done_be_by_epic);
+        const [to_do_by_epic] = await Ticket.tickets_in_to_do_be_by_epic(epic);
+        tickets_to_do_by_epic.push(to_do_by_epic[0].story_points_to_do_epic);
+        const [progres_by_epic] = await Ticket.tickets_in_progress_be_by_epic(epic);
+        tickets_progress_by_epic.push(progres_by_epic[0].story_points_progress_epic);
+        const [review_by_epic] = await Ticket.tickets_in_review_be_by_epic(epic);
+        tickets_review_by_epic.push(review_by_epic[0].story_points_review_epic);
+        tickets_missing_be_by_epic.push(
+            (tickets_review_by_epic[index]) +
+            (tickets_to_do_by_epic[index]) +
+            (tickets_progress_by_epic[index++]));
+    }
+    tickets_done_be_by_epic.forEach(storyPoints =>{
+        donePoints += storyPoints;
+    })
+    tickets_missing_be_by_epic.forEach(storyPoints =>{
+        toDopoints += storyPoints;
+    })
+    return new backendPoints(epics, tickets_done_be_by_epic, toDopoints, donePoints,colors);
+}
+
+class frontendPoints {
+    constructor(epics, story_points_fe_done, story_points_fe_missing, story_points_fe_total_done, colors) {
+        this.epics = epics;
+        this.story_points_fe_done = story_points_fe_done;
+        this.story_points_fe_missing = story_points_fe_missing;
+        this.story_points_fe_total_done = story_points_fe_total_done;
+        this.colors = colors;
+    }
+}
+
+exports.frontendPoints = async(project_id) =>{
+    const [epics_rows] = await Epic.fetch_epic_link(project_id);
+    let epics = epics_rows.flat();
+    epics = epics.map(item => item.epic_link);
+    let colors= ['rgb(1, 41, 95)','rgb(67,127,151)','rgb(132,147,36)', 'rgb(255, 179, 15)','rgb(253, 21, 27)'];
+    let story_points_fe_done = [];
+    const [story_points_fe_missing] = await Ticket.story_points_fe_missing(project_id);
+    let story_points_fe_total_done =0;
+
+    for(const epic of epics) {
+        const [done_fe_story] = await Ticket.story_points_fe_done(epic);
+        story_points_fe_done.push(done_fe_story[0].story_points_fe_done);
+    }
+
+    story_points_fe_done.forEach((elem)=>{
+        story_points_fe_total_done= story_points_fe_total_done + elem;
+    })
+
+    return new frontendPoints(epics, story_points_fe_done, story_points_fe_missing[0].story_points_fe_missing, story_points_fe_total_done, colors)
+}
+
+class teamWeeks {
+    constructor(agile_points_be,agile_points_fe){
+        this.agile_points_be=agile_points_be;
+        this.agile_points_fe=agile_points_fe;
+    }
+}
+
+exports.teamWeeks = async (project_id) => {
+    const [be] = await Project.fetch_agile_points_be(project_id);
+    const [fe] = await Project.fetch_agile_points_fe(project_id);
+
+    return new teamWeeks(be[0].agile_points_be,fe[0].agile_points_fe)
+}
