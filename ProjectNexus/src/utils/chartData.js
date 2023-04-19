@@ -109,12 +109,12 @@ exports.ticket_status = async (project_id) => {
     return new ticket_status(done[0].tickets_done,to_do[0].tickets_done,code_review[0].tickets_code_review,in_progress[0].tickets_in_progress,canceled[0].tickets_canceled)
 }
 class backendPoints {
-    constructor(epics, tickets_done_be_by_epic, story_points_missing, story_points_done) {
+    constructor(epics, tickets_done_be_by_epic, story_points_missing, story_points_done,colors) {
         this.epics = epics;
         this.tickets_done_be_by_epic = tickets_done_be_by_epic;
         this.story_points_missing = story_points_missing;
         this.story_points_done = story_points_done;
-        // this.tickets_missing_by_epic = tickets_missing_by_epic;
+        this.colors = colors;
     }
 }
 exports.backendPoints = async (project_id) => {
@@ -127,7 +127,7 @@ exports.backendPoints = async (project_id) => {
     let tickets_progress_by_epic = [];
     let tickets_review_by_epic = [];
     let tickets_missing_be_by_epic = [];
-    // let tickets_missing = []
+    let colors = ['rgb(1, 41, 95)','rgb(67,127,151)','rgb(132,147,36)', 'rgb(255, 179, 15)','rgb(253, 21, 27)'];
 
     for(const epic of epics) {
         const [done_be_by_epic] = await Ticket.tickets_done_be_by_epic(epic);
@@ -149,30 +149,50 @@ exports.backendPoints = async (project_id) => {
     tickets_missing_be_by_epic.forEach(storyPoints =>{
         toDopoints += storyPoints;
     })
-    return new backendPoints(epics, tickets_done_be_by_epic, toDopoints, donePoints);
+    return new backendPoints(epics, tickets_done_be_by_epic, toDopoints, donePoints,colors);
 }
 
-// class frontendPoints {
-//     constructor(epics, progress, pending) {
-//         this.epics = epics;
-//         this.progress = progress;
-//         this.pending = pending;
-//     }
-// }
-// exports.frontendPoints = async (project_id) => {
-//     const [epics_rows] = await Epic.fetch_epic_link(project_id);
-//     let epics = epics_rows.flat();
-//     epics = epics.map(item => item.epic_link);
+class frontendPoints {
+    constructor(epics, story_points_fe_done, story_points_fe_missing, story_points_fe_total_done, colors) {
+        this.epics = epics;
+        this.story_points_fe_done = story_points_fe_done;
+        this.story_points_fe_missing = story_points_fe_missing;
+        this.story_points_fe_total_done = story_points_fe_total_done;
+        this.colors = colors;
+    }
+}
 
-//     let progress = [];
-//     let pending = [];
-//     for (const epic of epics) {
-//         const [progress_rows] = await Ticket.fetch_points_FE(epic);
-//         progress.push(progress_rows[0].tickets_done);
-//         const [estimate_rows] = await Ticket.fetch_estimate_FE(epic);
-//         pending.push(estimate_rows[0].tickets_pending);
-//     }
+exports.frontendPoints = async(project_id) =>{
+    const [epics_rows] = await Epic.fetch_epic_link(project_id);
+    let epics = epics_rows.flat();
+    epics = epics.map(item => item.epic_link);
+    let colors= ['rgb(1, 41, 95)','rgb(67,127,151)','rgb(132,147,36)', 'rgb(255, 179, 15)','rgb(253, 21, 27)'];
+    let story_points_fe_done = [];
+    const [story_points_fe_missing] = await Ticket.story_points_fe_missing(project_id);
+    let story_points_fe_total_done =0;
 
-//     return new frontendPoints(epics, progress, pending);
-// }
+    for(const epic of epics) {
+        const [done_fe_story] = await Ticket.story_points_fe_done(epic);
+        story_points_fe_done.push(done_fe_story[0].story_points_fe_done);
+    }
 
+    story_points_fe_done.forEach((elem)=>{
+        story_points_fe_total_done= story_points_fe_total_done + elem;
+    })
+
+    return new frontendPoints(epics, story_points_fe_done, story_points_fe_missing[0].story_points_fe_missing, story_points_fe_total_done, colors)
+}
+
+class teamWeeks {
+    constructor(agile_points_be,agile_points_fe){
+        this.agile_points_be=agile_points_be;
+        this.agile_points_fe=agile_points_fe;
+    }
+}
+
+exports.teamWeeks = async (project_id) => {
+    const [be] = await Project.fetch_agile_points_be(project_id);
+    const [fe] = await Project.fetch_agile_points_fe(project_id);
+
+    return new teamWeeks(be[0].agile_points_be,fe[0].agile_points_fe)
+}

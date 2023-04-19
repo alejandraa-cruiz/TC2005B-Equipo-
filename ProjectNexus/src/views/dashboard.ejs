@@ -33,8 +33,7 @@ Started on: 06-04-23-->
                     <div class="flex flex-row">
                         <div>
                             Backend Missing Points: <%= backendPoints.story_points_missing %>
-                        </div>
-                        <div>
+                        <br>
                             Backend Done Points: <%= backendPoints.story_points_done %>
                         </div>
                     </div>
@@ -49,6 +48,9 @@ Started on: 06-04-23-->
                 <div class="grid justify-left ml-64">
                     <div style="width:300px;">
                         <canvas id="backend-points"></canvas>
+                        Frontend Done Points: <%= frontendPoints.story_points_fe_total_done %>
+                        <br>
+                        Frontend Missing Points: <%= frontendPoints.story_points_fe_missing %>
                         <canvas id="frontend-points"></canvas>
                         Team Weeks: 6
                         <canvas id="team-weeks"></canvas>
@@ -237,6 +239,8 @@ Started on: 06-04-23-->
         }
         );
 
+        
+
         // Backend Points
         new Chart(
         document.getElementById('backend-points'),{
@@ -268,12 +272,12 @@ Started on: 06-04-23-->
             labels: [""],
 
             datasets: [
+
                 <% backendPoints.epics.forEach((epic,index) => {%>
                 {
                     label: '<%= backendPoints.epics[index] %>',
                     data: [<%= backendPoints.tickets_done_be_by_epic[index] %>],
-                    backgroundColor: //tailwind red-400
-                        'rgb(248, 113, 113)'
+                    backgroundColor: '<%=backendPoints.colors[index]%>'
                 },
                 <%});%>
             {
@@ -286,57 +290,55 @@ Started on: 06-04-23-->
         }
         );
 
-        // // Frontend Points
-        // new Chart(
-        // document.getElementById('frontend-points'),{
-        //     type: 'bar',
-        //     options: {
-        //     indexAxis: 'y',
-        //     scales: {
-        //         x: {
-        //         stacked: true
-        //         },
-        //         y: {
-        //         stacked: true
-        //         }
-        //     },
-        //     plugins: {
-        //         legend: {
-        //         display: true,
-        //         position: 'bottom',
-        //         labels:{
-        //             usePointStyle: true
-        //         } 
-        //         }
-        //     },
-        //     responsive: true,
-        //     aspectRatio: 3
-        //     },
+        // Frontend Points
+        new Chart(
+        document.getElementById('frontend-points'),{
+            type: 'bar',
+            options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                stacked: true
+                },
+                y: {
+                stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                display: true,
+                position: 'bottom',
+                labels:{
+                    usePointStyle: true
+                } 
+                }
+            },
+            responsive: true,
+            aspectRatio: 3
+            },
             
-        //     data: {
-        //     labels: [""],
+            data: {
+            labels: [""],
 
-        //     datasets: [{
-        //         label: 'Epic 1',
-        //         data: [7],
-        //         backgroundColor: //tailwind red-400
-        //         'rgb(248, 113, 113)'
-        //     },{
-        //         label: 'Epic 2',
-        //         data: [12],
-        //         backgroundColor://tailwind red-600
-        //         'rgb(220, 38, 38)'
-        //     },{
-        //         label:'Missing',
-        //         data: [],
-        //         backgroundColor: //tailwind gray-300
-        //         'rgb(209, 213, 219)'
-        //     }]
-        //     }
-        // }
-        // );
+            datasets: [
+                <% frontendPoints.epics.forEach((epic,index) => {%>
+                {
+                    label: '<%= frontendPoints.epics[index] %>',
+                    data: [<%= frontendPoints.story_points_fe_done[index] %>],
+                    backgroundColor: '<%=frontendPoints.colors[index]%>'
+                },
+                <%});%>
+            {
+                label: 'Missing',
+                data: [<%= frontendPoints.story_points_fe_missing %>],
+                backgroundColor: //tailwind gray-300
+                'rgb(209, 213, 219)'
+            }
+             ]
+            }
+        }
+        );
 
-        // Team Weeks
         new Chart(
         document.getElementById('team-weeks'),{
             type: 'bar',
@@ -367,24 +369,20 @@ Started on: 06-04-23-->
             labels: [""],
 
             datasets: [{
-                label: 'Epic 1',
-                data: [2],
-                backgroundColor: //tailwind red-400
-                'rgb(248, 113, 113)'
+                label: 'Frontend',
+                data: [<%= teamWeeks.agile_points_fe%>],
+                backgroundColor: //azul marino
+                    'rgb(1, 41, 95)',
             },{
-                label: 'Epic 2',
-                data: [1.5],
-                backgroundColor:  //tailwind red-600
-                'rgb(220, 38, 38)'
-            },{
-                label:'Epic 3',
-                data: [2.5],
-                backgroundColor: //tailwind gray-300
-                'rgb(209, 213, 219)'
+                label: 'Backend',
+                data: [<%= teamWeeks.agile_points_be%>],
+                backgroundColor://amarillo
+                    'rgb(255, 179, 15)',
             }]
             }
         }
         );
+
     console.log(epics);
     </script>
 </body>

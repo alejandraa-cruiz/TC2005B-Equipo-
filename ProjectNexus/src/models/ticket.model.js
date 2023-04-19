@@ -151,12 +151,13 @@ module.exports = class Ticket {
         return db.execute(query,[epic_link]);
     }
 
-    static tickets_done_fe_by_epic(epic_link){
-        let query = `SELECT COUNT(id_ticket) as tickets_done_fe_by_epic FROM ticket
-        WHERE ticket_status = 'Done' 
+    static story_points_fe_done(epic_link){
+        let query = `SELECT SUM(storyPoints) as story_points_fe_done
+        FROM ticket
+        WHERE ticket_status = 'Done'
         AND label = 'part/Frontend'
-        AND id_epic IN
-        (SELECT id_epic FROM epic WHERE epic_link = ?);`
+        AND id_epic IN(
+                    SELECT id_epic FROM epic WHERE epic_link = ?);`
 
         return db.execute(query,[epic_link]);
     }
@@ -173,14 +174,13 @@ module.exports = class Ticket {
             return db.execute(query,[id_project])
     }
 
-    static tickets_pending_fe(id_project){
-        let query = `SELECT COUNT(id_ticket) as tickets_pending_fe
+    static story_points_fe_missing(id_project){
+        let query = `SELECT SUM(storyPoints) as story_points_fe_missing
         FROM ticket
         WHERE ticket_status != 'Done'
         AND label = 'part/Frontend'
-        AND id_epic IN (SELECT id_epic
-                        FROM epic
-                        WHERE id_project = 1);`
+        AND id_epic IN(
+                    SELECT id_epic FROM epic WHERE id_project = ?);`
 
             return db.execute(query,[id_project])
     }
