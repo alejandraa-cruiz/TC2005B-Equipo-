@@ -1,6 +1,8 @@
 // Authors: Karla Alejandra Padilla González A0170331 y Daniel Gutiérrez Gómez A01068056
 // Date: 11/04/2023
 
+const { response } = require("express");
+
 const alertDelProject = document.getElementById("alert");
 const alertSuccDelProjectErrors = document.getElementById("alertSucc");
 const messaggeDelError = document.getElementById("message-error");
@@ -30,6 +32,9 @@ function getMembers (project_id) {
     .then (res => { 
         memberList.innerHTML = "";
         console.log(res.members);
+        if (res.members.length == 0){memberList.innerHTML = `
+            <p>No members to assign</p>
+        `}
         res.members.forEach(member => {
             memberList.innerHTML += `
             
@@ -43,8 +48,7 @@ function getMembers (project_id) {
     })
 }
 
-function openPopupMember(index, project_id) {
-    // Function
+function openPopupMember(index, project_id,event) {
     const popup = document.getElementById(`popupMember-${index}`);
     popup.classList.toggle("hidden");
     getMembers(project_id);
@@ -80,4 +84,8 @@ function deleteProject(project_name){
     })
     .catch(error => {console.log(error)});
 }
-
+ function closePopupMember(index, event){
+    event.preventDefault();
+    const popup = document.getElementById(`popupMember-${index}`);
+    popup.classList.toggle("hidden");
+ }
