@@ -3,7 +3,7 @@
         <div class=" flex flex-wrap justify-start">
             <form id="update-member-form-<%= project.id_project%>">
                 <div class=" bg-zinc-50 rounded-lg w-full break-words space-x-5 p-10 space-y-4 shadow-lg">
-                  <ul class="text-left overflow-y-scroll overflow-x-clip custom-scrollbar max-h-[5.0rem] p-5" id="dropDownMembers" >
+                  <ul class="text-left overflow-y-auto overflow-x-clip custom-scrollbar max-h-[5.0rem] p-5" id="dropDownMembers" >
                   </ul>
                   <button id="save-member-button" onclick="sendMembers(<%= project.id_project%>)"
                    class="shadow-md bg-mainBg text-green-500 rounded-lg p-2  hover:bg-gray-400 hover:text-zinc-100  duration-200">
