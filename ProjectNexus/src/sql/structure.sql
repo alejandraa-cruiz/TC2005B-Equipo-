@@ -6,7 +6,7 @@ CREATE TABLE project (
   id_project INT PRIMARY KEY AUTO_INCREMENT,
   project_name VARCHAR(100),
   start_date DATE,
-  end_date DATE
+  end_date DATE NOT NULL
 );
 
 CREATE TABLE epic (
@@ -65,7 +65,7 @@ INSERT INTO csv (id_team_member, id_sprint, file_path, upload_date) VALUES
 (4, null, './uploads/Jira.csv', '2023-03-10 14:17:00');
 
 INSERT INTO project (project_name, start_date, end_date) VALUES 
-('FJDH', '2023-02-01', null);
+('FJDH', '2023-02-01', '2023-03-28');
 
 INSERT INTO epic (id_project, epic_link) VALUES 
 (1, 'PART-234'),

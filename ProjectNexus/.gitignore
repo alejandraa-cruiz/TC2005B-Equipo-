@@ -4,3 +4,6 @@
 .vscode
 dist/
 output.css
+.idea
+package-lock.json
+*.csv

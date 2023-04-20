@@ -79,4 +79,14 @@ module.exports = class TeamMember {
             catch (error) { console.log(error) };
         }
     }
+
+    static fetch_all_by_id(id){
+        let query = 'SELECT email, member_name, team FROM teamMember WHERE id_team_member = ? ';
+        return db.execute(query,[id]);
+    }
+
+    static update_by_id(name, email, team, id){
+        let query = 'UPDATE teamMember SET member_name = ?, email = ?, team = ? WHERE id_team_member = ?'
+        return db.execute(query,[name, email, team, id]);
+    }
 }

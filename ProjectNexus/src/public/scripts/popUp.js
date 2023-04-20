@@ -7,11 +7,13 @@ const alertDelProject = document.getElementById("alert");
 const alertSuccDelProjectErrors = document.getElementById("alertSucc");
 const messaggeDelError = document.getElementById("message-error");
 const messaggeSuccDel = document.getElementById("message-success");
-
-function openPopup(index) {
+function openPopup(index, event) {
+    event.preventDefault();
     const popup = document.getElementById(`popup-${index}`);
     popup.classList.toggle("hidden");
+    closeByEscape(index);
 }
+
 
 function sendMembers(index){
 
@@ -54,6 +56,11 @@ function openPopupMember(index, project_id,event) {
     getMembers(project_id);
 }
 
+function closePopup(index, event) {
+    event.preventDefault();
+    const popup = document.getElementById(`popup-${index}`);
+    popup.classList.toggle("hidden");
+}
 function deleteProject(project_name){
     fetch(`/project/delete/${project_name}`,{
         method: 'DELETE'

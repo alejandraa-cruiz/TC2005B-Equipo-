@@ -68,8 +68,8 @@ const resetDatabase = async (nameStatus) => {
     try {
         await db.query(dbResetQuery + query);
         console.log(chalk.bgGreen.white('Success: the database was created successfully '));
-    } catch {
-        await db.query('DROP DATABASE ?', [databaseName]);
+    } catch (e){
+        await db.query('DROP DATABASE IF EXISTS ?', [databaseName]);
         console.log(chalk.bgRed.white('Error: there is an error in your sql files '));
     }
 }

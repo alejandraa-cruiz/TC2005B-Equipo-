@@ -11,4 +11,9 @@ module.exports = class Csv {
         return db.execute('INSERT INTO csv (file_path) VALUES (?)', 
                            [this.file_path]);
     }
+
+    save (connection) {
+        return connection.execute('INSERT INTO csv (file_path) VALUES (?)', 
+                                   [this.file_path]);
+    }
 }
