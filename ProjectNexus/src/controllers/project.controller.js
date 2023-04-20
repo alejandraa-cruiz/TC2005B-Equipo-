@@ -233,7 +233,6 @@ exports.modifyProject = async (req,res) =>{
     try {
         const userInfo = await req.oidc.fetchUserInfo();
         const [name] = await Project.fetch_name_by_id(req.params.project);
-        console.log(name[0].project_name);
         Epic.fetch_modify_epics(req.params.project)
             .then((rows, fieldData) => {
                 const Epics = rows[0];
@@ -278,19 +277,24 @@ exports.modifyProjectPost = async (req,res) =>{
 exports.getMembersProject = async (req,res) =>{
     let project_id = req.params.project;
     const [members] = await User.fetch_unassigned(project_id);
-    console.log(members);
-    return res.json({members: members});
+    res.json({members: members});
 }
 
-exports.updateMembers = async (req, resp) =>{
-    const members = Object.keys(req.body)
+exports.updateMembers = async (req, res) =>{
+    const members = Object.keys(req.body);
+    var id_project;
+    var id_team_member;
     members.forEach((elem) => {
-        const projectTeam = new ProjectTeam({
-            id_project : req.params.project,
-            id_team_member : elem,
-            agile_points : 0,   
+        id_project = req.params.project;
+        id_team_member = elem;
     })
-    projectTeam.save()
-    })
-    resp.json({})
+    const projectTeam = new ProjectTeam ({
+        id_project : id_project,
+        id_team_member : id_team_member,
+        agile_points : 0
+    });
+    const [rows] = await projectTeam.save();
+    console
+    if (rows.affectedRows > 0) res.status(200).json({ e: 'Success!' });
+    else res.status(500).json({ e: 'Database conection failed' });
 }
