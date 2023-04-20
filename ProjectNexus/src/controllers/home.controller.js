@@ -16,17 +16,7 @@ exports.dashboard = async (req, res) => {
         if(error != '') {
             req.session.error = '';
         }
-
         const userInfo = await req.oidc.fetchUserInfo();
-        
-        console.log(burnupChart);
-        console.log(estimateProgressChart);
-        console.log(backendPoints);
-        console.log(frontendPoints);
-        console.log(ticket_status);
-        console.log(teamWeeks);
-        
-
         res.render(__dirname + '/../views/dashboard', { 
             user: userInfo,
             projects: projects,
