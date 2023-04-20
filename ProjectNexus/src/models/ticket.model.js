@@ -88,7 +88,7 @@ module.exports = class Ticket {
         FROM ticket 
         WHERE ticket_status = 'Done'
         AND id_epic IN (SELECT id_epic 
-                        FROM Epic 
+                        FROM epic 
                         WHERE id_project = ?);`
 
         return db.execute(query, [id_project]);
@@ -99,7 +99,7 @@ module.exports = class Ticket {
         FROM ticket 
         WHERE ticket_status = 'To Do'
         AND id_epic IN (SELECT id_epic 
-                        FROM Epic 
+                        FROM epic 
                         WHERE id_project = ?);`
 
         return db.execute(query, [id_project]);
@@ -110,7 +110,7 @@ module.exports = class Ticket {
         FROM ticket 
         WHERE ticket_status = 'Code Review'
         AND id_epic IN (SELECT id_epic 
-                        FROM Epic 
+                        FROM epic 
                         WHERE id_project = ?);`
 
         return db.execute(query, [id_project]);
@@ -121,7 +121,7 @@ module.exports = class Ticket {
         FROM ticket 
         WHERE ticket_status = 'In Progress'
         AND id_epic IN (SELECT id_epic 
-                        FROM Epic 
+                        FROM epic 
                         WHERE id_project = ?);`
 
         return db.execute(query, [id_project]);
@@ -132,7 +132,7 @@ module.exports = class Ticket {
         FROM ticket 
         WHERE ticket_status = 'Canceled'
         AND id_epic IN (SELECT id_epic 
-                        FROM Epic 
+                        FROM epic 
                         WHERE id_project = ?);`
 
         return db.execute(query, [id_project]);
