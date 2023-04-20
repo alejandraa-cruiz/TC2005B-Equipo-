@@ -81,6 +81,18 @@ exports.postMember= async (req, res) => {
     }
 }
 
+/**
+ * Fetch method Delete 
+ * Delete member by id
+ * @type {import("express").RequestHandler}
+ */
+exports.deleteMember = async (req, res) => {
+    const [rows] = await TeamMember.delete_by_id (req.params.user);
+    if (rows.affectedRows > 0) res.status(200).json({e: 'Succes: member was erased'});
+    else res.status(500).json({e: 'Database connection failed'});
+}
+
+
 exports.getModifyMember = async (req, res) =>{
     const [projects] = await Project.fetch_all_id_name();
     const [member] = await TeamMember.fetch_all_by_id(req.params.user);

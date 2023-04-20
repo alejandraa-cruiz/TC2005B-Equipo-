@@ -61,6 +61,7 @@ INSERT INTO csv (id_team_member, id_sprint, file_path, upload_date) VALUES
 (4, null, './uploads/Jira.csv', '2023-03-10 14:17:00');
 
 INSERT INTO project (project_name, start_date, end_date) VALUES 
+
 ('FJDH', '2023-02-01', '2023-03-28');
 
 INSERT INTO epic (id_project, epic_link) VALUES 
