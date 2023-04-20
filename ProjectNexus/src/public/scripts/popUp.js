@@ -31,6 +31,7 @@ function closeByEscape(index){
         };
         document.addEventListener('keydown', handleKeyDown);
     }
+}
 function sendMembers(index){
 
     const form = document.getElementById(`update-member-form-${index}`);
