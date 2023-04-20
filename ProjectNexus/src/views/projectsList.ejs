@@ -75,22 +75,24 @@
                         </div>
                         <div class="w-1/5 h-[3rem]">
                             <div class="flex flex-row justify-center w-full mx-auto items-center">
-                                <div class="">
+                                <div class="flex flex-row justify-center w-full mx-auto items-center text-center phone:pl-2 laptop:pl-12 desktop:pl-12">
                                     <p class="justify-self-center text-center break-words font-medium phone:text-[0.9rem] laptop:text-[1.250rem] desktop:text-[1.250rem]">
                                         Team Members
                                     </p>
                                 </div>
                             </div>
                         </div>
+
                         <div class="w-1/5 h-[3rem] items-center text-center">
                             <div class="flex flex-row justify-center w-full mx-auto items-center content-center justify-self-center">
                                 <div class="text-center">
                                     <p class="justify-self-center text-center break-words font-medium phone:text-[0.9rem] laptop:text-[1.250rem] desktop:text-[1.250rem]">
-                                        Add member
+                                        Add Member
                                     </p>
                                 </div>
                             </div>
                         </div>
+                
                         <div class="w-1/5 h-[3rem] items-center text-center">
                             <div class="flex flex-row justify-center w-full mx-auto items-center content-center justify-self-center">
                                 <div class="text-center">
@@ -113,7 +115,7 @@
                     <div id="containerList" class="relative">
                             <% projects.forEach((project, index) => { %>
                                 <%- include('partials/cancel-popup.ejs', {project: project, popupId : index}); %>
-
+                                <%- include('partials/popUpAddMember.ejs', {project: project, popupId : index}); %>
                             <div class="flex flex-row w-full appearance-none select-none mb-[1.5rem] mt-[1.5rem]">
                                 <div class="w-1/5 flex flex-row justify-center">
                                     <div class="flex flex-row justify-center w-2/3 items-center text-center laptop:pl-12 phone:pl-0">
@@ -149,7 +151,7 @@
                                 <div class="w-1/5 flex flex-row justify-center content-center">
                                     <div class="flex flex-row w-full justify-center content-center items-center">
                                         <div class= "hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
-                                            <button onclick="openPopupAddMember('<%=index%>')">
+                                            <button onclick="openPopupMember('<%=index%>', '<%=project.id_project%>',event)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] justify-self-center laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]" 
                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                 stroke-linejoin="round">
@@ -158,7 +160,7 @@
                                                 <path d="M16 19h6"></path>
                                                 <path d="M19 16v6"></path>
                                                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
-                                                </svg>
+                                            </svg>
                                             </button>
                                         </div>
                                     </div>
