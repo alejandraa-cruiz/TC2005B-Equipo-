@@ -1,6 +1,12 @@
+// Authors: José Pablo Martínez Valdivia A01275676
+// Date: 19/04/2023
+
 const path = require('path');
 const Csv = require('../models/csv.model');
 const TicketDataset = require('../utils/CSVparser');
+const db = require('../utils/database');
+const Ticket = require('../models/ticket.model');
+const { compareTickets } = require('../utils/compareTickets')
 
 // Directory where the uploaded files will be saved
 const uploadDirectory = path.join(__dirname, '..', 'public', 'uploads');
@@ -56,31 +62,60 @@ exports.file = async (req, res) => {
         return;
     }
 
+    // We create a connection
+    let connection;
+
     // The database throw errors when it fails
     try {
+        connection = await db.getConnection();
+        await connection.beginTransaction();
+        let insertedEpics = 0;
+        let insertedTickets = 0;
+        let updatedTickets = 0;
         // We save all the epics
-        dataset.epics.forEach(async (elem) => {
-            await elem.save();
-        });
+        for(const elem of dataset.epics){
+            const [epicRows] = await elem.save(connection);
+            insertedEpics += epicRows.affectedRows;
+        }
         // We save all the tickets
-        dataset.tickets.forEach(async (elem) => {
-            const [rows] = await elem.save();
-            console.log(rows.affectedRows);
-        });
-
+        for(const elem of dataset.tickets){
+            const [existingTicket] = await Ticket.fetchByIssueKey(elem.issueKey);
+            if(existingTicket.length === 0) {
+                elem.save(connection);
+                insertedTickets++;
+            } else if (existingTicket.length === 1) {
+                if(!compareTickets(existingTicket[0], elem)) {
+                    elem.update(existingTicket[0].id_ticket, connection);
+                    updatedTickets++;
+                }
+            } else {
+                throw new Error('Database error');
+            }
+        }
+        
         // We create a unique file name appending the time and the file name
         const fileSaveName = new Date().getTime() + '-' + csv.name;
         
-        await new Csv({
-            file_path: path.join('uploads', fileSaveName)
-        }).save();
+        if(insertedEpics + insertedTickets + updatedTickets > 0){
+            await new Csv({
+                file_path: path.join('uploads', fileSaveName)
+            }).save(connection);
+            
+            // Move file to uploads directory
+            await csv.mv(path.join(uploadDirectory, fileSaveName));
+        }
 
-        // Move file to uploads directory
-        csv.mv(path.join(uploadDirectory, fileSaveName), () => {});
-
+        // If everything goes to plan, we commit the changes on the database and
+        // send a success message.
+        await connection.commit();
+        console.log('insertedEpics:', insertedEpics, '\ninsertedTickets:', insertedTickets, '\nupdatedTickets:', updatedTickets);
         res.json({e: 'Success'});
 
     } catch (e) {
+        console.log(e);
+        // If there is an error while inserting in the database, we rollback to 
+        // the last state and send an error message to the client.
+        await connection.rollback();
         res.status(500).json({e: 'Database connection failed'});
     }
 }

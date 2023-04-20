@@ -10,8 +10,20 @@ module.exports = class Epic {
         let query = `INSERT INTO epic (epic_link) 
                      SELECT ?
                      WHERE (SELECT count(epic_link) 
-                            FROM epic WHERE epic_link = ?) = 0;`;
+                            FROM epic WHERE epic_link = ? FOR UPDATE) = 0;`;
         return db.execute(query, [this.epic_link, this.epic_link]);
+    }
+    /**
+     * Saves epics uniquely with the given connection
+     * @param {PoolConnection} connection 
+     * @returns 
+     */
+    save(connection) {
+        let query = `INSERT INTO epic (epic_link) 
+                     SELECT ?
+                     WHERE (SELECT count(epic_link) 
+                            FROM epic WHERE epic_link = ? FOR UPDATE) = 0;`;
+        return connection.execute(query, [this.epic_link, this.epic_link]);
     }
 
     /**
