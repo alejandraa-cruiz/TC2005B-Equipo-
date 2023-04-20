@@ -7,6 +7,10 @@ const messaggeDelError = document.getElementById("message-error");
 const messaggeSuccDel = document.getElementById("message-success");
 function openPopup(index, event) {
     event.preventDefault();
+    event.stopPropagation();
+    if(index > 0){
+        event.stopImmediatePropagation();
+    }
     const popup = document.getElementById(`popup-${index}`);
     popup.classList.toggle("hidden");
     closeByEscape(index);
@@ -18,6 +22,7 @@ function closeByEscape(index){
     if(computedStyle.display !== 'none'){
         const handleKeyDown = function(event) {
             if (event.key === 'Escape'){
+                event.stopImmediatePropagation();
                 popup.classList.toggle('hidden');
                 document.removeEventListener('keydown', handleKeyDown);
             }
