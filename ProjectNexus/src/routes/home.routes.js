@@ -8,7 +8,7 @@ let router = express.Router();
 
 router.post('/upload', requiresAuth(), uploadController.file);
 router.get('/createProject', requiresAuth(), projectController.postProject);
-router.get('/', requiresAuth(), homeController.dashboard);
+router.get('/', requiresAuth(), homeController.home);
 router.get('/:id', requiresAuth(), homeController.dashboard);
 
 module.exports = router;

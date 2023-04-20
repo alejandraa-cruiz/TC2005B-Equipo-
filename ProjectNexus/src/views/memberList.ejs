@@ -1,0 +1,147 @@
+<!--
+File name: memberList.ejs
+Developed by: Alejandra Cabrera Ruiz A01704463 and Pablo Martinez Valdivia A01275676
+Date: Ended April 13th, 2023-->
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs') %>
+
+<body class="font-inter">
+    <%- include('partials/leftNavigation.ejs')%>
+    <main id="main-content" 
+          class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen
+          p-6 break-words phone:left-0 phone:w-full overflow-y-auto">
+        <div id="content-wrapper">
+            <!-- Content goes here -->
+            <div class="flex justify-center">
+                <%- include('partials/message-errors.ejs') %>
+            </div>
+            <div class="flex justify-end">
+                <img class="w-20" src="/images/dh_logo.png" alt="">
+                </a>
+            </div>
+
+            <div class="flex mb-12">
+                <a href="/members/create" 
+                    class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline">Create Member</a>
+            </div>
+
+            <div class="flex gap-5 items-center justify-between mb-12" >
+                    <h1 class="font-semibold text-2xl">Team members</h1>
+                    <!--Search Bar-->
+                    
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class='bx bx-search'></i>
+                        </div>
+                        <input type="text" 
+                            class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
+                            placeholder="Search Member"  oninput="search(this.value)">
+                    </div>
+            </div>
+
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="pr-40 pb-4 phone:pr-16">Member</th>
+                            <th class="pb-4 pr-40 phone:pr-16">Development Team</th>
+                            <th class="pb-4 pr-40">Modify Member</th>
+                            <th class="pb-4">Delete Member</th>
+                        </tr>
+                    </thead>
+                    <tbody id="member-table">
+                        <% members.forEach(member=>{
+                            if (member.team == "FE"){%>
+                                <tr class="h-20 border-b-2 border-white">
+                                    <td class="flex">
+                                        <span class= "pt-6 max-w-[12rem] overflow-hidden break-words phone:max-w-[8rem]">
+                                            <%= member.member_name%>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="ml-11 p-2 bg-members-bg-green rounded-lg text-members-text-green">
+                                            Frontend
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button onclick="location.href = '/members/modify/<%=member.id_team_member%>'" class= "ml-11 flex flex-row justify-center break-words hover:bg-red-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]"
+                                                     viewBox="0 0 16 16">
+                                                    <path
+                                                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                    <path fill-rule="evenodd"
+                                                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                                </svg>
+                                            </button>
+
+                                    </td>
+                                    <td>
+                                            <button class= "ml-11 flex flex-row justify-center break-words hover:bg-red-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-trash phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]"
+                                                     viewBox="0 0 16 16">
+                                                    <path
+                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                                    <path fill-rule="evenodd"
+                                                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                                </svg>
+                                            </button>
+                                    </td>
+                                </tr>
+                            <%}
+                            else{ %>
+                                <tr class="h-20 border-b-2 border-white">
+                                    <td class="flex">
+                                        <span class= "pt-6 max-w-[12rem] overflow-hidden break-words phone:max-w-[8rem]">
+                                            <%= member.member_name%>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="ml-11 p-2 bg-members-bg-yellow rounded-lg text-members-text-yellow">
+                                            Backend
+                                        </span>
+                                    </td>
+                                    <td>
+
+                                        <button onclick="location.href = '/members/modify/<%=member.id_team_member%>'" class= "ml-11 flex flex-row justify-center break-words hover:bg-red-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]"
+                                                 viewBox="0 0 16 16">
+                                                <path
+                                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                <path fill-rule="evenodd"
+                                                      d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                            </svg>
+                                        </button>
+
+                                    </td>
+                                    <td>
+                                        <button class= "ml-11 justify-center break-words hover:bg-red-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-trash phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]"
+                                                 viewBox="0 0 16 16">
+                                                <path
+                                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                                <path fill-rule="evenodd"
+                                                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <%}
+                        }) %>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            
+            
+
+
+        </div>
+    </main>
+    <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
+    <!-- <script defer src="scripts/index.min.js" type="text/javascript"></script> -->
+    <script defer src="/scripts/index.js"></script>
+    <script defer src="/scripts/searchMember.js"></script>
+</body>
+</html>

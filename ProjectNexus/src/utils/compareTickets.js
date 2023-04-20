@@ -3,7 +3,7 @@
  * @param {Ticket} t1 
  * @param {Ticket} t2 
  */
-exports.updatedTicket = (t1, t2) => {
+exports.compareTickets = (t1, t2) => {
     return (
         t1.issueKey === t2.issueKey &&
         t1.summary === t2.summary &&

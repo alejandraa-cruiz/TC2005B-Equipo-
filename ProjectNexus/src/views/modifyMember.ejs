@@ -17,19 +17,25 @@
 
         </div>
         <div class="w-96 flex items-center mx-12 mt-8 mb-24">
-            <i class='bx bx-user-circle text-[3rem]'></i>
-            <h1 class="text-xl pl-3">Create Member</h1>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]"
+                 viewBox="0 0 16 16">
+                <path
+                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                <path fill-rule="evenodd"
+                      d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+            </svg>
+            <h1 class="text-xl pl-3">Modify Member</h1>
         </div>
         <br>
         <br>
-        <form id="form" class="w-full flex items-center justify-center" action="/members/create" method="POST">
+        <form id="member-form" class="w-full flex items-center justify-center" action="/members/modify/" method="POST">
             <div class="w-full md:w-1/2 px-3">
                 <div class="w-full flex justify-end md:w-1/2 px-3 mb-1">
                     <a target="grid-first-name"
                        class="appearance-none flex items-center justify-between w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
                         <input class="bg-transparent border-none p-0 w-full focus:outline-none" id="member_name"
                                name="userName" type="text"
-                               placeholder="Name" required>
+                               placeholder="Name" value="<%=name%>" required>
                         <i class='bx bx-user'></i>
                     </a>
                     <div class="">
@@ -42,7 +48,7 @@
                        class="appearance-none flex items-center justify-between w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
                         <input class="bg-transparent border-none p-0 w-full focus:outline-none" id="email" name="email"
                                type="email"
-                               placeholder="Email" required>
+                               placeholder="Email" value="<%=email%>" required>
                         <i class='bx bx-envelope'></i>
                     </a>
                     <div class="">
@@ -53,11 +59,16 @@
 
                 <!--Dropdown of epics-->
                 <div class="w-full md:w-1/2 px-3 mb-6">
-                    <select name="team" id="area" form="form"
+                    <select name="team" id="area" form="member-form"
                             class="appearance-none flex items-center justify-between w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
-                        <option selected>Area</option>
-                        <option value="BE">Backend</option>
-                        <option value="FE">Frontend</option>
+                        <%if (team === 'BE'){%>
+                            <option value="BE" selected>Backend</option>
+                            <option value="FE">Frontend</option>
+                        <%}%>
+                        <%if (team === 'FE'){%>
+                            <option value="BE">Backend</option>
+                            <option value="FE" selected>Frontend</option>
+                        <%}%>
                     </select>
                 </div>
             </div>
@@ -66,7 +77,7 @@
 
 
     <div class="grid justify-items-center">
-        <button type="button" onclick="createMember()"
+        <button type="button" onclick="modifyMember()"
                 class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline">
             Save
         </button>

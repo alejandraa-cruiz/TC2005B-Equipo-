@@ -1,7 +1,7 @@
 const createMember = () => {
   const form = document.getElementById('form');
   const data = new FormData(form);
-  fetch('/createMember/create',{
+  fetch('/members/create',{
     method: 'POST',
     body: data,
   }).then(res=>res.json()).then(res => {
@@ -38,7 +38,7 @@ const createMember = () => {
         break;
         
       case 'There is a member with the same email':
-        messagge.innerText='There is a member with the same email';
+          messagge.innerText='There is a member with the same email';
         alertErr.classList.remove('hidden');
         setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
         break;
@@ -46,3 +46,38 @@ const createMember = () => {
      form.reset();
     });
 };
+
+const modifyMember = () =>{
+  const form = document.getElementById('member-form');
+  const data = new FormData(form);
+  fetch(window.location.pathname,{
+    method: 'POST',
+    body: data,
+  }).then(res=>res.json()).then(res=>{
+    let messages = res.e;
+    if (messages === 'Success!'){
+      messagge.innerText = 'Success!';
+      alertSucc.classList.remove('hidden');
+      setTimeout(function () {
+        alertSucc.classList.add('hidden')
+      }, 3000);
+      setTimeout(()=>{
+        location.href = '/members'
+      }, 1000);
+    }
+    else if (messages === 'Invalid email'){
+      messagge.innerText = 'Invalid email';
+      alertErr.classList.remove('hidden');
+      setTimeout(function () {
+        alertErr.classList.add('hidden')
+      }, 3000)}
+
+    else if (messages === 'Name can´t be empty'){
+        messagge.innerText = 'Name can´t be empty';
+        alertErr.classList.remove('hidden');
+        setTimeout(function () {
+          alertErr.classList.add('hidden')
+        }, 3000);
+    }
+  })
+}

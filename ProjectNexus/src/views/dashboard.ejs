@@ -1,0 +1,389 @@
+<!--
+File name: home.ejs
+Developed by: Alejandra Cabrera A01704463 and Azul Rosales A01706348
+Started on: 06-04-23-->
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs') %>
+
+<body class="font-inter">
+    <%- include('partials/leftNavigation.ejs', {
+        error: error
+    }) %>
+    <main id="main-content" 
+          class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen overflow-scroll
+          p-6 break-words phone:left-0 phone:w-full">
+        <div id="content-wrapper">
+            <!-- Content goes here -->
+            <div class="flex justify-center">
+                <%- include('partials/message-errors.ejs') %>
+            </div>
+            <div class="flex justify-end">
+                <img class="w-20" src="images/dh_logo.png" alt="">
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="grid justify-center">
+                    Burnup chart
+                </div>
+
+                <div class="grid justify-left ml-64">
+                    <div class="flex flex-row">
+                        <div>
+                            Backend Missing Points: <%= backendPoints.story_points_missing %>
+                        <br>
+                            Backend Done Points: <%= backendPoints.story_points_done %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid justify-center items-center">
+                    <div style="width: 600px;">
+                        <canvas id="burnup_chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid justify-left ml-64">
+                    <div style="width:300px;">
+                        <canvas id="backend-points"></canvas>
+                        Frontend Done Points: <%= frontendPoints.story_points_fe_total_done %>
+                        <br>
+                        Frontend Missing Points: <%= frontendPoints.story_points_fe_missing %>
+                        <canvas id="frontend-points"></canvas>
+                        Team Weeks: 6
+                        <canvas id="team-weeks"></canvas>
+                    </div>
+                </div>
+                
+                <div class="grid justify-center mt-12">
+                    Estimate vs.Progress
+                </div>
+
+                <div class="grid justify-center mt-12">
+                    Ticket Status Overview
+
+                </div>
+
+                <div class="grid justify-center">
+                    <div style="width: 370px;">
+                        <canvas id="estimate-progress"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid justify-center">
+                    <div style="width: 370px;">
+                        <canvas id="ticket_status"></canvas>
+                    </div>
+                    
+                </div>
+
+            </div>
+        
+        </div>
+    </main>
+    <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
+    <!-- <script defer src="scripts/index.min.js" type="text/javascript"></script> -->
+    <script defer src="scripts/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <script src ="./scripts/charts.js"></script> -->
+    <script>
+        const ticket_status= document.getElementById('ticket_status');
+        const burnup_chart= document.getElementById('burnup_chart');
+   
+
+        //Burnup Chart
+        new Chart(burnup_chart,{
+            type:'line',
+            data:{
+                labels: [<%= burnupChart.weeks %>],
+                datasets:[
+                    {
+                    label:'Goal Points',
+                    data: [<%= burnupChart.goal_points %>],
+                    borderColor://azul marino
+                    'rgb(1, 41, 95)',
+                    backgroundColor://azul marino
+                    'rgb(1, 41, 95)',
+                    },
+                    {
+                    label:'Points Done',
+                    data:[<%= burnupChart.points_done %>],
+                    borderColor://tverde olivo
+                    'rgb(132,147,36)',
+                    backgroundColor://tverde olivo
+                    'rgb(132,147,36)'
+                    },
+                    {
+                    label:'Scope Points',
+                    data:[<%= burnupChart.scope %>],
+                    borderColor://azul teal
+                    'rgb(67,127,151)',
+                    backgroundColor://azul teal
+                    'rgb(67,127,151)',
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+                interaction: {
+                mode: 'index',
+                intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels:{
+                            padding: 30,
+                            usePointStyle: true
+                        }     
+                    }
+                },
+            }
+        })
+
+        //Ticket Status Chart
+        new Chart(ticket_status, {
+            type: 'doughnut',
+            data: {
+            labels: ['Done', 'To Do', 'In Progress', 'Code Review', 'Closed'],
+            datasets: [{
+                label: 'Ticket Percentage',
+                data: [<%= ticket_status.done %>, <%= ticket_status.to_do %>, <%= ticket_status.code_review %>, <%= ticket_status.in_progress %>, <%= ticket_status.canceled %>],
+                backgroundColor: [
+                    //azul marino
+                    'rgb(1, 41, 95)',
+                    //azul teal
+                    'rgb(67,127,151)',
+                    //tverde olivo
+                    'rgb(132,147,36)',
+                    //amarillo
+                    'rgb(255, 179, 15)',
+                    //rojo
+                    'rgb(253, 21, 27)',
+
+                ],
+                hoverOffset: 4
+            }]
+            },
+            
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels:{
+                            padding: 40,
+                            usePointStyle: true
+                        }     
+                    }
+                }
+            }
+        });
+
+        // Estimate vs Progress Chart
+        new Chart(
+        document.getElementById('estimate-progress'),{
+            type: 'bar',
+            options: {
+            scales: {
+                x: {
+                stacked: true
+                },
+                y: {
+                stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                display: true,
+                position: 'bottom',
+                labels:{
+                    padding: 40,
+                    usePointStyle: true
+                } 
+                }
+            },
+            responsive: true,
+            aspectRatio: 1
+            },
+            
+            data: {
+            <% let epics = estimateProgressChart.epics.map(item => JSON.stringify(item)) %>
+            labels: [<%- epics %>],
+
+            datasets: [{
+                label: 'Progress',
+                data: [<%= estimateProgressChart.progress %>],
+                backgroundColor: [
+                    //azul marino
+                    'rgb(1, 41, 95)',
+                    //azul teal
+                    'rgb(67,127,151)',
+                    //tverde olivo
+                    'rgb(132,147,36)',
+                    //amarillo
+                    'rgb(255, 179, 15)',
+                    //rojo
+                    'rgb(253, 21, 27)',
+                ]
+            },{
+                label: 'Estimate',
+                data: [<%= estimateProgressChart.estimate %>],
+                backgroundColor: //tailwind gray-200
+                'rgb(229, 231, 235)',
+                hoverBackgroundColor: "#C1C1C2"
+            }]
+            }
+        }
+        );
+
+        
+
+        // Backend Points
+        new Chart(
+        document.getElementById('backend-points'),{
+            type: 'bar',
+            options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                stacked: true
+                },
+                y: {
+                stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                display: true,
+                position: 'bottom',
+                labels:{
+                    usePointStyle: true
+                } 
+                }
+            },
+            responsive: true,
+            aspectRatio: 3
+            },
+            
+            data: {
+            labels: [""],
+
+            datasets: [
+
+                <% backendPoints.epics.forEach((epic,index) => {%>
+                {
+                    label: '<%= backendPoints.epics[index] %>',
+                    data: [<%= backendPoints.tickets_done_be_by_epic[index] %>],
+                    backgroundColor: '<%=backendPoints.colors[index]%>'
+                },
+                <%});%>
+            {
+                label: 'Missing',
+                data: [<%= backendPoints.story_points_missing %>],
+                backgroundColor: //tailwind gray-300
+                'rgb(209, 213, 219)'
+            }]
+            }
+        }
+        );
+
+        // Frontend Points
+        new Chart(
+        document.getElementById('frontend-points'),{
+            type: 'bar',
+            options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                stacked: true
+                },
+                y: {
+                stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                display: true,
+                position: 'bottom',
+                labels:{
+                    usePointStyle: true
+                } 
+                }
+            },
+            responsive: true,
+            aspectRatio: 3
+            },
+            
+            data: {
+            labels: [""],
+
+            datasets: [
+                <% frontendPoints.epics.forEach((epic,index) => {%>
+                {
+                    label: '<%= frontendPoints.epics[index] %>',
+                    data: [<%= frontendPoints.story_points_fe_done[index] %>],
+                    backgroundColor: '<%=frontendPoints.colors[index]%>'
+                },
+                <%});%>
+            {
+                label: 'Missing',
+                data: [<%= frontendPoints.story_points_fe_missing %>],
+                backgroundColor: //tailwind gray-300
+                'rgb(209, 213, 219)'
+            }
+             ]
+            }
+        }
+        );
+
+        new Chart(
+        document.getElementById('team-weeks'),{
+            type: 'bar',
+            options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                stacked: true
+                },
+                y: {
+                stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                display: true,
+                position: 'bottom',
+                labels:{
+                    usePointStyle: true
+                } 
+                }
+            },
+            responsive: true,
+            aspectRatio: 3
+            },
+            
+            data: {
+            labels: [""],
+
+            datasets: [{
+                label: 'Frontend',
+                data: [<%= teamWeeks.agile_points_fe%>],
+                backgroundColor: //azul marino
+                    'rgb(1, 41, 95)',
+            },{
+                label: 'Backend',
+                data: [<%= teamWeeks.agile_points_be%>],
+                backgroundColor://amarillo
+                    'rgb(255, 179, 15)',
+            }]
+            }
+        }
+        );
+
+    console.log(epics);
+    </script>
+</body>
+</html>
