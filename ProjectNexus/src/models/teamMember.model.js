@@ -1,4 +1,5 @@
 const db = require("../utils/database");
+const { delete_by_id } = require("./project.model");
 
 module.exports = class TeamMember {
     constructor(teamMember) {
@@ -69,6 +70,22 @@ module.exports = class TeamMember {
     static fetch_all_by_id(id){
         let query = 'SELECT email, member_name, team FROM teamMember WHERE id_team_member = ? ';
         return db.execute(query,[id]);
+    }
+
+    static delete_by_id(id) {
+        let query = 'DELETE From teamMember';
+        if (id > 0) {
+            query += ' WHERE id_team_member = ?';
+            return db.execute(query, [id]);
+        }
+    }
+
+    static delete_by_name(name) {
+        let query = 'DELETE From teamMember';
+        if (name != "") {
+            query += 'WHERE member_name = ?';
+            return db.execute(query, [name]);
+        }
     }
 
     static update_by_id(name, email, team, id){

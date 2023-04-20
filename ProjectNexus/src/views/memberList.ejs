@@ -51,8 +51,9 @@ Date: Ended April 13th, 2023-->
                         </tr>
                     </thead>
                     <tbody id="member-table">
-                        <% members.forEach(member=>{
-                            if (member.team == "FE"){%>
+                        <% members.forEach((member, index)=>{ %>
+                            <%- include('partials/cancel-popup-member.ejs', {member: member, popupId: index}) %>
+                            <% if (member.team == "FE"){%>
                                 <tr class="h-20 border-b-2 border-white">
                                     <td class="flex">
                                         <span class= "pt-6 max-w-[12rem] overflow-hidden break-words phone:max-w-[8rem]">
@@ -77,7 +78,8 @@ Date: Ended April 13th, 2023-->
 
                                     </td>
                                     <td>
-                                            <button class= "ml-11 flex flex-row justify-center break-words hover:bg-red-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
+                                            <button onclick="openPopup('<%=index%>')"
+                                            class= "ml-11 flex flex-row justify-center break-words hover:bg-red-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-trash phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]"
                                                      viewBox="0 0 16 16">
                                                     <path
@@ -88,7 +90,7 @@ Date: Ended April 13th, 2023-->
                                             </button>
                                     </td>
                                 </tr>
-                            <%}
+                            <%} 
                             else{ %>
                                 <tr class="h-20 border-b-2 border-white">
                                     <td class="flex">
@@ -115,7 +117,8 @@ Date: Ended April 13th, 2023-->
 
                                     </td>
                                     <td>
-                                        <button class= "ml-11 justify-center break-words hover:bg-red-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
+                                        <button onclick="openPopup('<%=index%>')"
+                                                class= "ml-11 justify-center break-words hover:bg-red-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-trash phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]"
                                                  viewBox="0 0 16 16">
                                                 <path
@@ -143,6 +146,7 @@ Date: Ended April 13th, 2023-->
     <!-- <script defer src="scripts/index.min.js" type="text/javascript"></script> -->
     <script defer src="/scripts/index.js"></script>
     <script defer src="/scripts/searchMember.js"></script>
+    <script defer src="/scripts/popUp.js"></script>
     
 </body>
 </html>
