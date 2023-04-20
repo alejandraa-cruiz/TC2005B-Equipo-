@@ -34,7 +34,7 @@ module.exports = class TeamMember {
     }
 
     static fetch_unassigned(project_id) {
-        let query = `SELECT member_name FROM teamMember WHERE id_team_member NOT IN (SELECT id_team_member 
+        let query = `SELECT member_name, id_team_member FROM teamMember WHERE id_team_member NOT IN (SELECT id_team_member 
             FROM project_teamMember
             WHERE id_project = ?)`;
         return db.execute(query, [project_id]);

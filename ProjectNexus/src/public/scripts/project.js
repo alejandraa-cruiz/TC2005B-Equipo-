@@ -1,4 +1,3 @@
-
 const alertProject = document.getElementById("alert");
 const alertSuccProjectErrors = document.getElementById("alertSucc");
 const messaggeProjectErrors = document.getElementById("message-error");

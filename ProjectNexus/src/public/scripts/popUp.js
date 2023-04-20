@@ -11,6 +11,16 @@ function openPopup(index) {
     popup.classList.toggle("hidden");
 }
 
+function sendMembers(index){
+
+    const form = document.getElementById(`update-member-form-${index}`);
+    const data = new FormData(form);
+  fetch(`update/${index}`,{
+    method: 'PATCH',
+    body: data,
+  }).then(res=>res.json())
+}
+
 function getMembers (project_id) {
     let memberList = document.getElementById("dropDownMembers")
     fetch(`/project/list/members/${project_id}`,{
@@ -24,8 +34,8 @@ function getMembers (project_id) {
             memberList.innerHTML += `
             
             <li onclick="event.stopPropagation()" class="text-[14px] hover:cursor-pointer p-2 hover:bg-slate-50 hover:border-gray-500 duration-500">
-                <input type="checkbox" name="${member.member_name}" id="${member.member_name}"  >
-                <label for="${member.member_name}">${member.member_name}</label>
+                <input type="checkbox" name="${member.id_team_member}" id="${member.id_team_member}"  >
+                <label for="${member.id_team_member}">${member.member_name}</label>
             </li>
             `
             console.log(member)

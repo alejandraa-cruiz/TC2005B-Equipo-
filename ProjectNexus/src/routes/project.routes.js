@@ -12,6 +12,7 @@ router.get('/list', requiresAuth(), ProjectController.getListProjects);
 router.delete('/delete/:project', requiresAuth(), ProjectController.deleteProject);
 router.get('/modify/:project',requiresAuth(),ProjectController.modifyProject);
 router.post('/modify/:project',requiresAuth(),ProjectController.modifyProjectPost);
+router.patch('/update/:project',requiresAuth(),ProjectController.updateMembers);
 router.get('/', requiresAuth(), ProjectController.project);
 
 module.exports = router;
