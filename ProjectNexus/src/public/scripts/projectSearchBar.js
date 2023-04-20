@@ -98,7 +98,7 @@ function searchProject(value){
     })
 }
 function openPopupSearchProject(index, project_name, project_id) {
-    divContainer.innerHTML += `<div id="popup-${index}>" class="delete-cancel-popup absolute content-center text-center items-center top-1/2 mx-auto w-full">
+    divContainer.innerHTML += `<div id="popup-search-${index}>" class="popup-cancel-delete absolute content-center text-center items-center top-1/2 mx-auto w-full">
                     <div class="flex flex-wrap justify-center w-full">
                         <div class=" flex flex-wrap justify-start">
                             <form>
@@ -111,7 +111,7 @@ function openPopupSearchProject(index, project_name, project_id) {
                                     class="shadow-md bg-mainBg text-red-500 rounded-lg p-2 hover:bg-red-500 hover:text-zinc-100 duration-200">
                                             Delete
                                     </button>
-                                    <button id="cancel-project-button"
+                                    <button onclick="closePopupSearch('${index}', event)"
                                     class=" shadow-md bg-mainBg text-red-500 rounded-lg p-2  hover:bg-gray-400 hover:text-zinc-100  duration-200">
                                         Cancel
                                     </button>
@@ -120,4 +120,24 @@ function openPopupSearchProject(index, project_name, project_id) {
                         </div>
                     </div>
                 </div>`;
+    closeByEscapeSearch();
+}
+
+function closeByEscapeSearch(){
+    const popup = document.getElementsByClassName('popup-cancel-delete');
+    if(popup[0] != null){
+        const handleKeyDown = function (event) {
+            if (event.key === 'Escape') {
+                popup[0].remove();
+                document.removeEventListener('keydown', handleKeyDown);
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+    }
+}
+
+function closePopupSearch(index, event){
+    event.preventDefault();
+    const popup = document.getElementsByClassName('popup-cancel-delete');
+    popup[0].remove();
 }
