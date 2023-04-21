@@ -108,7 +108,6 @@ exports.file = async (req, res) => {
         // If everything goes to plan, we commit the changes on the database and
         // send a success message.
         await connection.commit();
-        console.log('insertedEpics:', insertedEpics, '\ninsertedTickets:', insertedTickets, '\nupdatedTickets:', updatedTickets);
         res.json({e: 'Success'});
 
     } catch (e) {
