@@ -5,26 +5,21 @@ module.exports = class Epic {
         this.id_project = Epic.id_project || null;
         this.epic_link = Epic.epic_link;
     }
-
-    save() {
-        let query = `INSERT INTO epic (epic_link) 
-                     SELECT ?
-                     WHERE (SELECT count(epic_link) 
-                            FROM epic WHERE epic_link = ? FOR UPDATE) = 0;`;
-        return db.execute(query, [this.epic_link, this.epic_link]);
-    }
+    
     /**
      * Saves epics uniquely with the given connection
      * @param {PoolConnection} connection 
      * @returns 
      */
-    save(connection) {
+    save(connection = db) {
         let query = `INSERT INTO epic (epic_link) 
                      SELECT ?
                      WHERE (SELECT count(epic_link) 
                             FROM epic WHERE epic_link = ? FOR UPDATE) = 0;`;
         return connection.execute(query, [this.epic_link, this.epic_link]);
     }
+    
+    
 
     /**
      * Toma una lista con los nombres de las epics e inserta solo los que no 
@@ -36,7 +31,8 @@ module.exports = class Epic {
         let query = `
                 INSERT INTO epic (epic_link) 
                 SELECT ? 
-                WHERE (SELECT count(epic_link) FROM epic WHERE epic_link = ? FOR UPDATE) = 0`;
+                WHERE (SELECT count(epic_link) 
+                       FROM epic WHERE epic_link = ? FOR UPDATE) = 0`;
         const connection = await db.getConnection();
         try {
             await connection.beginTransaction();
@@ -77,7 +73,8 @@ module.exports = class Epic {
     }
 
     static  fetch_modify_epics(id){
-        let query = `SELECT * FROM epic WHERE id_project  = ? UNION SELECT * FROM epic WHERE id_project IS NULL`
+        let query = `SELECT * FROM epic WHERE id_project  = ? 
+                     UNION SELECT * FROM epic WHERE id_project IS NULL`
         return db.execute(query, [id]);
     }
 
