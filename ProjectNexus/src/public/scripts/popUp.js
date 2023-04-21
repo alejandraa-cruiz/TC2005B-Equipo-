@@ -6,22 +6,53 @@ const alertDelProject = document.getElementById("alert");
 const alertSuccDelProjectErrors = document.getElementById("alertSucc");
 const messaggeDelError = document.getElementById("message-error");
 const messaggeSuccDel = document.getElementById("message-success");
+
+let popupOpen = false;
+let handleKeyDown;
 function openPopup(index, event) {
     event.preventDefault();
+    if(popupOpen){
+        return;
+    }
+    popupOpen = true;
     const popup = document.getElementById(`popup-${index}`);
     popup.classList.toggle("hidden");
     closeByEscape(index);
 }
-
-function closeByEscape(index){
+function closePopup(index, event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const popup = document.getElementById(`popup-${index}`);
+    popup.classList.toggle("hidden");
+    popupOpen = false;
+    document.removeEventListener('keydown', handleKeyDown);
+}
+function closeByEscape(index) {
     const popup = document.getElementById(`popup-${index}`);
     const computedStyle = window.getComputedStyle(popup);
-    if(computedStyle.display !== 'none'){
-        const handleKeyDown = function(event) {
-            if (event.key === 'Escape'){
+    if (computedStyle.display !== 'none' && popupOpen) {
+        handleKeyDown = function (event) {
+            if (event.key === 'Escape') {
+                console.log("Escape: ");
                 event.stopImmediatePropagation();
                 popup.classList.toggle('hidden');
                 document.removeEventListener('keydown', handleKeyDown);
+                popupOpen = false;
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+    }
+}
+function closeByEscapeMember(index) {
+    const popupMember = document.getElementById(`popupMember-${index}`);
+    const computedStyleMember = window.getComputedStyle(popupMember);
+    if (computedStyleMember.display !== 'none' && popupOpen) {
+        handleKeyDown = function (event) {
+            if (event.key === 'Escape') {
+                event.stopImmediatePropagation();
+                popupMember.classList.toggle('hidden');
+                document.removeEventListener('keydown', handleKeyDown);
+                popupOpen = false;
             }
         };
         document.addEventListener('keydown', handleKeyDown);
@@ -62,7 +93,7 @@ function getMembers (project_id, index) {
         `} else{
             res.members.forEach(member => {
                 memberList.innerHTML += `
-                    <li onclick="event.stopPropagation()" class="text-[14px] hover:cursor-pointer hover:bg-slate-50 hover:border-gray-500 duration-500 p-2">
+                    <li onclick="event.stopPropagation()" class=" p-2 text-[14px] hover:text-zinc-950 hover:cursor-pointer hover:bg-gray-400 hover:border-gray-500 hover:rounded-md duration-500">
                         <input type="checkbox" name="${member.id_team_member}" id="${member.id_team_member}"  >
                         <label for="${member.id_team_member}">${member.member_name}</label>
                     </li>
@@ -74,17 +105,18 @@ function getMembers (project_id, index) {
 
 function openPopupMember(index, project_id, event) {
     event.preventDefault();
+    if (popupOpen) {
+        return;
+    }
+    popupOpen = true;
     const popup = document.getElementById(`popupMember-${index}`);
     popup.classList.toggle("hidden");
     getMembers(project_id, index);
+    closeByEscapeMember(index);
 }
 
-function closePopup(index, event) {
-    event.preventDefault();
-    const popup = document.getElementById(`popup-${index}`);
-    popup.classList.toggle("hidden");
-}
-function deleteProject(project_name){
+function deleteProject(project_name, event){
+    event.stopImmediatePropagation();
     fetch(`/project/delete/${project_name}`,{
         method: 'DELETE'
     })
@@ -155,4 +187,6 @@ function deleteMember (id) {
     event.preventDefault();
     const popup = document.getElementById(`popupMember-${index}`);
     popup.classList.toggle("hidden");
+    document.removeEventListener('keydown', handleKeyDown);
+    popupOpen = false;
  }
