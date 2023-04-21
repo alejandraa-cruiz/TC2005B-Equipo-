@@ -72,7 +72,7 @@ module.exports = class TeamMember {
     }
 
     static update_by_id(name, email, team, id){
-        let query = 'UPDATE teamMember SET member_name = ?, email = ?, team = ? WHERE id_team_member = ?'
-        return db.execute(query,[name, email, team, id]);
+        let query = 'UPDATE teamMember SET member_name = ?, email = ?, team = ? WHERE id_team_member = ? AND (SELECT count(*) FROM teamMember WHERE member_name = ?) = 0'
+        return db.execute(query,[name, email, team, id, name]);
     }
 }
