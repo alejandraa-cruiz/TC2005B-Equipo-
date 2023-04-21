@@ -11,18 +11,15 @@
                     </span>
                 </div>
             </section>
-            <section class="mt-9">
-                <ul class="[&>li]:cursor-pointer [&>li]:mb-2">
+            <section class=" mt-8">
+                <ul class="[&>li]:mb-1">
                     <li>
-                        <button class="transition duration-300 hover:rounded-sm hover:bg-mainBg">
-                            <i class='bx bx-chevron-right'></i>
+                        <button class="cursor-pointer transition duration-300 hover:rounded-md hover:bg-mainBg ml-3 p-1">
                             <a href="/members"> Team Members</a>
                         </button>
                     </li>
                     <li>
-                        <button class="transition duration-300 hover:rounded-sm hover:bg-mainBg">
-                            <i class='bx bx-chevron-right'></i>
-                            <i class='bx bx-folder'></i>
+                        <button class="cursor-pointer transition duration-300 hover:rounded-md hover:bg-mainBg ml-3 p-1">
                             <a href="/project/list"> Projects</a>
                         </button>
                     </li>
@@ -30,20 +27,20 @@
                 <h3 class="mt-5 ml-2 mb-2 font-extralight">Dashboards</h3>
                 <div class="w-full flex flex-col appearance-none justify-start items-start">
                     <div class="flex-initial">
-                        <button class="transition duration-300 hover:rounded-sm hover:bg-mainBg" onclick="dropDownButtonProjects(event)" target="dropDownProjects">
+                        <button class="transition duration-300 hover:rounded-md hover:bg-mainBg p-1" onclick="dropDownButtonProjects(event)" target="dropDownProjects">
                             <i class='bx bx-chevron-right'></i>
                             <i class='bx bx-folder'></i>
                             <a> Projects</a>
                         </button>
                     </div>
                     <ul id="dropDownProjects" class="justify-center hidden appearance-none ml-5">
-                        <li class="transition duration-300 hover:rounded-sm hover:bg-mainBg">
+                        <li class="transition duration-300 hover:rounded-md hover:bg-mainBg">
                             <i class='bx bx-bar-chart-square'></i>
                             <a href="/dashboard/">Main</a>
                         </li>
                         <% if(projects) { %>
                             <% projects.forEach(elem=> { %>
-                                <li class="transition duration-300 hover:rounded-sm hover:bg-mainBg">
+                                <li class="transition duration-300 hover:rounded-md hover:bg-mainBg">
                                     <i class='bx bx-bar-chart-square'></i>
                                     <a href="/dashboard/<%= elem.id_project %>">
                                         <%= elem.project_name %>
@@ -53,10 +50,12 @@
                         <%} %>
                     </ul>
                 </div>
-                <ul class="[&>li]:cursor-pointer [&>li]:mb-2">
-                    <li>
-                        <i class="bx bx-plus"></i>
-                        <a href="/project/">Create Project</a>
+                <ul class="[&>li]:mb-1">
+                    <li class="">
+                        <button class="transition duration-300 hover:rounded-md hover:bg-mainBg p-1">
+                            <i class="bx bx-plus hover:cursor-pointer"></i>
+                            <a href="/project/">Create Project</a>
+                        </button>
                     </li>
                 </ul>
             </section>
