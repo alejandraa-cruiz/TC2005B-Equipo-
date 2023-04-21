@@ -27,9 +27,9 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
     border: 5px solid transparent;
-  border-radius: 100px;
-  background-color: #535353;
-  background-clip: content-box;
+    border-radius: 100px;
+    background-color: #535353;
+    background-clip: content-box;
     /* background-color: #535353;
     border-radius: 100px; */
 }
