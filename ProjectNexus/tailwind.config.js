@@ -7,8 +7,8 @@ module.exports = {
             "./node_modules/tw-elements/dist/js/**/*.js"],
   theme: {
     screens: {
-      'phone': {'max': '640px'},
-      'tablet':{'max': '768px'},
+      'phone': {'max': '700px'},
+      'tablet':{'max': '1200px'},
       'laptop': {'min': '1024px'},
       'desktop': {'min': '1280px'},
     },

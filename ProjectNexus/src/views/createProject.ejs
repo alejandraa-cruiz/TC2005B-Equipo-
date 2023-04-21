@@ -71,7 +71,7 @@
                                         <% Epics.forEach((epic, index)=> { %>
                                             <li onclick="event.stopPropagation()" class="text-[14px] hover:cursor-pointer p-2 hover:bg-slate-50 hover:border-gray-500 duration-500">
                                                 <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>"  >
-                                                <label for="<%=epic.epic_link%>"><%=epic.epic_link%></label>
+                                                <label for="<%=epic.epic_link%>"><%=epic.epic_title%></label>
                                             </li>
                                         <%})%>
                                     </ul>

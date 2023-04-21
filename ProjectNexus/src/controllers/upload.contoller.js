@@ -51,7 +51,6 @@ exports.file = async (req, res) => {
     }
 
     const dataset = TicketDataset.parseCSV(buff.toString());
-
     // We handle if the csv parser fails parsing the file
     if (dataset instanceof RangeError){
         res.status(400).json({e: 'Rows aren\'t the same lenght'});
