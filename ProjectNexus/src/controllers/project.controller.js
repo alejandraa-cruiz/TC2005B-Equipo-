@@ -203,15 +203,31 @@ exports.postProject = async (req, res) => {
     let Projects;
     // Fetch the project name
     let query = req.query.projectName;
+    let flag = false;
     // Fetch only the projects were the logged in user
     // is assigned to
     // Projects assigned by current user
     if(query){
         [Projects] = await ProjectTeam.fetch_projects_assigned_search_bar(query);
+        if(Projects.length === 0){
+            [Projects] = await ProjectTeam.fetch_projects_unassinged_search_bar(query);
+        }
         // No projects assigned found on submit by current user
         // May want to create a project
     } else{
-        [Projects] = await ProjectTeam.fetch_all_projects_count_team();
+        let [assigned] = await ProjectTeam.fetch_count_members_assigned();
+        let [unassigned] = await ProjectTeam.fetch_unassigned_no_query();
+        unassigned.forEach((project, index)=>{
+            unassigned[index].count_team_members = 0;
+        })
+        let combined = [...assigned, ...unassigned];
+        Projects = combined;
+    } 
+    if(flag){
+        Projects.forEach((project, index)=>{
+            Projects[index].count_team_members = 0;
+        })
+        flag = false;
     }
     res.json({Projects: Projects});
 }

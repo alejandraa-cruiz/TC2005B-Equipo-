@@ -1,4 +1,5 @@
 let divContainer = document.getElementById('containerList');
+let popupOpenSearch = false;
 function searchProject(value){
     // const popUpDeleteByIndex = document.getElementById('popup-${index}')
     fetch(`/project/list/search?projectName=${value}`,{
@@ -41,21 +42,23 @@ function searchProject(value){
                                 <div class="w-1/5 flex flex-row justify-center content-center">
                                     <div class="flex flex-row w-full justify-center content-center items-center">
                                         <div class= "hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] justify-self-center laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]" 
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                            <path d="M16 19h6"></path>
-                                            <path d="M19 16v6"></path>
-                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
-                                            </svg>
+                                            <button onclick="openPopupMemberSearchBar('${index}', '${project.id_project}', '${project.project_name}', event)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] justify-self-center laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]" 
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                <path d="M16 19h6"></path>
+                                                <path d="M19 16v6"></path>
+                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="w-1/5 flex flex-row justify-center content-center items-center">
                                     <div class= "flex flex-row justify-center break-words hover:bg-slate-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
-                                        <button>
+                                        <button onclick="location.href='/project/modify/${project.id_project}'">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]"
                                                 viewBox="0 0 16 16">
                                                 <path
@@ -68,7 +71,7 @@ function searchProject(value){
                                 </div>
                                 <div class="w-1/5 flex flex-row justify-center content-center items-center">
                                     <div class= "flex flex-row justify-center break-words hover:bg-red-500 rounded-lg p-[0.20rem] hover:cursor-pointer  text-zinc-900 duration-200">
-                                        <button onclick="openPopupSearchProject('${index}', '${project.project_name}', '${project.id_project}')">
+                                        <button onclick="openPopupSearchProject('${index}', '${project.project_name}', '${project.id_project}', event)">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-trash phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]"
                                             viewBox="0 0 16 16">
                                             <path
@@ -97,7 +100,12 @@ function searchProject(value){
             }
     })
 }
-function openPopupSearchProject(index, project_name, project_id) {
+function openPopupSearchProject(index, project_name, project_id, event) {
+    event.preventDefault();
+    if(popupOpenSearch){
+        return
+    }
+    popupOpenSearch = true;
     divContainer.innerHTML += `<div id="popup-search-${index}>" class="popup-cancel-delete absolute content-center text-center items-center top-1/2 mx-auto w-full">
                     <div class="flex flex-wrap justify-center w-full">
                         <div class=" flex flex-wrap justify-start">
@@ -123,13 +131,49 @@ function openPopupSearchProject(index, project_name, project_id) {
     closeByEscapeSearch();
 }
 
+function openPopupMemberSearchBar(index, id_project, project_name, event){
+    event.preventDefault();
+    if (popupOpenSearch) {
+        return
+    }
+    popupOpenSearch = true;
+    divContainer.innerHTML += `
+       <div id="popupMember-search-${index}" class="popup-cancel-delete absolute content-center text-center items-center top-1/2 mx-auto w-full z-10">
+            <div class="flex flex-row justify-center w-full relative">
+                <form id="update-member-form-${id_project}">
+                    <div class="relative bg-zinc-50 rounded-lg break-words space-x-5 p-10 space-y-4 shadow-lg">
+                        <div class="static w-full">
+                            <div class=" mb-3">
+                                <ul id="dropDownMembers-${index}" class="text-left overflow-y-auto overflow-x-clip custom-scrollbar max-h-[5.0rem] p-5 hover:opacity-90" >
+                                </ul>
+                            </div>
+                            <div class="flex gap-4 justify-center">
+                                <button id="save-member-button" onclick="sendMembers('${id_project}')"
+                                    class="shadow-md bg-mainBg text-green-500 rounded-lg p-2  hover:bg-gray-400 hover:text-zinc-100  duration-200">
+                                    Save
+                                </button>
+                                    <button id="cancel-project-button" onclick="closePopupSearch('${index}', event)"
+                                    class="shadow-md bg-mainBg text-red-500 rounded-lg p-2  hover:bg-gray-400 hover:text-zinc-100  duration-200">
+                                        Cancel
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>`;
+    getMembers(id_project, index);
+    closeByEscapeSearch();
+} 
+
 function closeByEscapeSearch(){
     const popup = document.getElementsByClassName('popup-cancel-delete');
     if(popup[0] != null){
         const handleKeyDown = function (event) {
-            if (event.key === 'Escape') {
+            if (event.key === 'Escape' && popupOpenSearch) {
                 popup[0].remove();
                 document.removeEventListener('keydown', handleKeyDown);
+                popupOpenSearch = false;
             }
         };
         document.addEventListener('keydown', handleKeyDown);
@@ -140,4 +184,5 @@ function closePopupSearch(index, event){
     event.preventDefault();
     const popup = document.getElementsByClassName('popup-cancel-delete');
     popup[0].remove();
+    popupOpenSearch = false;
 }
