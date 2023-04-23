@@ -175,6 +175,8 @@ exports.postProject = async (req, res) => {
     // Fetch every project
     const [projects] = await ProjectTeam.fetch_all();
     // Projects assigned by current user
+    const projectsPerPage = 3;
+    const page = (parseInt(req.params.index) + 1);
     if(projects.length > 0){
         // Fetch the number of team members assigned to specific project
         // Promise.All() to get list of number of team members assigned
@@ -182,11 +184,53 @@ exports.postProject = async (req, res) => {
         projects.forEach((project, index) =>{
             projects[index].count_team_members = teamMembers[index];
         })
+        const totalPages = Math.ceil(projects.length / projectsPerPage);
+        const startIndex = (page - 1) * projectsPerPage;
+        const endIndex = startIndex + projectsPerPage;
+        const sliceProjects = projects.slice(startIndex, endIndex);
         // Render project list with new key and value:
         // `{count_team_members: n}`
         res.render(__dirname + '/../views/projectsList', {
             user: userInfo,
             projects: projects,
+            sliceProjects : sliceProjects,
+            totalPages: totalPages,
+            startIndex: startIndex,
+            endIndex: endIndex,
+            totalPages: totalPages
+        });
+        // No projects assigned by current user
+    } else{
+        setTimeout(function () { res.redirect('/project') }, 3000);
+    }
+}
+exports.getListProjectsPagination = async (req, res) => {
+    // Fetch userInfo with open id connect and Auth0
+    const userInfo = await req.oidc.fetchUserInfo();
+    // Fetch every project
+    const [projects] = await ProjectTeam.fetch_all();
+    // Projects assigned by current user
+    const projectsPerPage = 3;
+    const page = (parseInt(req.params.index) + 1);
+
+    if(projects.length > 0){
+        // Fetch the number of team members assigned to specific project
+        // Promise.All() to get list of number of team members assigned
+        const teamMembers = await ProjectTeam.fetch_number_members_assigned(projects);
+        projects.forEach((project, index) =>{
+            projects[index].count_team_members = teamMembers[index];
+        })
+        const totalPages = Math.ceil(projects.length / projectsPerPage);
+        const startIndex = (page - 1) * projectsPerPage;
+        const endIndex = startIndex + projectsPerPage;
+        const sliceProjects = projects.slice(startIndex, endIndex);
+        // Render project list with new key and value:
+        // `{count_team_members: n}`
+        res.json({
+            sliceProjects: sliceProjects,
+            totalPages: totalPages,
+            startIndex: startIndex,
+            endIndex: endIndex
         });
         // No projects assigned by current user
     } else{
@@ -203,6 +247,8 @@ exports.postProject = async (req, res) => {
     let Projects;
     // Fetch the project name
     let query = req.query.projectName;
+    let startIndex = req.query.startIndex;
+    let endIndex = req.query.endIndex;
     let flag = false;
     // Fetch only the projects were the logged in user
     // is assigned to
@@ -229,7 +275,8 @@ exports.postProject = async (req, res) => {
         })
         flag = false;
     }
-    res.json({Projects: Projects});
+    const sliceProjects = Projects.slice(startIndex, endIndex);
+    res.json({Projects: sliceProjects});
 }
 
 /** 
@@ -310,7 +357,6 @@ exports.updateMembers = async (req, res) =>{
         agile_points : 0
     });
     const [rows] = await projectTeam.save();
-    console
     if (rows.affectedRows > 0) res.status(200).json({ e: 'Success!' });
     else res.status(500).json({ e: 'Database conection failed' });
 }

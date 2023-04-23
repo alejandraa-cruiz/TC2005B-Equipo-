@@ -1,8 +1,8 @@
 let divContainer = document.getElementById('containerList');
 let popupOpenSearch = false;
-function searchProject(value){
+function searchProject(value, startIndex, endIndex){
     // const popUpDeleteByIndex = document.getElementById('popup-${index}')
-    fetch(`/project/list/search?projectName=${value}`,{
+    fetch(`/project/list/search?projectName=${value}&startIndex=${startIndex}&endIndex=${endIndex}`,{
         method: `GET`
     })
     .then( res => res.json())
@@ -22,12 +22,12 @@ function searchProject(value){
                                 </div>
                                 <div class="w-1/5 flex flex-row justify-center">
                                     <div class="flex flex-row justify-center laptop:w-3/5 desktop:3/5 tablet:w-10/12 items-center">
-                                        <div class="w-full bg-members rounded-lg break-words text-teal-800 tablet:p-[0.125rem] p-[0.150rem]">
+                                        <div class="w-full bg-members-bg-green rounded-lg break-words text-teal-800 tablet:p-[0.125rem] p-[0.150rem]">
                                             <p class="justify-self-center text-center break-words select-text phone:text-[0.60rem] tablet:text-[0.65rem] laptop:text-[1.250rem] desktop:text-[1rem]">
                                                 ${project.count_team_members} Members
                                             </p>
                                         </div>
-                                        <div class="break-words hover:bg-members rounded-lg p-[0.150rem] hover:cursor-pointer text-teal-800 duration-200">
+                                        <div class="break-words hover:bg-members-bg-green rounded-lg p-[0.150rem] hover:cursor-pointer text-teal-800 duration-200">
                                             <svg class="phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem] icon icon-tabler icon-tabler-user-edit" xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                 stroke-linejoin="round">
@@ -41,7 +41,7 @@ function searchProject(value){
                                 </div>
                                 <div class="w-1/5 flex flex-row justify-center content-center">
                                     <div class="flex flex-row w-full justify-center content-center items-center">
-                                        <div class= "hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
+                                        <div class= "hover:bg-members-bg-green rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
                                             <button onclick="openPopupMemberSearchBar('${index}', '${project.id_project}', '${project.project_name}', event)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] justify-self-center laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]" 
                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
