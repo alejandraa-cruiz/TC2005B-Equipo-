@@ -176,7 +176,7 @@ exports.postProject = async (req, res) => {
     const [projects] = await ProjectTeam.fetch_all();
     // Projects assigned by current user
     const projectsPerPage = 3;
-    const page = (parseInt(req.params.index) + 1);
+    const page = 1;
     if(projects.length > 0){
         // Fetch the number of team members assigned to specific project
         // Promise.All() to get list of number of team members assigned
