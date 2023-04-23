@@ -3,7 +3,7 @@
     <body class="font-inter">
         <%- include('partials/leftNavigation.ejs') %>
             <main id="main-content"
-                class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen
+                class="relative left-60 w-[calc(100%-15rem)] bg-mainBg dark:bg-slate-800 dark:text-white h-screen
                     p-6 break-words phone:left-0 phone:w-full overflow-y-scroll overflow-x-hidden custom-scrollbar">
                 <div id="content-wrapper">
                     <div class="flex justify-center">
@@ -40,7 +40,7 @@
                                             </svg>
                                         </div>
                                         <input type="text"
-                                            class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
+                                            class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 dark:bg-gray-900 dark:text-white focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
                                             placeholder="Search Project" oninput="searchProject(this.value, '<%=startIndex%>', '<%=endIndex%>')">
                                     </div>
                                 </div>
@@ -57,7 +57,7 @@
                                                 </svg>
                                             </div>
                                             <input type="search" id="teamMember-search"
-                                                class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
+                                                class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 dark:bg-gray-900 dark:text-white focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
                                                 placeholder="Search Team Member" name="team-member-search">
                                         </div>
                                     </form>
