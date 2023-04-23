@@ -128,7 +128,7 @@
                                     <div class="flex flex-row justify-center laptop:w-3/5 desktop:3/5 tablet:w-10/12 items-center">
                                         <div class="w-full bg-members rounded-lg break-words text-teal-800 tablet:p-[0.125rem] p-[0.150rem]">
                                             <p class="justify-self-center text-center break-words select-text phone:text-[0.60rem] tablet:text-[0.65rem] laptop:text-[1.250rem] desktop:text-[1rem]">
-                                                <%= project.count_team_members; %> members
+                                                <%= project.count_team_members; %> Members
                                             </p>
                                         </div>
                                         <div class="break-words hover:bg-members rounded-lg p-[0.150rem] hover:cursor-pointer text-teal-800 duration-200">
@@ -196,6 +196,14 @@
                             <% }); %>
                         </div>
                     </div>
+                    <nav id="Pagination" aria-label="Page navigation" class="inset-x-0 bottom-0 mt-[2rem] flex flex-row justify-center">
+                        <ul id="ul-pagination" class="inline-flex -space-x-px shadow-lg">
+                            <li>
+                                <a href="#"
+                                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white "> 1</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </main>
                         <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
                         <script defer src="/scripts/projectSearchBar.js"></script>

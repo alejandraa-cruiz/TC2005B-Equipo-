@@ -106,28 +106,48 @@ function openPopupSearchProject(index, project_name, project_id, event) {
         return
     }
     popupOpenSearch = true;
-    divContainer.innerHTML += `<div id="popup-search-${index}>" class="popup-cancel-delete absolute content-center text-center items-center top-1/2 mx-auto w-full">
-                    <div class="flex flex-wrap justify-center w-full">
-                        <div class=" flex flex-wrap justify-start">
-                            <form>
-                                <div class=" bg-zinc-50 rounded-lg w-8/12 break-words space-x-5 p-10 space-y-4 shadow-lg">
-                                    <p class="">
-                                        Are you sure you want to delete this project?
-                                        ${project_name}
-                                    </p>
-                                    <button onclick="deleteProject('${project_id}')"
-                                    class="shadow-md bg-mainBg text-red-500 rounded-lg p-2 hover:bg-red-500 hover:text-zinc-100 duration-200">
-                                            Delete
-                                    </button>
-                                    <button onclick="closePopupSearch('${index}', event)"
-                                    class=" shadow-md bg-mainBg text-red-500 rounded-lg p-2  hover:bg-gray-400 hover:text-zinc-100  duration-200">
-                                        Cancel
-                                    </button>
+    divContainer.innerHTML += `
+                        <div id="popup-search-${index}" class="popup-cancel-delete absolute text-center mx-auto w-full top-[5%] mb-7 items-center
+                                let:h-1/2 tablet:w-full tablet:items-center
+                                phone:absolute phone:w-full phone:mx-auto phone:items-center phone:h-auto">
+                            <div class="flex flex-wrap justify-center w-full items-center
+                                tablet:w-full tablet:justify-center tablet:items-center
+                                phone:w-full phone:justify-center phone:items-center">
+                                <div class=" flex flex-wrap justify-center break-words
+                                    desktop:w-1/2
+                                    laptop:w-1/2
+                                    tablet:w-1/2
+                                    phone:justify-center phone:items-center phone:w-1/2">
+                                    <form>
+                                        <div class="flex flex-col bg-zinc-50 rounded-xl justify-center text-center
+                                                desktop:break-words desktop:space-x-5 desktop:p-10 desktop:space-y-4 shadow-lg
+                                                laptop:w-8/12 laptop:break-words laptop:space-x-5 laptop:p-5 laptop:space-y-4
+                                                tablet:p-6 tablet:text-[0.8rem] tablet:space-y-3 tablet:space-x-3
+                                                phone:p-5 phone:text-[0.7rem] phone:space-y-3 phone:space-x-3">
+                                                <div class="text-lg font-semibold">
+                                                    <p>${project_name}</p>
+                                                </div>
+                                                <div>
+                                                    <p>
+                                                        Are you sure you want to delete this project?
+                                                    </p>
+                                                </div>
+                                                <div class="space-x-3">
+                                                    <button onclick="deleteProject('${project_id}', event)"
+                                                    class="shadow-md bg-mainBg text-red-500 rounded-lg p-2 hover:bg-red-500 hover:text-zinc-100 duration-200">
+                                                            Delete
+                                                    </button>
+                                                    <button id="cancel-project-button"
+                                                    onclick="closePopupSearch('${index}', event)"
+                                                    class="shadow-md bg-mainBg text-slate-500 rounded-lg p-2  hover:bg-gray-400 hover:text-zinc-100  duration-200">
+                                                        Cancel
+                                                    </button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>`;
+                            </div>
+                        </div>`;
     closeByEscapeSearch();
 }
 
