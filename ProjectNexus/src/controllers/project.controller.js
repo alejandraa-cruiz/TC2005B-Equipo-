@@ -169,13 +169,14 @@ exports.postProject = async (req, res) => {
  * 2.- Project name doesn't exist in database
  * 3.- If connection didn't failed
  * @type {import("express").RequestHandler}
-*/exports.getListProjects = async (req, res) => {
+*/
+exports.getListProjects = async (req, res) => {
     // Fetch userInfo with open id connect and Auth0
     const userInfo = await req.oidc.fetchUserInfo();
     // Fetch every project
     const [projects] = await ProjectTeam.fetch_all();
     // Projects assigned by current user
-    const projectsPerPage = 3;
+    const projectsPerPage = 4;
     const page = 1;
     if(projects.length > 0){
         // Fetch the number of team members assigned to specific project
@@ -190,6 +191,9 @@ exports.postProject = async (req, res) => {
         const sliceProjects = projects.slice(startIndex, endIndex);
         // Render project list with new key and value:
         // `{count_team_members: n}`
+        // with the initial index 0, to the end index 3
+        // total pages depending on the number of projects fetched
+        // and the sliced projects: projects[0-3]
         res.render(__dirname + '/../views/projectsList', {
             user: userInfo,
             projects: projects,
@@ -204,13 +208,17 @@ exports.postProject = async (req, res) => {
         setTimeout(function () { res.redirect('/project') }, 3000);
     }
 }
+/** 
+ * Fetch method `GET`, get current index
+ * based on the pagination and slice
+ * projects depending on that req.param.index
+ * @type {import("express").RequestHandler} 
+*/
 exports.getListProjectsPagination = async (req, res) => {
-    // Fetch userInfo with open id connect and Auth0
-    const userInfo = await req.oidc.fetchUserInfo();
     // Fetch every project
     const [projects] = await ProjectTeam.fetch_all();
     // Projects assigned by current user
-    const projectsPerPage = 3;
+    const projectsPerPage = 4;
     const page = (parseInt(req.params.index) + 1);
 
     if(projects.length > 0){
