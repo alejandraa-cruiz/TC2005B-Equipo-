@@ -11,7 +11,7 @@ const modifyProject = () => {
         method: 'POST',
         body: data,
     }).then(res=>res.json()).then(res => {
-        let messages = res.e
+        let messages = res.e;
         switch (messages) {
             case 'Success!':
                 messagge.innerText = 'Success!';
