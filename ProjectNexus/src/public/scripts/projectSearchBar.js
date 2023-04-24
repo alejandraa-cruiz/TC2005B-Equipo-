@@ -186,7 +186,7 @@ function openPopupSearchProject(index, project_name, project_id, event) {
                                     tablet:w-1/2
                                     phone:justify-center phone:items-center phone:w-1/2">
                                     <form>
-                                        <div class="flex flex-col bg-zinc-50 dark:bg-slate-900 dark:text-white rounded-xl justify-center text-center
+                                        <div class="flex flex-col bg-zinc-50 rounded-xl justify-center text-center
                                                 desktop:break-words desktop:space-x-5 desktop:p-10 desktop:space-y-4 shadow-lg
                                                 laptop:w-8/12 laptop:break-words laptop:space-x-5 laptop:p-5 laptop:space-y-4
                                                 tablet:p-6 tablet:text-[0.8rem] tablet:space-y-3 tablet:space-x-3
@@ -230,7 +230,7 @@ function openPopupMemberSearchBar(index, id_project, project_name, event){
                 phone:absolute phone:w-full phone:mx-auto phone:items-center phone:h-auto">
             <div class="flex flex-row justify-center w-full relative">
                 <form id="update-member-form-${id_project}">
-                    <div class="relative bg-zinc-50 rounded-lg break-words space-x-5 p-10 space-y-4 shadow-lg dark:bg-slate-900 dark:text-white">
+                    <div class="relative bg-zinc-50 rounded-lg break-words space-x-5 p-10 space-y-4 shadow-lg">
                         <div class="static w-full">
                             <div class=" mb-3">
                                 <ul id="dropDownMembers-${index}" class="text-left overflow-y-auto overflow-x-clip custom-scrollbar max-h-[5.0rem] p-5 hover:opacity-90" >
