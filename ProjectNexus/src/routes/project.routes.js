@@ -8,6 +8,7 @@ router.get('/epics',requiresAuth(), ProjectController.getEpicsProjects);
 router.post('/create', requiresAuth(), ProjectController.postProject);
 router.get('/list/members/:project', requiresAuth(), ProjectController.getMembersProject);
 router.get('/list/search', requiresAuth(), ProjectController.getListProjectsSearchBar);
+router.get('/list/pagination/:index', requiresAuth(), ProjectController.getListProjectsPagination);
 router.get('/list', requiresAuth(), ProjectController.getListProjects);
 router.delete('/delete/:project', requiresAuth(), ProjectController.deleteProject);
 router.get('/modify/:project',requiresAuth(),ProjectController.modifyProject);

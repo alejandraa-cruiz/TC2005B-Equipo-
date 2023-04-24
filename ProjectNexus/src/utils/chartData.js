@@ -71,13 +71,16 @@ class EstimateProgressChart {
 }
 
 exports.estimateProgress = async (project_id) => {
-    const [epics_rows] = await Epic.fetch_epic_link(project_id);
-    let epics = epics_rows.flat();
-    epics = epics.map(item => item.epic_link);
-
+    const [epic_titles] = await Epic.fetch_epic_title(project_id);
+    const [epic_links] = await Epic.fetch_epic_link(project_id);
+    let epic_links_flatten = epic_links.flat();
+    epic_links_flatten = epic_links.map(item => item.epic_link);
+    let epic_titles_flatten = epic_titles.flat();
+    epic_titles_flatten = epic_titles.map(item => item.epic_title);
+    
     let progress = [];
     let estimate = [];
-    for (const epic of epics) {
+    for (const epic of epic_links_flatten) {
         const [progress_rows] = await Ticket.fetch_done(epic);
         progress.push(progress_rows[0].tickets_done);
         const [estimate_rows] = await Ticket.fetch_not_done(epic);
@@ -86,7 +89,7 @@ exports.estimateProgress = async (project_id) => {
 
 
 
-    return new EstimateProgressChart(epics, progress, estimate);
+    return new EstimateProgressChart(epic_titles_flatten, progress, estimate);
 }
 
 class ticket_status{
@@ -119,8 +122,12 @@ class backendPoints {
 }
 exports.backendPoints = async (project_id) => {
     const [epics_rows] = await Epic.fetch_epic_link(project_id);
+    const [epic_titles] = await Epic.fetch_epic_title(project_id);
     let epics = epics_rows.flat();
     epics = epics.map(item => item.epic_link);
+    let epic_titles_flatten = epic_titles.flat();
+    epic_titles_flatten = epic_titles.map(item => item.epic_title);
+
     let index = 0, toDopoints = 0, donePoints = 0;
     let tickets_done_be_by_epic = [];
     let tickets_to_do_by_epic = [];
@@ -149,7 +156,7 @@ exports.backendPoints = async (project_id) => {
     tickets_missing_be_by_epic.forEach(storyPoints =>{
         toDopoints += storyPoints;
     })
-    return new backendPoints(epics, tickets_done_be_by_epic, toDopoints, donePoints,colors);
+    return new backendPoints(epic_titles_flatten, tickets_done_be_by_epic, toDopoints, donePoints,colors);
 }
 
 class frontendPoints {
@@ -166,6 +173,9 @@ exports.frontendPoints = async(project_id) =>{
     const [epics_rows] = await Epic.fetch_epic_link(project_id);
     let epics = epics_rows.flat();
     epics = epics.map(item => item.epic_link);
+    const [epic_titles] = await Epic.fetch_epic_title(project_id);
+    let epic_titles_flatten = epic_titles.flat();
+    epic_titles_flatten = epic_titles.map(item => item.epic_title);
     let colors= ['rgb(1, 41, 95)','rgb(67,127,151)','rgb(132,147,36)', 'rgb(255, 179, 15)','rgb(253, 21, 27)'];
     let story_points_fe_done = [];
     const [story_points_fe_missing] = await Ticket.story_points_fe_missing(project_id);
@@ -180,7 +190,7 @@ exports.frontendPoints = async(project_id) =>{
         story_points_fe_total_done= story_points_fe_total_done + elem;
     })
 
-    return new frontendPoints(epics, story_points_fe_done, story_points_fe_missing[0].story_points_fe_missing, story_points_fe_total_done, colors)
+    return new frontendPoints(epic_titles_flatten, story_points_fe_done, story_points_fe_missing[0].story_points_fe_missing, story_points_fe_total_done, colors)
 }
 
 class teamWeeks {

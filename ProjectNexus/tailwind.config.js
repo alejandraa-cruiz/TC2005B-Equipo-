@@ -26,11 +26,12 @@ module.exports = {
         members: {
           bg: {
             green: '#deede5',
-            yellow: '#fdf8ce'
+            yellow: '#fdf8ce',
+            red: '#e63946'
           },
           text: {
             green: '#427a5B',
-            yellow: '#938406'
+            yellow: '#938406',
           }
         },
         accent: {
