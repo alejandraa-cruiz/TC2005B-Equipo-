@@ -91,4 +91,9 @@ module.exports = class Epic {
         let query = `UPDATE epic SET id_project = NULL WHERE id_project = ?`
         return db.execute(query,[id]);
     }
+
+    static fetch_epic_title(id_project) {
+        let query = `SELECT epic_title FROM epic WHERE id_project = ?`;
+        return db.execute(query, [id_project]);
+    }
 }

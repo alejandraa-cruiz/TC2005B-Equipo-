@@ -3,8 +3,8 @@
     <body class="font-inter">
         <%- include('partials/leftNavigation.ejs') %>
             <main id="main-content"
-                class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
-                    p-6 break-words phone:left-0 phone:w-full overflow-y-scroll overflow-x-hidden custom-scrollbar">
+                class="relative left-60 w-[calc(100%-15rem)] bg-mainBg dark:bg-slate-800 dark:text-white h-screen
+                    p-6 break-words phone:left-0 phone:w-full overflow-y-scroll overflow-x-hidden">
                 <div id="content-wrapper">
                     <div class="flex justify-center">
                         <%- include('partials/message-errors.ejs') %>
@@ -40,32 +40,14 @@
                                             </svg>
                                         </div>
                                         <input type="text"
-                                            class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
-                                            placeholder="Search Project" oninput="searchProject(this.value)">
+                                            class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 dark:bg-gray-900 dark:text-white focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
+                                            placeholder="Search Project" oninput="searchProject(this.value, '<%=startIndex%>', '<%=endIndex%>')">
                                     </div>
-                                </div>
-                                <div class="desktop:w-5/12 laptop:w-5/12 phone:w-7/12 phone:ml-20 tablet:ml-20 tablet:w-7/12">
-                                    <form id="form-search-team-member">
-                                        <div class="relative">
-                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search w-5 h-5"
-                                                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                                    stroke-linecap="round" stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                                    <path d="M21 21l-6 -6"></path>
-                                                </svg>
-                                            </div>
-                                            <input type="search" id="teamMember-search"
-                                                class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
-                                                placeholder="Search Team Member" name="team-member-search">
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-row w-full appearance-none items-center select-none mb-5 mt-20" id="project-list">
+                    <div class="flex flex-row w-full appearance-none items-center select-none mb-5 mt-[1.75rem] phone:mt-[0.5rem]" id="project-list">
                         <div class="w-1/5 h-[3rem] content-center">
                             <div class="flex flex-row justify-center w-full mx-auto items-center text-center phone:pl-2 laptop:pl-12 desktop:pl-12">
                                 <p class="text-center font-medium phone:text-[0.9rem] tablet:text-[1rem] laptop:text-[1.250rem] desktop:text-[1.250rem]">
@@ -75,7 +57,7 @@
                         </div>
                         <div class="w-1/5 h-[3rem]">
                             <div class="flex flex-row justify-center w-full mx-auto items-center">
-                                <div class="flex flex-row justify-center w-full mx-auto items-center text-center phone:pl-2 laptop:pl-12 desktop:pl-12">
+                                <div class="flex flex-row justify-center w-full mx-auto items-center text-center phone:pl-2">
                                     <p class="justify-self-center text-center break-words font-medium phone:text-[0.9rem] laptop:text-[1.250rem] desktop:text-[1.250rem]">
                                         Team Members
                                     </p>
@@ -113,12 +95,12 @@
                         </div>
                     </div>
                     <div id="containerList" class="relative">
-                            <% projects.forEach((project, index) => { %>
+                            <% sliceProjects.forEach((project, index) => { %>
                                 <%- include('partials/cancel-popup.ejs', {project: project, popupId : index}); %>
                                 <%- include('partials/popUpAddMember.ejs', {project: project, popupId : index}); %>
                             <div class="flex flex-row w-full appearance-none select-none mb-[1.5rem] mt-[1.5rem]">
                                 <div class="w-1/5 flex flex-row justify-center">
-                                    <div class="flex flex-row justify-center w-2/3 items-center text-center laptop:pl-12 phone:pl-0">
+                                    <div class="flex flex-row justify-center w-9/12 items-center text-center laptop:pl-12 phone:pl-0">
                                         <p id="project_name" class="text-center select-text phone:text-[0.60rem] tablet:text-[0.65rem] laptop:text-[1.2rem] desktop:text-[1rem]">
                                             <%= project.project_name; %>
                                         </p>
@@ -126,32 +108,37 @@
                                 </div>
                                 <div class="w-1/5 flex flex-row justify-center">
                                     <div class="flex flex-row justify-center laptop:w-3/5 desktop:3/5 tablet:w-10/12 items-center">
-                                        <div class="w-full bg-members rounded-lg break-words text-teal-800 tablet:p-[0.125rem] p-[0.150rem]">
-                                            <p class="justify-self-center text-center break-words select-text phone:text-[0.60rem] tablet:text-[0.65rem] laptop:text-[1.250rem] desktop:text-[1rem]">
-                                                <%= project.count_team_members; %> members
-                                            </p>
-                                        </div>
-                                        <div class="break-words hover:bg-members rounded-lg p-[0.150rem] hover:cursor-pointer text-teal-800 duration-200">
-
-                                            <button>
-                                                <svg class="phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem] icon icon-tabler icon-tabler-user-edit" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path>
-                                                <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z"></path>
-                                                </svg>
-                                            </button>  
-
-
-                                        </div>
+                                        <% if(project.count_team_members > 0){ %>
+                                            <div class="desktop:w-8/12 laptop:w-8/12 w-full bg-members-bg-green rounded-lg break-words text-teal-800 tablet:p-[0.125rem] p-[0.150rem]">
+                                                <p class="justify-self-center text-center break-words select-text phone:text-[0.60rem] tablet:text-[0.65rem] laptop:text-[1.250rem] desktop:text-[1rem]">
+                                                    <%= project.count_team_members; %> Members
+                                                </p>
+                                            </div>
+                                            <div class="break-words hover:bg-members-bg-green rounded-lg p-[0.150rem] hover:cursor-pointer text-teal-800 duration-200">
+                                                <button>
+                                                    <svg class="phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem] icon icon-tabler icon-tabler-user-edit"
+                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path>
+                                                        <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z"></path>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        <% }else{ %>
+                                            <div class="desktop:w-8/12 laptop:w-8/12 w-full bg-members-bg-red rounded-lg break-words text-zinc-200 tablet:p-[0.125rem] p-[0.150rem]">
+                                                <p class="justify-self-center text-center break-words select-text phone:text-[0.60rem] tablet:text-[0.65rem] laptop:text-[1.250rem] desktop:text-[1rem]">
+                                                    <%= project.count_team_members; %> Members
+                                                </p>
+                                            </div>
+                                        <% } %>
                                     </div>
                                 </div>
                                 <div class="w-1/5 flex flex-row justify-center content-center">
                                     <div class="flex flex-row w-full justify-center content-center items-center">
-                                        <div class= "hover:bg-members rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
-                                            <button onclick="openPopupMember('<%=index%>', '<%=project.id_project%>',event)">
+                                        <div class= "hover:bg-members-bg-green rounded-lg p-[0.20rem] hover:cursor-pointer text-teal-800 duration-200">
+                                            <button onclick="openPopupMember('<%=index%>', '<%=project.id_project%>', event)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] justify-self-center laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem]" 
                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                 stroke-linejoin="round">
@@ -196,9 +183,25 @@
                             <% }); %>
                         </div>
                     </div>
+                    <nav id="Pagination" aria-label="Page navigation" class="fixed flex flex-row justify-center
+                     desktop:laptop:bottom-10 desktop:laptop:left-36 desktop:laptop:right-0
+                     tablet:phone:top-8 tablet:phone:left-1/2">
+                        <ul id="ul-pagination" class="inline-flex shadow-lg space-x-2">
+                            <% for( let i = 0; i < totalPages; i++){%>
+                                <li>
+                                    <button onclick="getProjects('<%= i %>', event)">
+                                        <a
+                                        class="rounded-lg leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white
+                                                desktop:laptop:px-3 desktop:laptop:py-2 tablet:phone:px-2"> <%= i+1 %></a>
+                                    </button>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
                 </main>
                         <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
                         <script defer src="/scripts/projectSearchBar.js"></script>
                         <script defer src="/scripts/popUp.js"></script>
+                        <script defer src="/scripts/listProjects.js"></script>
         </body>
 </html>
