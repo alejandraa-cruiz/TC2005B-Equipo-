@@ -3,7 +3,7 @@
     <body class="font-inter">
         <%- include('partials/leftNavigation.ejs') %>
             <main id="main-content"
-                class="relative left-60 w-[calc(100%-15rem)] bg-mainBg dark:bg-slate-800 dark:text-white h-screen
+                class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen
                     p-6 break-words phone:left-0 phone:w-full overflow-y-scroll overflow-x-hidden">
                 <div id="content-wrapper">
                     <div class="flex justify-center">
@@ -40,7 +40,7 @@
                                             </svg>
                                         </div>
                                         <input type="text"
-                                            class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 dark:bg-gray-900 dark:text-white focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
+                                            class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
                                             placeholder="Search Project" oninput="searchProject(this.value, '<%=startIndex%>', '<%=endIndex%>')">
                                     </div>
                                 </div>
@@ -191,7 +191,7 @@
                                 <li>
                                     <button onclick="getProjects('<%= i %>', event)">
                                         <a
-                                        class="rounded-lg leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white
+                                        class="rounded-lg leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 
                                                 desktop:laptop:px-3 desktop:laptop:py-2 tablet:phone:px-2"> <%= i+1 %></a>
                                     </button>
                                 </li>
