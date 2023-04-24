@@ -111,7 +111,7 @@ module.exports = class Project {
 
     static fetch_agile_points_be(id_project) {
         let query = `SELECT SUM(Pt.agile_points) as agile_points_be
-        FROM project_teammember AS Pt, teammember as T
+        FROM project_teamMember AS Pt, teamMember as T
         WHERE Pt.id_team_member = T.id_team_member
         AND T.team = 'BE'
         AND Pt.id_project = ?`
@@ -120,7 +120,7 @@ module.exports = class Project {
 
     static fetch_agile_points_fe(id_project) {
         let query = `SELECT SUM(Pt.agile_points) as agile_points_fe
-        FROM project_teammember AS Pt, teammember as T
+        FROM project_teamMember AS Pt, teamMember as T
         WHERE Pt.id_team_member = T.id_team_member
         AND T.team = 'FE'
         AND Pt.id_project = ?`

@@ -20,11 +20,43 @@ Started on: 06-04-23-->
                 <%- include('partials/message-errors.ejs') %>
             </div>
             <div class="flex justify-end">
-                <img class="w-20" src="images/dh_logo.png" alt="">
+                <img class="w-20" src="/images/dh_logo.png" alt="">
                 </a>
             </div>
+            <div class="grid grid-cols-2 tablet:grid-cols-1 tablet:grid-rows-3 gap-2">
+                <div id="burnup_chart_container" class="bg-white p-4 rounded-lg flex flex-col items-center">
+                    <h3 class="font-bold">Burnup chart</h3>
+                    <canvas id="burnup_chart"></canvas>
+                </div>
+                
+                <div class="bg-white p-4 rounded-lg relative flex flex-col justify-center">
+                    <div class="w-full">
+                        <div class="max-h-28 flex justify-around items-start">
+                            <h3 class="font-bold">Backend Done Points: <%= backendPoints.story_points_done %></h3>
+                            <canvas id="backend-points"></canvas>
+                        </div>
+                        <div class="max-h-28 flex justify-around items-start">
+                            <h3 class="font-bold">Frontend Done Points: <%= frontendPoints.story_points_fe_total_done %></h3>
+                            <canvas id="frontend-points"></canvas>
+                        </div>
+                        <div class="max-h-28 flex justify-around items-start">
+                            <h3 class="font-bold">Total points by area</h3>
+                            <canvas id="team-weeks"></canvas>
+                        </div> 
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg relative flex flex-col justify-center items-center">
+                    <h3 class="font-bold">Estimate vs progress</h3>
+                    <canvas id="estimate-progress"></canvas>
+                </div>
 
-            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white p-4 rounded-lg relative flex flex-col justify-center items-center">
+                    <h3 class="font-bold">Ticket status overview</h3>
+                    <canvas id="ticket_status"></canvas>
+                </div>
+            </div> 
+
+            <!-- <div class="grid grid-cols-2 gap-3">
                 <div class="grid justify-center">
                     Burnup chart
                 </div>
@@ -68,18 +100,18 @@ Started on: 06-04-23-->
 
                 <div class="grid justify-center">
                     <div style="width: 370px;">
-                        <canvas id="estimate-progress"></canvas>
+                        
                     </div>
                 </div>
 
                 <div class="grid justify-center">
                     <div style="width: 370px;">
-                        <canvas id="ticket_status"></canvas>
+                        
                     </div>
                     
                 </div>
 
-            </div>
+            </div> -->
         
         </div>
     </main>
@@ -89,11 +121,13 @@ Started on: 06-04-23-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- <script src ="./scripts/charts.js"></script> -->
     <script>
-        const ticket_status= document.getElementById('ticket_status');
-        const burnup_chart= document.getElementById('burnup_chart');
-   
+        const ticket_status = document.getElementById('ticket_status');
+        const burnup_chart = document.getElementById('burnup_chart');
+        const backend_points = document.getElementById('backend-points');
+        const frontend_points = document.getElementById('frontend-points');
+        const team_weeks = document.getElementById('team-weeks');
 
-        //Burnup Chart
+        // Burnup Chart
         new Chart(burnup_chart,{
             type:'line',
             data:{
@@ -141,8 +175,207 @@ Started on: 06-04-23-->
                         }     
                     }
                 },
+                aspectRatio: 2
             }
-        })
+        });
+
+        // Backend Points
+        new Chart(backend_points,{
+            type: 'bar',
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels:{
+                            usePointStyle: true,
+                            font: {
+                                size: 11,
+                                weight: 'bold'
+                            }
+                        } 
+                    }
+                },
+                responsive: true,
+                aspectRatio: 4
+            },
+            
+            data: {
+                labels: [""],
+                datasets: [
+                    <% backendPoints.epics.forEach((epic,index) => { %>
+                    {
+                        label: '<%= backendPoints.epics[index] %>',
+                        data: [<%= backendPoints.tickets_done_be_by_epic[index] %>],
+                        backgroundColor: '<%=backendPoints.colors[index]%>'
+                    },
+                    <% }); %>
+                    {
+                        label: 'Missing',
+                        data: [<%= backendPoints.story_points_missing %>],
+                        backgroundColor: //tailwind gray-300
+                        'rgb(209, 213, 219)'
+                    }
+                ]
+            }
+        });
+
+        // Frontend Points
+        new Chart(frontend_points,{
+            type: 'bar',
+            options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                stacked: true
+                },
+                y: {
+                stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                display: true,
+                position: 'bottom',
+                labels:{
+                    usePointStyle: true
+                } 
+                }
+            },
+            responsive: true,
+            aspectRatio: 4
+            },
+            
+            data: {
+            labels: [""],
+
+            datasets: [
+                <% frontendPoints.epics.forEach((epic,index) => {%>
+                {
+                    label: '<%= frontendPoints.epics[index] %>',
+                    data: [<%= frontendPoints.story_points_fe_done[index] %>],
+                    backgroundColor: '<%=frontendPoints.colors[index]%>'
+                },
+                <%});%>
+            {
+                label: 'Missing',
+                data: [<%= frontendPoints.story_points_fe_missing %>],
+                backgroundColor: //tailwind gray-300
+                'rgb(209, 213, 219)'
+            }
+             ]
+            }
+        });
+
+        // Team weeks
+        new Chart(team_weeks,{
+            type: 'bar',
+            options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                stacked: true
+                },
+                y: {
+                stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                display: true,
+                position: 'bottom',
+                labels:{
+                    usePointStyle: true
+                } 
+                }
+            },
+            responsive: true,
+            aspectRatio: 4
+            },
+            
+            data: {
+            labels: [""],
+
+            datasets: [{
+                label: 'Frontend',
+                data: [<%= teamWeeks.agile_points_fe%>],
+                backgroundColor: //azul marino
+                    'rgb(1, 41, 95)',
+            },{
+                label: 'Backend',
+                data: [<%= teamWeeks.agile_points_be%>],
+                backgroundColor://amarillo
+                    'rgb(255, 179, 15)',
+            }]
+            }
+        }
+        );
+
+        // Estimate vs Progress Chart
+        new Chart(
+        document.getElementById('estimate-progress'),{
+            type: 'bar',
+            options: {
+            scales: {
+                x: {
+                stacked: true
+                },
+                y: {
+                stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                display: true,
+                position: 'bottom',
+                labels:{
+                    padding: 40,
+                    usePointStyle: true
+                } 
+                }
+            },
+            responsive: true,
+            aspectRatio: 2
+            },
+            
+            data: {
+            <% let epics = estimateProgressChart.epics.map(item => JSON.stringify(item)) %>
+            labels: [<%- epics %>],
+
+            datasets: [{
+                label: 'Progress',
+                data: [<%= estimateProgressChart.progress %>],
+                backgroundColor: [
+                    //azul marino
+                    'rgb(1, 41, 95)',
+                    //azul teal
+                    'rgb(67,127,151)',
+                    //tverde olivo
+                    'rgb(132,147,36)',
+                    //amarillo
+                    'rgb(255, 179, 15)',
+                    //rojo
+                    'rgb(253, 21, 27)',
+                ]
+            },{
+                label: 'Estimate',
+                data: [<%= estimateProgressChart.estimate %>],
+                backgroundColor: //tailwind gray-200
+                'rgb(229, 231, 235)',
+                hoverBackgroundColor: "#C1C1C2"
+            }]
+            }
+        }
+        );
 
         //Ticket Status Chart
         new Chart(ticket_status, {
@@ -178,212 +411,10 @@ Started on: 06-04-23-->
                             usePointStyle: true
                         }     
                     }
-                }
+                },
+                aspectRatio: 2
             }
         });
-
-        // Estimate vs Progress Chart
-        new Chart(
-        document.getElementById('estimate-progress'),{
-            type: 'bar',
-            options: {
-            scales: {
-                x: {
-                stacked: true
-                },
-                y: {
-                stacked: true
-                }
-            },
-            plugins: {
-                legend: {
-                display: true,
-                position: 'bottom',
-                labels:{
-                    padding: 40,
-                    usePointStyle: true
-                } 
-                }
-            },
-            responsive: true,
-            aspectRatio: 1
-            },
-            
-            data: {
-            <% let epics = estimateProgressChart.epics.map(item => JSON.stringify(item)) %>
-            labels: [<%- epics %>],
-
-            datasets: [{
-                label: 'Progress',
-                data: [<%= estimateProgressChart.progress %>],
-                backgroundColor: [
-                    //azul marino
-                    'rgb(1, 41, 95)',
-                    //azul teal
-                    'rgb(67,127,151)',
-                    //tverde olivo
-                    'rgb(132,147,36)',
-                    //amarillo
-                    'rgb(255, 179, 15)',
-                    //rojo
-                    'rgb(253, 21, 27)',
-                ]
-            },{
-                label: 'Estimate',
-                data: [<%= estimateProgressChart.estimate %>],
-                backgroundColor: //tailwind gray-200
-                'rgb(229, 231, 235)',
-                hoverBackgroundColor: "#C1C1C2"
-            }]
-            }
-        }
-        );
-
-        
-
-        // Backend Points
-        new Chart(
-        document.getElementById('backend-points'),{
-            type: 'bar',
-            options: {
-            indexAxis: 'y',
-            scales: {
-                x: {
-                stacked: true
-                },
-                y: {
-                stacked: true
-                }
-            },
-            plugins: {
-                legend: {
-                display: true,
-                position: 'bottom',
-                labels:{
-                    usePointStyle: true
-                } 
-                }
-            },
-            responsive: true,
-            aspectRatio: 3
-            },
-            
-            data: {
-            labels: [""],
-
-            datasets: [
-
-                <% backendPoints.epics.forEach((epic,index) => {%>
-                {
-                    label: '<%= backendPoints.epics[index] %>',
-                    data: [<%= backendPoints.tickets_done_be_by_epic[index] %>],
-                    backgroundColor: '<%=backendPoints.colors[index]%>'
-                },
-                <%});%>
-            {
-                label: 'Missing',
-                data: [<%= backendPoints.story_points_missing %>],
-                backgroundColor: //tailwind gray-300
-                'rgb(209, 213, 219)'
-            }]
-            }
-        }
-        );
-
-        // Frontend Points
-        new Chart(
-        document.getElementById('frontend-points'),{
-            type: 'bar',
-            options: {
-            indexAxis: 'y',
-            scales: {
-                x: {
-                stacked: true
-                },
-                y: {
-                stacked: true
-                }
-            },
-            plugins: {
-                legend: {
-                display: true,
-                position: 'bottom',
-                labels:{
-                    usePointStyle: true
-                } 
-                }
-            },
-            responsive: true,
-            aspectRatio: 3
-            },
-            
-            data: {
-            labels: [""],
-
-            datasets: [
-                <% frontendPoints.epics.forEach((epic,index) => {%>
-                {
-                    label: '<%= frontendPoints.epics[index] %>',
-                    data: [<%= frontendPoints.story_points_fe_done[index] %>],
-                    backgroundColor: '<%=frontendPoints.colors[index]%>'
-                },
-                <%});%>
-            {
-                label: 'Missing',
-                data: [<%= frontendPoints.story_points_fe_missing %>],
-                backgroundColor: //tailwind gray-300
-                'rgb(209, 213, 219)'
-            }
-             ]
-            }
-        }
-        );
-
-        new Chart(
-        document.getElementById('team-weeks'),{
-            type: 'bar',
-            options: {
-            indexAxis: 'y',
-            scales: {
-                x: {
-                stacked: true
-                },
-                y: {
-                stacked: true
-                }
-            },
-            plugins: {
-                legend: {
-                display: true,
-                position: 'bottom',
-                labels:{
-                    usePointStyle: true
-                } 
-                }
-            },
-            responsive: true,
-            aspectRatio: 3
-            },
-            
-            data: {
-            labels: [""],
-
-            datasets: [{
-                label: 'Frontend',
-                data: [<%= teamWeeks.agile_points_fe%>],
-                backgroundColor: //azul marino
-                    'rgb(1, 41, 95)',
-            },{
-                label: 'Backend',
-                data: [<%= teamWeeks.agile_points_be%>],
-                backgroundColor://amarillo
-                    'rgb(255, 179, 15)',
-            }]
-            }
-        }
-        );
-
-    console.log(epics);
     </script>
 </body>
 </html>

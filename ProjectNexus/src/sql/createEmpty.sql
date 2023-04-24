@@ -2,13 +2,14 @@ CREATE TABLE project (
   id_project INT PRIMARY KEY AUTO_INCREMENT,
   project_name VARCHAR(100),
   start_date DATE,
-  end_date DATE
+  end_date DATE NOT NULL
 );
 
 CREATE TABLE epic (
   id_epic INT PRIMARY KEY AUTO_INCREMENT,
   id_project INT DEFAULT NULL,
-  epic_link VARCHAR(16)
+  epic_link VARCHAR(16),
+  epic_title VARCHAR(100)
 );
 
 CREATE TABLE ticket (
