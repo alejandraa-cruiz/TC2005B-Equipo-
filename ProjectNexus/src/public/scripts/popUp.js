@@ -161,8 +161,8 @@ function deleteMember (id) {
     })
     .then(data => {
         let messages = data.e;
-        if (messages === 'Success, project was erased') {
-            messaggeSuccDel.innerText = 'Success, project was erased';
+        if (messages === 'Success, member was erased') {
+            messaggeSuccDel.innerText = 'Success, member was erased';
             alertSuccDelProjectErrors.classList.remove('hidden');
             setTimeout(function () {
                 alertSuccDelProjectErrors.classList.add('hidden');
