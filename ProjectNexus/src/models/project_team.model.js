@@ -130,4 +130,11 @@ module.exports = class ProjectTeam {
         );`
         )
     }
+    static fetch_members(id_project){
+        const query = `SELECT *
+                       FROM project_teammember PT, teammember T
+                       WHERE PT.id_team_member = T.id_team_member 
+                            AND id_project = ?`;
+        return db.execute(query, [id_project]);
+    }
 }

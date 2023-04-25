@@ -162,6 +162,24 @@ exports.postProject = async (req, res) => {
     }
 }
 
+const a = [
+    {
+        id_project: 1,
+        project_name: 'lol',
+        start_date: '',
+        end_date: '',
+        teamMembers : [
+            {
+                id_team_member: 1,
+                member_name: '',
+                email: '',
+                team: '',
+                agile_points: 1
+            }
+        ]
+    }
+]
+
 /** 
  * Fetch method `POST`, to post new project
  * ONLY post in the next scenarios:
@@ -174,7 +192,26 @@ exports.getListProjects = async (req, res) => {
     // Fetch userInfo with open id connect and Auth0
     const userInfo = await req.oidc.fetchUserInfo();
     // Fetch every project
-    const [projects] = await ProjectTeam.fetch_all();
+    const [projects] = await Project.fetch_all();
+
+    for(let project of projects){
+        const [members] = await ProjectTeam.fetch_members(project.id_project);
+        project.teamMembers = members;
+    }
+
+    res.render(__dirname + '/../views/projectsList', {
+        user: userInfo,
+        projects: projects,
+        // sliceProjects : sliceProjects,
+        // totalPages: totalPages,
+        // startIndex: startIndex,
+        // endIndex: endIndex,
+        // totalPages: totalPages
+    });
+
+    return;
+
+
     // Projects assigned by current user
     const projectsPerPage = 4;
     const page = 1;

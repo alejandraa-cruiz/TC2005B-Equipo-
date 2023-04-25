@@ -60,23 +60,26 @@ exports.postMember= async (req, res) => {
         let teamMember = new TeamMember(req.body);
         const [rows] = await teamMember.save();
         if(rows.affectedRows === 0) {
-            res.json({e: 'There is a member with the same email'});
+            res.json({
+                msg: 'There is a member with the same email', 
+                error: true
+            });
         } else {
             res.json({e: 'Success!'});
         }
     }
     catch (e){
         if(e.code === 'ER_BAD_NULL_ERROR') {
-            res.status(400).json({e: 'Entries can\'t be empty'});
+            res.status(400).json({msg: 'Entries can\'t be empty',error: true});
 
         } else if (e.code === 'ECONNREFUSED') {
-            res.status(500).json({e: 'Database failed'});
+            res.status(500).json({msg: 'Database failed', error: true});
 
         } else if (e.code === 'ER_DATA_TOO_LONG') {
-            res.status(400).json({e: 'You must select an area'});
+            res.status(400).json({msg: 'You must select an area', error: true});
 
         } else if (e instanceof TypeError) {
-            res.status(400).json({e: 'Invalid email'});
+            res.status(400).json({msg: 'Invalid email', error: true});
         }
     }
 }
@@ -122,13 +125,13 @@ exports.postModifyMember = async (req, res) =>{
 
 
         TeamMember.update_by_id(req.body.userName,req.body.email,req.body.team,req.params.user);
-        res.json({e:'Success!'});
-    }catch (e){
+        res.json({error: false});
+    } catch (e){
         if (e instanceof TypeError) {
-        res.status(400).json({e: 'Invalid email'});}
-        else if (e instanceof SyntaxError) {
-                res.status(400).json({e: 'Name can´t be empty'});
-    }
+            res.status(400).json({msg: 'Invalid email', error: true});
+        } else if (e instanceof SyntaxError) {
+            res.status(400).json({msg: 'Name can´t be empty', error: true});
+        }
 
     }
 }

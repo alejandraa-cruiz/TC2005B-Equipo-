@@ -23,7 +23,7 @@ exports.file = async (req, res) => {
 
     if (!(req.files && req.files.csv)) {
         // There was not a file named csv sent to the server
-        res.status(400).json({e:'No file selected'});
+        res.status(400).json({msg:'No file selected', error: true});
         return;
     }
     // A file named csv was sent to the server
@@ -46,18 +46,20 @@ exports.file = async (req, res) => {
     const buff = csv.data;
     if(!buff.length) {
         // The buffer was empty
-        res.status(400).json({e: 'The file is empty'});
+        res.status(400).json({msg: 'The file is empty', error: true});
         return;
     }
 
     const dataset = TicketDataset.parseCSV(buff.toString());
     // We handle if the csv parser fails parsing the file
     if (dataset instanceof RangeError){
-        res.status(400).json({e: 'Rows aren\'t the same lenght'});
+        res.status(400).json({
+            msg: "Rows aren't the same lenght", error: true
+        });
         return;
     }
     else if(dataset instanceof TypeError){
-        res.status(400).json({e: 'Row headers don\'t match'});
+        res.status(400).json({msg: "Row headers don't match", error: true});
         return;
     }
 
@@ -78,13 +80,13 @@ exports.file = async (req, res) => {
         }
         // We save all the tickets
         for(const elem of dataset.tickets){
-            const [existingTicket] = await Ticket.fetchByIssueKey(elem.issueKey);
-            if(existingTicket.length === 0) {
+            const [existTicket] = await Ticket.fetchByIssueKey(elem.issueKey);
+            if(existTicket.length === 0) {
                 elem.save(connection);
                 insertedTickets++;
-            } else if (existingTicket.length === 1) {
-                if(!compareTickets(existingTicket[0], elem)) {
-                    elem.update(existingTicket[0].id_ticket, connection);
+            } else if (existTicket.length === 1) {
+                if(!compareTickets(existTicket[0], elem)) {
+                    elem.update(existTicket[0].id_ticket, connection);
                     updatedTickets++;
                 }
             } else {
@@ -104,17 +106,16 @@ exports.file = async (req, res) => {
             await csv.mv(path.join(uploadDirectory, fileSaveName));
         }
 
-        // If everything goes to plan, we commit the changes on the database and
-        // send a success message.
+        // If everything goes to plan, we commit the changes on the database 
+        // and send a success message.
         await connection.commit();
-        console.log('insertedEpics:', insertedEpics, '\ninsertedTickets:', insertedTickets, '\nupdatedTickets:', updatedTickets);
-        res.json({e: 'Success'});
+        res.json({error: false});
 
     } catch (e) {
         console.log(e);
         // If there is an error while inserting in the database, we rollback to 
         // the last state and send an error message to the client.
         await connection.rollback();
-        res.status(500).json({e: 'Database connection failed'});
+        res.status(500).json({msg: 'Database connection failed', error: true});
     }
 }
