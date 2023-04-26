@@ -7,7 +7,8 @@ const messagge = document.getElementById("message-error");
 const messaggeSuccess = document.getElementById("message-success");
 const matchFile = /[^\\]*$/g;
 csvInput.addEventListener('change', () => {
-    fileLabel.innerText = csvInput.value.match(matchFile)[0];
+    if (!csvInput.value) fileLabel.innerText = `Select or drag and drop a file`;
+    else fileLabel.innerText = csvInput.value.match(matchFile)[0];
 });
 
 
@@ -67,11 +68,24 @@ function uploadFile() {
             alertErr.classList.remove('hidden');
             setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
         }
+        else if (messages === 'Duplicated file!'){
+            messagge.innerText='Duplicated file!';
+            alertErr.classList.remove('hidden');
+            setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
+        }
         else if (messages === 'Success'){
             messaggeSuccess.innerText='Data upload successfully';
             alertSucc.classList.remove('hidden');
-            setTimeout(function () {alertSucc.classList.add('hidden')}, 3000);
+            setTimeout(function () {
+                alertSucc.classList.add('hidden');
+            }, 2000);
         }
+        fileLabel.innerText = `Select or drag and drop a file`;
+        csvInput.value = ``;
+    }).catch(error =>{
+        messagge.innerText = 'Database connection failed';
+        alertErr.classList.remove('hidden');
+        setTimeout(function () { alertErr.classList.add('hidden') }, 3000);
     });
 
 }
