@@ -1,4 +1,4 @@
-import { alertPostHandler } from './ajaxAlertHandler.js';
+import { createAlert } from './ajaxAlertHandler.js';
 
 (() => {
     const navHideButton = document.getElementById('nav-hide-button');
@@ -6,15 +6,25 @@ import { alertPostHandler } from './ajaxAlertHandler.js';
     const navBar = document.getElementById('navbar');
     const darkSeparator = document.getElementById('dark-separator'); 
 
+    window.addEventListener('resize', (ev) => {
+        if(window.innerWidth > 800 && navHideButton.dataset.open === 'true') {
+            darkSeparator.classList.add('hidden');
+            navBar.classList.add('phone:left-[-15rem]');
+            navHideChevron.classList.add('rotate-180');
+            navHideButton.classList.add('phone:left-0');
+            navHideButton.dataset.open = false;
+        } 
+    });
+
     navHideButton.addEventListener('click', (ev) => {
         if(navHideButton.dataset.open === 'false'){
-            darkSeparator.classList.remove('invisible');
+            darkSeparator.classList.remove('hidden');
             navBar.classList.remove('phone:left-[-15rem]');
             navHideChevron.classList.remove('rotate-180');
             navHideButton.classList.remove('phone:left-0');
             navHideButton.dataset.open = true;
         } else{
-            darkSeparator.classList.add('invisible');
+            darkSeparator.classList.add('hidden');
             navBar.classList.add('phone:left-[-15rem]');
             navHideChevron.classList.add('rotate-180');
             navHideButton.classList.add('phone:left-0');
@@ -42,15 +52,25 @@ import { alertPostHandler } from './ajaxAlertHandler.js';
     const csvInput = document.getElementById('csv-input');
     const matchFile = /[^\\]*$/g;
     csvInput.addEventListener('change', () => {
-        fileLabel.innerText = csvInput.value.match(matchFile)[0];
+        if(csvInput.value){
+            fileLabel.innerText = csvInput.value.match(matchFile)[0];
+        } else {
+            fileLabel.innerText = 'Select or drag and drop a file';
+        }
     });
 
     const csvForm = document.getElementById("form-csv-upload");
     csvForm.addEventListener('submit', async (ev) => {
         ev.preventDefault();
         const data = new FormData(csvForm);
-        await alertPostHandler('/dashboard/upload', data);
+        fetch('/dashboard/upload', { method: 'POST', body: data})
+        .then(res => res.json())
+        .then(payload => {
+            createAlert(payload);
+        });
+    
         csvForm.reset();
+        fileLabel.innerText = 'Select or drag and drop a file';
     })
 })();
 

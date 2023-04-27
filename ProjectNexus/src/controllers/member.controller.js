@@ -6,13 +6,11 @@ const Epic = require("../models/epic.model");
 /** @type {import("express").RequestHandler} */
 exports.memberList= async (req,res) => {
     const [projects] = await Project.fetch_all_id_name();
-    const [members]= await TeamMember.fetchAll();
     try {
         const userInfo = await req.oidc.fetchUserInfo();
         res.render(__dirname+'/../views/memberList', { 
             user: userInfo, 
             projects: projects,
-            members: members,
         })
     } catch(e) {
         console.log(e);
@@ -24,14 +22,18 @@ exports.memberList= async (req,res) => {
 /** @type {import("express").RequestHandler} */
 exports.search = async (req,res) => {
     let teamMember;
-    const member_name =req.query.memberid;
+    const member_name = req.query.name;
     if(member_name){
         [teamMember]=await TeamMember.search_by_name(member_name)
     }
     else{
         [teamMember]= await TeamMember.fetchAll();
-    }    
+    } 
+
     res.json({teamMembers:teamMember})
+    return;
+    
+       
     
 }
 
@@ -91,8 +93,11 @@ exports.postMember= async (req, res) => {
  */
 exports.deleteMember = async (req, res) => {
     const [rows] = await TeamMember.delete_by_id (req.params.user);
-    if (rows.affectedRows > 0) res.status(200).json({e: 'Succes: member was erased'});
-    else res.status(500).json({e: 'Database connection failed'});
+    if (rows.affectedRows > 0){
+        res.status(200).json({msg: 'Member was erased'});
+    } else {
+        res.status(500).json({msg: 'Database connection failed', error: true});
+    }
 }
 
 
@@ -122,7 +127,6 @@ exports.postModifyMember = async (req, res) =>{
         else if (req.body.userName === ''){
             throw new SyntaxError('Name can´t be empty')
         }
-
 
         TeamMember.update_by_id(req.body.userName,req.body.email,req.body.team,req.params.user);
         res.json({error: false});

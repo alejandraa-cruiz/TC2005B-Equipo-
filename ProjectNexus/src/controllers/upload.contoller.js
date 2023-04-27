@@ -37,7 +37,7 @@ exports.file = async (req, res) => {
 
     if(!allowedExtension.includes(extensionName)){
         // The extension is not ".csv" 
-        res.status(400).json({e: 'File must be CSV'});
+        res.status(400).json({msg: 'File must be CSV', error: true});
         return;
     } 
     // The extension is ".csv" 
