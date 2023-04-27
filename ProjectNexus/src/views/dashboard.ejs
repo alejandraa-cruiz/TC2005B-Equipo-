@@ -63,10 +63,10 @@ Started on: 06-04-23-->
 
                 <div class="grid justify-left ml-64">
                     <div class="flex flex-row">
-                        <div>
-                            Backend Missing Points: <%= backendPoints.story_points_missing %>
-                        <br>
+                        <div class="text-sm">
                             Backend Done Points: <%= backendPoints.story_points_done %>
+                        <br>
+                            Backend Team Weeks: <%= backendPoints.story_points_done %>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ Started on: 06-04-23-->
                         <canvas id="backend-points"></canvas>
                         Frontend Done Points: <%= frontendPoints.story_points_fe_total_done %>
                         <br>
-                        Frontend Missing Points: <%= frontendPoints.story_points_fe_missing %>
+                        Frontend Team Weeks: <%= frontendPoints.story_points_fe_missing %>
                         <canvas id="frontend-points"></canvas>
                         Team Weeks: 6
                         <canvas id="team-weeks"></canvas>
@@ -175,7 +175,21 @@ Started on: 06-04-23-->
                         }     
                     }
                 },
-                aspectRatio: 2
+                aspectRatio: 2,
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Points'
+                        }
+                        },
+                        x: {
+                        title: {
+                            display: true,
+                            text: 'Weeks'
+                        }
+                        }
+                } 
             }
         });
 
@@ -200,7 +214,6 @@ Started on: 06-04-23-->
                             usePointStyle: true,
                             font: {
                                 size: 11,
-                                weight: 'bold'
                             }
                         } 
                     }

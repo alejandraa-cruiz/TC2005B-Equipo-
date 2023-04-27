@@ -29,16 +29,16 @@ exports.burnup = async (project_id) => {
     // Initial values 
     let week_start = date_rows[0].start_date;  
     let week_end = week_start.addDays(6); 
-    let points_done = []; 
-    let goal_points = []; 
-    let scope = [];
+    let points_done = [0]; 
+    let goal_points = [0]; 
     const [scope_rows] =  await Ticket.fetch_scope(project_id, week_start, date_rows[0].week_start);
     const scope_points = scope_rows[0].scope;
     const weekly_points = scope_points / weeks; 
+    let scope = [scope_points];
     let goal_points_cont = 0;
     let done_aux = 0;
     let week_aux = 1;
-    let week_list = [];
+    let week_list = [0];
 
     for (let i = 0; i < weeks; i++) {
         const [done_rows] = await Ticket.fetch_done_week(project_id, week_start, week_end);
@@ -86,8 +86,6 @@ exports.estimateProgress = async (project_id) => {
         const [estimate_rows] = await Ticket.fetch_not_done(epic);
         estimate.push(estimate_rows[0].tickets_pending);
     }
-
-
 
     return new EstimateProgressChart(epic_titles_flatten, progress, estimate);
 }
@@ -204,5 +202,5 @@ exports.teamWeeks = async (project_id) => {
     const [be] = await Project.fetch_agile_points_be(project_id);
     const [fe] = await Project.fetch_agile_points_fe(project_id);
 
-    return new teamWeeks(be[0].agile_points_be,fe[0].agile_points_fe)
+    return new teamWeeks(be[0].agile_points_be,fe[0].agile_points_fe);
 }
