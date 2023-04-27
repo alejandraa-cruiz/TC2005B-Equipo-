@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Project = require("../models/project.model");
+const ProjectTeam = require("../models/project_team.model");
 const Ticket = require("../models/ticket.model");
 const Epic = require("../models/epic.model");
 
@@ -139,8 +140,8 @@ exports.backendPoints = async (project_id) => {
         tickets_done_be_by_epic.push(done_be_by_epic[0].tickets_done_be_by_epic);
         const [to_do_by_epic] = await Ticket.tickets_in_to_do_be_by_epic(epic);
         tickets_to_do_by_epic.push(to_do_by_epic[0].story_points_to_do_epic);
-        const [progres_by_epic] = await Ticket.tickets_in_progress_be_by_epic(epic);
-        tickets_progress_by_epic.push(progres_by_epic[0].story_points_progress_epic);
+        const [progress_by_epic] = await Ticket.tickets_in_progress_be_by_epic(epic);
+        tickets_progress_by_epic.push(progress_by_epic[0].story_points_progress_epic);
         const [review_by_epic] = await Ticket.tickets_in_review_be_by_epic(epic);
         tickets_review_by_epic.push(review_by_epic[0].story_points_review_epic);
         tickets_missing_be_by_epic.push(
@@ -188,19 +189,19 @@ exports.frontendPoints = async(project_id) =>{
         story_points_fe_total_done= story_points_fe_total_done + elem;
     })
 
-    return new frontendPoints(epic_titles_flatten, story_points_fe_done, story_points_fe_missing[0].story_points_fe_missing, story_points_fe_total_done, colors)
+    return new frontendPoints(epic_titles_flatten, story_points_fe_done, story_points_fe_missing[0].story_points_fe_missing, story_points_fe_total_done, colors);
 }
 
 class teamWeeks {
-    constructor(agile_points_be,agile_points_fe){
-        this.agile_points_be=agile_points_be;
-        this.agile_points_fe=agile_points_fe;
+    constructor(story_points_be, story_points_fe){
+        this.story_points_be = story_points_be;
+        this.story_points_fe = story_points_fe;
     }
 }
 
 exports.teamWeeks = async (project_id) => {
-    const [be] = await Project.fetch_agile_points_be(project_id);
-    const [fe] = await Project.fetch_agile_points_fe(project_id);
-
-    return new teamWeeks(be[0].agile_points_be,fe[0].agile_points_fe);
+    const [be_points] = await ProjectTeam.fetch_be_points(project_id);
+    const [fe_points] = await ProjectTeam.fetch_fe_points(project_id);
+    console.log(fe_points[0].fe_points);
+    return new teamWeeks(be_points[0].be_points, fe_points[0].fe_points);
 }
