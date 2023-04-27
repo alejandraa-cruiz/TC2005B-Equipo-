@@ -175,7 +175,21 @@ Started on: 06-04-23-->
                         }     
                     }
                 },
-                aspectRatio: 2
+                aspectRatio: 2,
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Points'
+                        }
+                        },
+                        x: {
+                        title: {
+                            display: true,
+                            text: 'Weeks'
+                        }
+                        }
+                } 
             }
         });
 
@@ -200,7 +214,6 @@ Started on: 06-04-23-->
                             usePointStyle: true,
                             font: {
                                 size: 11,
-                                weight: 'bold'
                             }
                         } 
                     }

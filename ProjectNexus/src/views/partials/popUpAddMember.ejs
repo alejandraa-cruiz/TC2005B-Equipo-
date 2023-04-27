@@ -10,7 +10,7 @@
                         </ul>
                     </div>
                     <div class="flex gap-4 justify-center">
-                        <button id="save-member-button" onclick="sendMembers('<%= project.id_project%>')"
+                        <button id="save-member-button" onclick="sendMembers('<%= project.id_project%>','<%= popupId %>',event)"
                             class="shadow-md bg-mainBg text-green-500 rounded-lg p-2 hover:bg-gray-400 hover:text-zinc-100  duration-200">
                             Save
                         </button>

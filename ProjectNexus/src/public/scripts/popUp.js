@@ -1,7 +1,6 @@
 // Authors: Karla Alejandra Padilla González A0170331 y Daniel Gutiérrez Gómez A01068056
 // Date: 11/04/2023
 
-
 const alertDelProject = document.getElementById("alert");
 const alertSuccDelProjectErrors = document.getElementById("alertSucc");
 const messaggeDelError = document.getElementById("message-error");
@@ -43,6 +42,7 @@ function closeByEscape(index) {
         document.addEventListener('keydown', handleKeyDown);
     }
 }
+
 function closeByEscapeMember(index) {
     const popupMember = document.getElementById(`popupMember-${index}`);
     const computedStyleMember = window.getComputedStyle(popupMember);
@@ -58,26 +58,36 @@ function closeByEscapeMember(index) {
         document.addEventListener('keydown', handleKeyDown);
     }
 }
-function sendMembers(index){
 
-    const form = document.getElementById(`update-member-form-${index}`);
+function sendMembers(project_id, index, event) {
+    const form = document.getElementById(`update-member-form-${project_id}`);
     const data = new FormData(form);
-    fetch(`update/${index}`,{
-        method: 'PATCH',
-        body: data,
-    })
-    .then(res => {
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-    })
-    .then(data=> {
-        let messages = data.e;
-        if (messages === 'Success!'){
-            window.location.assign('/project/list');
-        }
-    })
+
+    // Check if at least one checkbox is checked
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    const checked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+    if (!checked) {
+        // If no checkbox is checked, do nothing
+        closePopupMember(index, event);
+    } else {
+        fetch(`update/${project_id}`, {
+            method: 'PATCH',
+            body: data,
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                let messages = data.e;
+                if (messages === 'Success!') {
+                    window.location.assign('/project/list');
+                }
+            })
+    }
+
 }
 
 function getMembers (project_id, index) {
