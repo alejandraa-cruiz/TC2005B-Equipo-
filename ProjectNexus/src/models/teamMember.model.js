@@ -48,7 +48,7 @@ module.exports = class TeamMember {
     }
 
     static search_by_name(member_name){
-        let query= `SELECT member_name FROM teamMember 
+        let query= `SELECT member_name, id_team_member FROM teamMember 
         WHERE member_name LIKE "${member_name}_%"`;
         return db.execute(query)
         

@@ -20,26 +20,28 @@ Date: Ended April 13th, 2023-->
                 <img class="w-20" src="/images/dh_logo.png" alt="">
                 </a>
             </div>
-
-            <div class="flex mb-12">
-                <a href="/members/create" 
-                    class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline">Create Member</a>
-            </div>
-
             <div class="flex gap-5 items-center justify-between mb-12" >
                     <h1 class="font-semibold text-2xl">Team members</h1>
                     <!--Search Bar-->
-                    
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <i class='bx bx-search'></i>
-                        </div>
-                        <input type="text" 
-                            class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
-                            placeholder="Search Member"  oninput="search(this.value)">
-                    </div>
             </div>
 
+            <div class="flex flex-row mb-12 justify-start w-full">
+                <div class=" flex justify-start w-1/4">
+                    <a href="/members/create" 
+                    class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline">Create Member</a>
+                </div>
+                <div class=" flex w-full justify-center">
+                    <div class="relative flex justify-start w-2/4">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-2/4">
+                            <i class='bx bx-search'></i>
+                        </div>
+                        <input type="text"
+                            class="block phone:pl-10 laptop:pl-10 desktop:pl-10 desktop:p-2 laptop:p-2 phone:p-1 w-full phone:text-[0.8rem] tablet:p-1 tablet:text-[0.8rem] tablet:pl-10 bg-zinc-50 focus:outline focus:outline-slate-600 focus:duration-200 focus:outline-2 shadow-md rounded-lg"
+                            placeholder="Search Member" oninput="search(this.value)">
+                    </div>
+                </div>
+            </div>
+            
             <div>
                 <table>
                     <thead>
@@ -61,7 +63,7 @@ Date: Ended April 13th, 2023-->
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="ml-11 p-2 bg-members-bg-green rounded-lg text-members-text-green">
+                                        <span class="ml-7 p-2 bg-members-bg-green rounded-lg text-members-text-green items-center">
                                             Frontend
                                         </span>
                                     </td>
@@ -99,7 +101,7 @@ Date: Ended April 13th, 2023-->
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="ml-11 p-2 bg-members-bg-yellow rounded-lg text-members-text-yellow">
+                                        <span class="ml-7 p-2 bg-members-bg-yellow rounded-lg text-members-text-yellow items-center">
                                             Backend
                                         </span>
                                     </td>
