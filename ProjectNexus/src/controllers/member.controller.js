@@ -119,15 +119,13 @@ exports.postModifyMember = async (req, res) =>{
         else if (req.body.userName === ''){
             throw new SyntaxError('Name can´t be empty')
         }
-
-
         TeamMember.update_by_id(req.body.userName,req.body.email,req.body.team,req.params.user);
         res.json({e:'Success!'});
     }catch (e){
         if (e instanceof TypeError) {
         res.status(400).json({e: 'Invalid email'});}
         else if (e instanceof SyntaxError) {
-                res.status(400).json({e: 'Name can´t be empty'});
+            res.status(400).json({e: 'Name can´t be empty'});
     }
 
     }
