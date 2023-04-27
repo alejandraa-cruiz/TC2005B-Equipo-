@@ -2,6 +2,7 @@ const Project = require('../models/project.model');
 const TeamMember = require('../models/teamMember.model');
 const { emailValidation } = require('../utils/emailValidation');
 const Epic = require("../models/epic.model");
+const ProjectTeam = require('../models/project_team.model');
 
 /** @type {import("express").RequestHandler} */
 exports.memberList= async (req,res) => {
@@ -32,9 +33,6 @@ exports.search = async (req,res) => {
 
     res.json({teamMembers:teamMember})
     return;
-    
-       
-    
 }
 
 /** @type {import("express").RequestHandler} */
@@ -137,5 +135,20 @@ exports.postModifyMember = async (req, res) =>{
             res.status(400).json({msg: 'Name can´t be empty', error: true});
         }
 
+    }
+}
+
+/** @type {import("express").RequestHandler} */
+exports.modifyPoints = async (req, res) => {
+    try {
+        const project = req.body.project;
+        req.body.dataList.forEach(member => {
+            const memberId = Object.keys(member)[0];
+            const points = member[memberId];
+            ProjectTeam.update(project, memberId, points);
+        });
+        res.json({ error: false });
+    } catch {
+        res.json({msg: 'database error', error: true });
     }
 }

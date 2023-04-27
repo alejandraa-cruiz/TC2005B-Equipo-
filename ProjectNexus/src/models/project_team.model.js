@@ -137,4 +137,11 @@ module.exports = class ProjectTeam {
                             AND id_project = ?`;
         return db.execute(query, [id_project]);
     }
+
+    static update(id_project, id_team_member, agile_points){
+        const query = `UPDATE project_teamMember
+                       SET agile_points = ?
+                       WHERE id_project = ? AND id_team_member = ?`;
+        return db.execute(query, [agile_points, id_project, id_team_member]);
+    }
 }

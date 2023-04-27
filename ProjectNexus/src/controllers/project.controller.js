@@ -5,6 +5,7 @@ const Project = require('../models/project.model');
 const Epic = require('../models/epic.model');
 const ProjectTeam = require('../models/project_team.model');
 const User = require('../models/teamMember.model');
+const TeamMember = require('../models/teamMember.model');
 
 /** 
  * Render of create project view First, we fetch the userInfo
@@ -162,24 +163,6 @@ exports.postProject = async (req, res) => {
     }
 }
 
-const a = [
-    {
-        id_project: 1,
-        project_name: 'lol',
-        start_date: '',
-        end_date: '',
-        teamMembers : [
-            {
-                id_team_member: 1,
-                member_name: '',
-                email: '',
-                team: '',
-                agile_points: 1
-            }
-        ]
-    }
-]
-
 /** 
  * Fetch method `POST`, to post new project
  * ONLY post in the next scenarios:
@@ -194,10 +177,10 @@ exports.getListProjects = async (req, res) => {
     // Fetch every project
     const [projects] = await Project.fetch_all();
 
-    for(let project of projects){
-        const [members] = await ProjectTeam.fetch_members(project.id_project);
-        project.teamMembers = members;
-    }
+    // for(let project of projects){
+    //     const [members] = await ProjectTeam.fetch_members(project.id_project);
+    //     project.teamMembers = members;
+    // }
 
     res.render(__dirname + '/../views/projectsList', {
         user: userInfo,
@@ -244,6 +227,22 @@ exports.getListProjects = async (req, res) => {
     } else{
         setTimeout(function () { res.redirect('/project') }, 3000);
     }
+}
+
+/** 
+ * Fetch method `GET`
+ * @type {import("express").RequestHandler} 
+*/
+exports.getProjects = async (req, res) => {
+    // Fetch every project
+    const [projects] = await ProjectTeam.fetch_all();
+    const [members] = await TeamMember.fetchAll();
+    for(let i = 0; i < projects.length; i++){
+        const project = projects[i];
+        const [members] = await ProjectTeam.fetch_members(project.id_project);
+        project.members = members; 
+    }
+    res.json({projects: projects, members: members});
 }
 /** 
  * Fetch method `GET`, get current index
@@ -388,6 +387,7 @@ exports.getMembersProject = async (req,res) =>{
     res.json({members: members});
 }
 
+/** @type {import("express").RequestHandler} */
 exports.updateMembers = async (req, res) =>{
     const members = Object.keys(req.body);
     var id_project;

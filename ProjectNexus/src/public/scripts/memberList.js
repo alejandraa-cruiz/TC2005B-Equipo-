@@ -132,8 +132,8 @@ const updatePagination = () => {
         const pageButton = listItem.querySelector('a');
         pageButton.innerText = i;
         if(i === page){
-            pageButton.classList.add('bg-red-400', 'text-white', 
-                                     'hover:bg-white', 'hover:text-red-400');
+            pageButton.classList.add('current-page');
+            pageButton.classList.remove('pagination');
         }
         pageButton.addEventListener('click', (ev) => {
             page = i;
