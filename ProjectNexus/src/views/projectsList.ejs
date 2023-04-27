@@ -97,6 +97,7 @@
                     <div id="containerList" class="relative">
                             <% sliceProjects.forEach((project, index) => { %>
                                 <%- include('partials/cancel-popup.ejs', {project: project, popupId : index}); %>
+                                <%- include('partials/popUpModify.ejs', {project: project, popupId : index}); %>
                                 <%- include('partials/popUpAddMember.ejs', {project: project, popupId : index}); %>
                             <div class="flex flex-row w-full appearance-none select-none mb-[1.5rem] mt-[1.5rem]">
                                 <div class="w-1/5 flex flex-row justify-center">
@@ -115,7 +116,7 @@
                                                 </p>
                                             </div>
                                             <div class="break-words hover:bg-members-bg-green rounded-lg p-[0.150rem] hover:cursor-pointer text-teal-800 duration-200">
-                                                <button>
+                                                <button onclick="popUpModify('<%=index%>', '<%=project.id_project%>', event)">
                                                     <svg class="phone:w-[1.1rem] phone:h-[1.1rem] tablet:w-[1rem] tablet:h-[1rem] laptop:w-[1.6rem] laptop:h-[1.6rem] desktop:w-[1.55rem] desktop:h-[1.55rem] icon icon-tabler icon-tabler-user-edit"
                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                                         stroke-linecap="round" stroke-linejoin="round">

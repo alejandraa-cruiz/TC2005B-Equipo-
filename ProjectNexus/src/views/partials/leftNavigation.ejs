@@ -36,7 +36,7 @@
                     <ul id="dropDownProjects" class="justify-center hidden appearance-none ml-5">
                         <% if(projects) { %>
                             <% projects.forEach(elem=> { %>
-                                <li class="transition duration-300 hover:rounded-md hover:bg-mainBg">
+                                <li class="transition duration-300 hover:rounded-md hover:bg-mainBg focus:bg-mainBg focus:rounded-md">
                                     <i class='bx bx-bar-chart-square'></i>
                                     <a href="/dashboard/<%= elem.id_project %>">
                                         <%= elem.project_name %>

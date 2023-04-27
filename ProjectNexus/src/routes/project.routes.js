@@ -7,6 +7,8 @@ let router = express.Router();
 router.get('/epics',requiresAuth(), ProjectController.getEpicsProjects);
 router.post('/create', requiresAuth(), ProjectController.postProject);
 router.get('/list/members/:project', requiresAuth(), ProjectController.getMembersProject);
+router.get('/list/members/modify/:project', requiresAuth(), ProjectController.getMembersProjectModify);
+router.patch('/list/members/update/:project', requiresAuth(), ProjectController.updateAgilePoints);
 router.get('/list/search', requiresAuth(), ProjectController.getListProjectsSearchBar);
 router.get('/list/pagination/:index', requiresAuth(), ProjectController.getListProjectsPagination);
 router.get('/list', requiresAuth(), ProjectController.getListProjects);

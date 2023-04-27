@@ -191,11 +191,110 @@ function deleteMember (id) {
     })
     .catch(error => {console.log(error)});
 }
- 
- function closePopupMember(index, event){
+
+function closePopupMember(index, event){
     event.preventDefault();
     const popup = document.getElementById(`popupMember-${index}`);
     popup.classList.toggle("hidden");
     document.removeEventListener('keydown', handleKeyDown);
     popupOpen = false;
- }
+}
+
+function getMembersModify (project_id, index) {
+    let memberModifyElement = document.getElementById(`dropDownMembersModify-${index}`);
+    fetch(`/project/list/members/modify/${project_id}`,{
+        method: `GET`
+    })
+    .then (res => res.json())
+    .then (res => { 
+        console.log(res.members);
+        memberModifyElement.innerHTML='';
+        if (res.members.length == 0){memberModifyElement.innerHTML = `
+            <p>No members to assign</p>
+        `} else{
+            res.members.forEach((member, index) => {
+                memberModifyElement.innerHTML += `
+                    <li onclick="event.stopPropagation()" class=" p-2 text-[14px] hover:text-zinc-950 hover:cursor-pointer hover:bg-gray-400 hover:border-gray-500 hover:rounded-md duration-500">
+                        <div class="flex flex-row mr-3">
+                            <div class="mr-3"> 
+                                <p id="member"> ${member.member_name}</p>
+                            </div>
+                            <div> 
+                                <input type="number" placeholder="${member.agile_points}" name="${member.id_team_member}" id="${member.id_team_member}></input>
+                                <label for="${member.id_team_member}"></label>
+                            </div>
+                        </div>
+                    </li>
+                `
+            });
+        }
+    })
+}
+function popUpModify(index, project_id, event){
+    event.preventDefault();
+    if (popupOpen) {
+        return;
+    }
+    popupOpen = true;
+    const popup = document.getElementById(`popUpModify-${index}`);
+    popup.classList.toggle("hidden");
+    getMembersModify(project_id, index);
+    closeByEscapeMemberModify(index);
+}
+
+function closeByEscapeMemberModify(index) {
+    const popupMemberModify = document.getElementById(`popUpModify-${index}`);
+    const computedStyleMember = window.getComputedStyle(popupMemberModify);
+    if (computedStyleMember.display !== 'none' && popupOpen) {
+        handleKeyDown = function (event) {
+            if (event.key === 'Escape') {
+                event.stopImmediatePropagation();
+                popupMemberModify.classList.toggle('hidden');
+                document.removeEventListener('keydown', handleKeyDown);
+                popupOpen = false;
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+    }
+}
+
+function closePopupMemberModify(index, event){
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const popup = document.getElementById(`popUpModify-${index}`);
+    popup.classList.toggle("hidden");
+    popupOpen = false;
+    document.removeEventListener('keydown', handleKeyDown);
+}
+
+function updateAgilePoints(project_id){
+    const form = document.getElementById(`update-agilePoints-${project_id}`);
+    const data = new FormData(form);
+
+    const points_input = form.querySelectorAll('input[type="number"]');
+    agile_points = [];
+    points_input.forEach(input => {
+        agile_points.push(input.value);
+    })
+    console.log(agile_points);
+
+    fetch(`/project/list/members/update/${project_id}`,{
+        method: 'PATCH',
+        body: data,
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data=> {
+        let messages = data.e;
+        if (messages === 'Success!'){
+            window.location.assign('/project/list');
+        }
+    })
+}
+
+
+

@@ -351,6 +351,14 @@ exports.getMembersProject = async (req,res) =>{
     res.json({members: members});
 }
 
+exports.getMembersProjectModify = async (req,res) =>{
+    let project_id = req.params.project;
+    // const [members_assigned] = await ProjectTeam.fetch_assigned_project(project_id);
+    // console.log(members_assigned);
+    const [members] = await ProjectTeam.fetch_teamMembersAssigned(project_id);
+    res.json({members: members});
+}
+
 exports.updateMembers = async (req, res) =>{
     const members = Object.keys(req.body);
     var id_project;
@@ -367,4 +375,19 @@ exports.updateMembers = async (req, res) =>{
     const [rows] = await projectTeam.save();
     if (rows.affectedRows > 0) res.status(200).json({ e: 'Success!' });
     else res.status(500).json({ e: 'Database conection failed' });
+}
+
+exports.updateAgilePoints = async (req, res) =>{
+    // console.log(members);
+    const agile_points_dict = req.body;
+    console.log(agile_points_dict);
+    const agile_points = Object.keys(req.body);
+    console.log(req.params.project);
+    console.log(agile_points);
+    agile_points.forEach((id,index) =>{
+        console.log(agile_points_dict[index]);
+        ProjectTeam.update_agile_points(agile_points_dict[index], id)
+    })
+    // if (rows.affectedRows > 0) res.status(200).json({ e: 'Success!' });
+    // else res.status(500).json({ e: 'Database conection failed' });
 }

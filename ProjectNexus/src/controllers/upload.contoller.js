@@ -102,12 +102,14 @@ exports.file = async (req, res) => {
             
             // Move file to uploads directory
             await csv.mv(path.join(uploadDirectory, fileSaveName));
+        } else{
+            await connection.rollback();
+            return res.status(400).json({e : 'Duplicated file!'});
         }
 
         // If everything goes to plan, we commit the changes on the database and
         // send a success message.
         await connection.commit();
-        console.log('insertedEpics:', insertedEpics, '\ninsertedTickets:', insertedTickets, '\nupdatedTickets:', updatedTickets);
         res.json({e: 'Success'});
 
     } catch (e) {
