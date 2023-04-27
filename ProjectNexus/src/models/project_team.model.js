@@ -155,7 +155,7 @@ module.exports = class ProjectTeam {
         );`
         )
     }
-
+    
     static fetch_id_member (project_id){
         let query = `
             SELECT id_team_member
@@ -175,4 +175,20 @@ module.exports = class ProjectTeam {
         `
         return db.execute(query,[agile_points, id_member]);
     }
+    static fetch_be_points(project_id){
+        let query = `SELECT SUM(ptm.agile_points) AS be_points
+                    FROM teamMember tm
+                    JOIN project_teamMember ptm ON tm.id_team_member = ptm.id_team_member
+                    WHERE tm.team = 'BE';`;
+        return db.execute(query, [project_id]);
+    }
+
+    static fetch_fe_points(project_id){
+        let query = `SELECT SUM(ptm.agile_points) AS fe_points
+                    FROM teamMember tm
+                    JOIN project_teamMember ptm ON tm.id_team_member = ptm.id_team_member
+                    WHERE tm.team = 'FE';`;
+        return db.execute(query, [project_id]);
+    }
+    
 }
