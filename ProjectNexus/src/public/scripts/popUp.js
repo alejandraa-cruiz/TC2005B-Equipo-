@@ -199,15 +199,20 @@ function getMembersModify (project_id, index) {
     .then (res => res.json())
     .then (res => { 
         console.log(res.members);
+        memberModifyElement.innerHTML='';
         if (res.members.length == 0){memberModifyElement.innerHTML = `
             <p>No members to assign</p>
         `} else{
-            res.members.forEach(member => {
+            res.members.forEach((member, index) => {
                 memberModifyElement.innerHTML += `
                     <li onclick="event.stopPropagation()" class=" p-2 text-[14px] hover:text-zinc-950 hover:cursor-pointer hover:bg-gray-400 hover:border-gray-500 hover:rounded-md duration-500">
-                        <div class="flex flex-row">
+                        <div class="flex flex-row mr-3">
+                            <div class="mr-3"> 
+                                <p id="member"> ${member.member_name}</p>
+                            </div>
                             <div> 
-                                <p> ${member.member_name}</p>
+                                <input type="number" placeholder="${member.agile_points}" name="${member.id_team_member}" id="${member.id_team_member}></input>
+                                <label for="${member.id_team_member}"></label>
                             </div>
                         </div>
                     </li>
@@ -224,7 +229,7 @@ function popUpModify(index, project_id, event){
     popupOpen = true;
     const popup = document.getElementById(`popUpModify-${index}`);
     popup.classList.toggle("hidden");
-    getMembersModify(project_id);
+    getMembersModify(project_id, index);
     closeByEscapeMemberModify(index);
 }
 
@@ -253,7 +258,34 @@ function closePopupMemberModify(index, event){
     document.removeEventListener('keydown', handleKeyDown);
 }
 
+function updateAgilePoints(project_id){
+    const form = document.getElementById(`update-agilePoints-${project_id}`);
+    const data = new FormData(form);
 
+    const points_input = form.querySelectorAll('input[type="number"]');
+    agile_points = [];
+    points_input.forEach(input => {
+        agile_points.push(input.value);
+    })
+    console.log(agile_points);
+
+    fetch(`/project/list/members/update/${project_id}`,{
+        method: 'PATCH',
+        body: data,
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data=> {
+        let messages = data.e;
+        if (messages === 'Success!'){
+            window.location.assign('/project/list');
+        }
+    })
+}
 
 
 

@@ -376,3 +376,18 @@ exports.updateMembers = async (req, res) =>{
     if (rows.affectedRows > 0) res.status(200).json({ e: 'Success!' });
     else res.status(500).json({ e: 'Database conection failed' });
 }
+
+exports.updateAgilePoints = async (req, res) =>{
+    // console.log(members);
+    const agile_points_dict = req.body;
+    console.log(agile_points_dict);
+    const agile_points = Object.keys(req.body);
+    console.log(req.params.project);
+    console.log(agile_points);
+    agile_points.forEach((id,index) =>{
+        console.log(agile_points_dict[index]);
+        ProjectTeam.update_agile_points(agile_points_dict[index], id)
+    })
+    // if (rows.affectedRows > 0) res.status(200).json({ e: 'Success!' });
+    // else res.status(500).json({ e: 'Database conection failed' });
+}

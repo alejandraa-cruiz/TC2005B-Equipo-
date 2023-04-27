@@ -77,10 +77,10 @@ module.exports = class ProjectTeam {
     
     static fetch_teamMembersAssigned(id_project){
         let query = `
-        SELECT Tm.agile_points, T.member_name
+        SELECT Tm.agile_points, T.member_name, T.id_team_member
         FROM teamMember as T, project_teamMember as Tm, project as P
         WHERE P.id_project = Tm.id_project AND P.id_project = ? AND T.id_team_member = Tm.id_team_member
-        GROUP BY Tm.agile_points, T.member_name`
+        GROUP BY Tm.agile_points, T.member_name, T.id_team_member`
         return db.execute(query, [id_project]);
     }
 
@@ -154,5 +154,25 @@ module.exports = class ProjectTeam {
             FROM project_teamMember
         );`
         )
+    }
+
+    static fetch_id_member (project_id){
+        let query = `
+            SELECT id_team_member
+            FROM project_teamMember
+            WHERE project_id = ?
+        `
+        return db.execute(query,[project_id]);
+    }
+
+    static update_agile_points (agile_points, id_member){
+        let query = `
+            UPDATE project_teamMember as Tm
+            JOIN teamMember as T ON T.id_team_member = Tm.id_team_member
+            JOIN project as P ON Tm.id_project = P.id_project
+            SET Tm.agile_points = ?, Tm.id_project = P.id_project
+            WHERE T.id_team_member = ?
+        `
+        return db.execute(query,[agile_points, id_member]);
     }
 }
