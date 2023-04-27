@@ -74,6 +74,24 @@ module.exports = class ProjectTeam {
         WHERE P.id_project = Pr.id_project AND P.id_team_member = T.id_team_member;`;
         return db.execute(query);
     }
+    
+    static fetch_teamMembersAssigned(id_project){
+        let query = `
+        SELECT Tm.agile_points, T.member_name
+        FROM teamMember as T, project_teamMember as Tm, project as P
+        WHERE P.id_project = Tm.id_project AND P.id_project = ? AND T.id_team_member = Tm.id_team_member
+        GROUP BY Tm.agile_points, T.member_name`
+        return db.execute(query, [id_project]);
+    }
+
+    static fetch_assigned_project(id_project){
+        let query = `
+        SELECT T.id_team_member
+        FROM teamMember as T, project_teamMember as Tm
+        WHERE Tm.id_project = ? AND Tm.id_team_member = T.id_team_member 
+        GROUP BY T.id_team_member`
+        return db.execute(query, [id_project]);
+    }
     static fetch_all(){
         let query = `
         SELECT * 

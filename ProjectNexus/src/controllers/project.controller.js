@@ -351,6 +351,14 @@ exports.getMembersProject = async (req,res) =>{
     res.json({members: members});
 }
 
+exports.getMembersProjectModify = async (req,res) =>{
+    let project_id = req.params.project;
+    // const [members_assigned] = await ProjectTeam.fetch_assigned_project(project_id);
+    // console.log(members_assigned);
+    const [members] = await ProjectTeam.fetch_teamMembersAssigned(project_id);
+    res.json({members: members});
+}
+
 exports.updateMembers = async (req, res) =>{
     const members = Object.keys(req.body);
     var id_project;
