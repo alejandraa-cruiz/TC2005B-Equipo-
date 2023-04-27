@@ -40,7 +40,7 @@ Started on: 06-04-23-->
                             <canvas id="frontend-points"></canvas>
                         </div>
                         <div class="max-h-28 flex justify-around items-start">
-                            <h3 class="font-bold">Total points by area</h3>
+                            <h3 class="font-bold">Team Weeks</h3>
                             <canvas id="team-weeks"></canvas>
                         </div> 
                     </div>
@@ -320,12 +320,12 @@ Started on: 06-04-23-->
 
             datasets: [{
                 label: 'Frontend',
-                data: [<%= teamWeeks.agile_points_fe%>],
+                data: [<%= teamWeeks.story_points_fe%>],
                 backgroundColor: //azul marino
                     'rgb(1, 41, 95)',
             },{
                 label: 'Backend',
-                data: [<%= teamWeeks.agile_points_be%>],
+                data: [<%= teamWeeks.story_points_be%>],
                 backgroundColor://amarillo
                     'rgb(255, 179, 15)',
             }]
