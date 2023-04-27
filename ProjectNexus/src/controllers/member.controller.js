@@ -88,7 +88,7 @@ exports.postMember= async (req, res) => {
  */
 exports.deleteMember = async (req, res) => {
     const [rows] = await TeamMember.delete_by_id (req.params.user);
-    if (rows.affectedRows > 0) res.status(200).json({e: 'Succes: member was erased'});
+    if (rows.affectedRows > 0) res.status(200).json({e: 'Success, member was erased'});
     else res.status(500).json({e: 'Database connection failed'});
 }
 
