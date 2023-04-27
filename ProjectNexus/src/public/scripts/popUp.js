@@ -87,7 +87,6 @@ function sendMembers(project_id, index, event) {
                 }
             })
     }
-
 }
 
 function getMembers (project_id, index) {
