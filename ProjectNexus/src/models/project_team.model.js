@@ -132,7 +132,7 @@ module.exports = class ProjectTeam {
     }
     static fetch_members(id_project){
         const query = `SELECT *
-                       FROM project_teammember PT, teammember T
+                       FROM project_teamMember PT, teamMember T
                        WHERE PT.id_team_member = T.id_team_member 
                             AND id_project = ?`;
         return db.execute(query, [id_project]);
