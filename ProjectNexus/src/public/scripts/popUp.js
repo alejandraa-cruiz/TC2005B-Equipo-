@@ -182,11 +182,23 @@ function deleteMember (id) {
     })
     .catch(error => {console.log(error)});
 }
- 
- function closePopupMember(index, event){
+
+function closePopupMember(index, event){
     event.preventDefault();
     const popup = document.getElementById(`popupMember-${index}`);
     popup.classList.toggle("hidden");
     document.removeEventListener('keydown', handleKeyDown);
     popupOpen = false;
- }
+}
+
+function popUpModify(index, project_id, event){
+    event.preventDefault();
+    if (popupOpen) {
+        return;
+    }
+    popupOpen = true;
+    const popup = document.getElementById(`popUpModify-${index}`);
+    popup.classList.toggle("hidden");
+    getMembers(project_id, index);
+    closeByEscapeMember(index);
+}
