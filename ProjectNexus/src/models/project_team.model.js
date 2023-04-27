@@ -74,6 +74,13 @@ module.exports = class ProjectTeam {
         WHERE P.id_project = Pr.id_project AND P.id_team_member = T.id_team_member;`;
         return db.execute(query);
     }
+    static fetch_all(){
+        let query = `
+        SELECT * 
+        FROM project_teamMember
+        `
+        return db.execute(query);
+    }
     
     static async fetch_number_members_assigned(list_projects){
         let query = `
