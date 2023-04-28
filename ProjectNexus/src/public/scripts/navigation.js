@@ -30,12 +30,6 @@ import { createAlert } from './ajaxAlertHandler.js';
             navHideButton.classList.add('phone:left-0');
             navHideButton.dataset.open = false;
         }
-        fileLabel.innerText = `Select or drag and drop a file`;
-        csvInput.value = ``;
-    }).catch(error =>{
-        messagge.innerText = 'Database connection failed';
-        alertErr.classList.remove('hidden');
-        setTimeout(function () { alertErr.classList.add('hidden') }, 3000);
     });
 
     const projectDropdown = document.getElementById('nav-project-dropdown');
@@ -79,5 +73,4 @@ import { createAlert } from './ajaxAlertHandler.js';
         fileLabel.innerText = 'Select or drag and drop a file';
     })
 })();
-
 
