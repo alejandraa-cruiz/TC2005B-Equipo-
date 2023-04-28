@@ -2,7 +2,7 @@ export const createAlert = (payload) => {
     let msg = payload.msg;
     msg = msg? msg: '';
     const alert = document.createElement('div');
-    alert.classList.add('z-20');
+    alert.classList.add('z-30');
     alert.innerHTML = `<strong class="font-bold"></strong>
                        <span></span>`;
     if(payload.error){
