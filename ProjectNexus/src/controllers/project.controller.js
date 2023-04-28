@@ -5,6 +5,7 @@ const Project = require('../models/project.model');
 const Epic = require('../models/epic.model');
 const ProjectTeam = require('../models/project_team.model');
 const User = require('../models/teamMember.model');
+const TeamMember = require('../models/teamMember.model');
 
 /** 
  * Render of create project view First, we fetch the userInfo
@@ -33,7 +34,7 @@ exports.project = async (req, res) => {
         })
         // Render list of unassigned epics
         .catch((error)=>{
-            res.status(400).json({e: "You don't have assigned epics"})
+            res.status(400).json({msg: "You don't have assigned epics", error: true})
         });
     } catch {
         res.redirect('/logout');
@@ -51,13 +52,16 @@ exports.getEpicsProjects = (req, res) => {
         // If no more assigned epics
         if (Epics.length == 0){
             res.status(200).json({
-                e: "You don't have assigned epics", Epics: Epics
+                msg: "You don't have assigned epics", 
+                Epics: Epics,
+                error: false,
             })
         }
         // If there are epics
         else {
             res.status(200).json({
-                Epics: Epics, 
+                Epics: Epics,
+                error: false,
             })
         }
     })
@@ -133,17 +137,17 @@ exports.postProject = async (req, res) => {
                                     // Save new instance of ProjectTeam
                                     newProjectTeam.save()
                                     .then(([rows, fieldData]) =>{
-                                        res.status(200).json({e: 'Success'});
+                                        res.status(200).json({error: false });
                                     })
-                                    .catch((e)=>{res.status(500).json({e: 'Database conection failed'})});
+                                    .catch((e)=>{res.status(500).json({msg: 'Database conection failed', error: true})});
                                 })
-                                .catch((e)=>{res.status(500).json({e: 'Database conection failed'})});
+                                .catch((e)=>{res.status(500).json({msg: 'Database conection failed', error: true})});
                                 
                             })
-                            .catch((e)=>{res.status(500).json({e: 'Database conection failed'})});
+                            .catch((e)=>{res.status(500).json({msg: 'Database conection failed', error: true})});
                             
                         })
-                        .catch((e)=>{res.status(500).json({e: 'Database conection failed'})});
+                        .catch((e)=>{res.status(500).json({msg: 'Database conection failed', error: true})});
                     }
                     else{
                         console.log("Please verify your epics, there are no more left");
@@ -153,11 +157,11 @@ exports.postProject = async (req, res) => {
             } 
             // Prompt message of project already in database
             else {
-                res.status(400).json({e: 'Project already exists'});
+                res.status(400).json({msg: 'Project already exists', error: true });
             }
         });
     } else {
-        res.status(400).json({e: 'Invalid time range'});
+        res.status(400).json({msg: 'Invalid time range', error: true});
         //res.redirect('/project');
     }
 }
@@ -174,39 +178,35 @@ exports.getListProjects = async (req, res) => {
     // Fetch userInfo with open id connect and Auth0
     const userInfo = await req.oidc.fetchUserInfo();
     // Fetch every project
+    const [projects] = await Project.fetch_all();
+
+    // for(let project of projects){
+    //     const [members] = await ProjectTeam.fetch_members(project.id_project);
+    //     project.teamMembers = members;
+    // }
+
+    res.render(__dirname + '/../views/projectsList', {
+        user: userInfo,
+        projects: projects,
+    });
+
+    return;
+}
+
+/** 
+ * Fetch method `GET`
+ * @type {import("express").RequestHandler} 
+*/
+exports.getProjects = async (req, res) => {
+    // Fetch every project
     const [projects] = await ProjectTeam.fetch_all();
-    // Projects assigned by current user
-    const projectsPerPage = 4;
-    const page = 1;
-    if(projects.length > 0){
-        // Fetch the number of team members assigned to specific project
-        // Promise.All() to get list of number of team members assigned
-        const teamMembers = await ProjectTeam.fetch_number_members_assigned(projects);
-        projects.forEach((project, index) =>{
-            projects[index].count_team_members = teamMembers[index];
-        })
-        const totalPages = Math.ceil(projects.length / projectsPerPage);
-        const startIndex = (page - 1) * projectsPerPage;
-        const endIndex = startIndex + projectsPerPage;
-        const sliceProjects = projects.slice(startIndex, endIndex);
-        // Render project list with new key and value:
-        // `{count_team_members: n}`
-        // with the initial index 0, to the end index 3
-        // total pages depending on the number of projects fetched
-        // and the sliced projects: projects[0-3]
-        res.render(__dirname + '/../views/projectsList', {
-            user: userInfo,
-            projects: projects,
-            sliceProjects : sliceProjects,
-            totalPages: totalPages,
-            startIndex: startIndex,
-            endIndex: endIndex,
-            totalPages: totalPages
-        });
-        // No projects assigned by current user
-    } else{
-        setTimeout(function () { res.redirect('/project') }, 3000);
+    const [members] = await TeamMember.fetchAll();
+    for(let i = 0; i < projects.length; i++){
+        const project = projects[i];
+        const [members] = await ProjectTeam.fetch_members(project.id_project);
+        project.members = members; 
     }
+    res.json({projects: projects, members: members});
 }
 /** 
  * Fetch method `GET`, get current index
@@ -293,8 +293,8 @@ exports.getListProjectsPagination = async (req, res) => {
  * @type {import("express").RequestHandler}
 */exports.deleteProject = async (req, res) =>{
     const [rows] = await Project.delete_by_id(req.params.project);
-    if(rows.affectedRows > 0) res.status(200).json({e:'Success, project was erased'});
-    else res.status(500).json({ e: 'Database conection failed' });
+    if(rows.affectedRows > 0) res.status(200).json({msg:'project was erased', error: false});
+    else res.status(500).json({ msg: 'Database conection failed', error: true});
 }
 
 
@@ -338,10 +338,10 @@ exports.modifyProjectPost = async (req,res) =>{
         delete req.body.end_date;
         const listEpicsToInsert= Object.keys(req.body);
         await Project.update_epics(req.params.project, listEpicsToInsert);
-        res.json({e:'Success!'});
+        res.json({error: false});
 
     } else {
-        res.json({e:'Invalid time range'});
+        res.json({msg:'Invalid time range', error: true});
     }
 }
 
@@ -351,14 +351,7 @@ exports.getMembersProject = async (req,res) =>{
     res.json({members: members});
 }
 
-exports.getMembersProjectModify = async (req,res) =>{
-    let project_id = req.params.project;
-    // const [members_assigned] = await ProjectTeam.fetch_assigned_project(project_id);
-    // console.log(members_assigned);
-    const [members] = await ProjectTeam.fetch_teamMembersAssigned(project_id);
-    res.json({members: members});
-}
-
+/** @type {import("express").RequestHandler} */
 exports.updateMembers = async (req, res) =>{
     const members = Object.keys(req.body);
     var id_project;
@@ -373,8 +366,8 @@ exports.updateMembers = async (req, res) =>{
         agile_points : 0
     });
     const [rows] = await projectTeam.save();
-    if (rows.affectedRows > 0) res.status(200).json({ e: 'Success!' });
-    else res.status(500).json({ e: 'Database conection failed' });
+    if (rows.affectedRows > 0) res.status(200).json({ error: false });
+    else res.status(500).json({ msg: 'Database conection failed', error: true });
 }
 
 exports.updateAgilePoints = async (req, res) =>{
