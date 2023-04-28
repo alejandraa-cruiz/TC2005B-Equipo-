@@ -1,0 +1,26 @@
+<div id="popupMember-<%= popupId %>" class="modify-cancel-popup absolute content-center text-center items-center top-[5%] mx-auto w-full hidden mb-7 
+    tablet:h-1/2 tablet:w-full tablet:items-center
+    phone:absolute phone:w-full phone:mx-auto phone:items-center phone:h-auto">
+    <div class="flex flex-row justify-center w-full relative">
+        <form id="update-member-form-<%= project.id_project%>">
+            <div class="relative bg-zinc-50 rounded-lg break-words space-x-5 p-10 space-y-4 shadow-lg h-full">
+                <div class="static w-full">
+                    <div class=" mb-3">
+                        <ul id="dropDownMembers-<%= popupId %>" class="text-left overflow-y-auto overflow-x-clip custom-scrollbar max-h-[5.0rem] p-5 hover:opacity-90" >
+                        </ul>
+                    </div>
+                    <div class="flex gap-4 justify-center">
+                        <button id="save-member-button" onclick="sendMembers('<%= project.id_project%>')"
+                            class="shadow-md bg-mainBg text-green-500 rounded-lg p-2 hover:bg-gray-400 hover:text-zinc-100  duration-200">
+                            Save
+                        </button>
+                            <button id="cancel-project-button" onclick="closePopupMember('<%= popupId %>',event)"
+                            class="shadow-md bg-mainBg text-red-500 rounded-lg p-2  hover:bg-gray-400 hover:text-zinc-100  duration-200">
+                                Cancel
+                            </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

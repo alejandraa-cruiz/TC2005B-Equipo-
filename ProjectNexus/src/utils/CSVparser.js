@@ -57,6 +57,29 @@ const pushEpicsFromLinks = (epics, links) => {
     return epics;
 }
 
+/**
+ * 
+ * @param {[Epic]} arr 
+ * @param {String} epic_link 
+ * @param {String} epic_title 
+ */
+const pushUniqueEpic = (arr, epic_link, epic_title) => {
+    if(arr.length === 0){
+        arr.push(new Epic({epic_link: epic_link, epic_title: epic_title}));
+        return;
+    }
+    let occurrences = 0;
+    arr.forEach((elem) => {
+        if(elem.epic_link === epic_link) {
+            occurrences++;
+        }
+    });
+    if(occurrences === 0){
+        arr.push(new Epic({epic_link: epic_link, epic_title: epic_title}));
+    }
+    
+}
+
 module.exports = class TicketDataset {
     /**
      * 
@@ -119,7 +142,7 @@ module.exports = class TicketDataset {
                 .replace('T', ' ');  // 'YYYY-MM-DD HH:MM:SS'
 
             // We push the unique epic_links to an array
-            pushUnique(epicLinks, row[6]);
+            pushUniqueEpic(epicLinks, row[6], row[7]);
 
             // We create a ticket from each row and push it to the ticket list
             const ticket = new Ticket({
@@ -134,7 +157,8 @@ module.exports = class TicketDataset {
             });
             ticketDataset.tickets.push(ticket)
         }
-        pushEpicsFromLinks(ticketDataset.epics, epicLinks)
+        
+        ticketDataset.epics = epicLinks;
         return ticketDataset;
     }
 }

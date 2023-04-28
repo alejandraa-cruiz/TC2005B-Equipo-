@@ -5,6 +5,7 @@ const Project = require('../models/project.model');
 const Epic = require('../models/epic.model');
 const ProjectTeam = require('../models/project_team.model');
 const User = require('../models/teamMember.model');
+const TeamMember = require('../models/teamMember.model');
 
 /** 
  * Render of create project view First, we fetch the userInfo
@@ -169,12 +170,34 @@ exports.postProject = async (req, res) => {
  * 2.- Project name doesn't exist in database
  * 3.- If connection didn't failed
  * @type {import("express").RequestHandler}
-*/exports.getListProjects = async (req, res) => {
+*/
+exports.getListProjects = async (req, res) => {
     // Fetch userInfo with open id connect and Auth0
     const userInfo = await req.oidc.fetchUserInfo();
     // Fetch every project
-    const [projects] = await ProjectTeam.fetch_all();
+    const [projects] = await Project.fetch_all();
+
+    // for(let project of projects){
+    //     const [members] = await ProjectTeam.fetch_members(project.id_project);
+    //     project.teamMembers = members;
+    // }
+
+    res.render(__dirname + '/../views/projectsList', {
+        user: userInfo,
+        projects: projects,
+        // sliceProjects : sliceProjects,
+        // totalPages: totalPages,
+        // startIndex: startIndex,
+        // endIndex: endIndex,
+        // totalPages: totalPages
+    });
+
+    return;
+
+
     // Projects assigned by current user
+    const projectsPerPage = 4;
+    const page = 1;
     if(projects.length > 0){
         // Fetch the number of team members assigned to specific project
         // Promise.All() to get list of number of team members assigned
@@ -182,11 +205,76 @@ exports.postProject = async (req, res) => {
         projects.forEach((project, index) =>{
             projects[index].count_team_members = teamMembers[index];
         })
+        const totalPages = Math.ceil(projects.length / projectsPerPage);
+        const startIndex = (page - 1) * projectsPerPage;
+        const endIndex = startIndex + projectsPerPage;
+        const sliceProjects = projects.slice(startIndex, endIndex);
         // Render project list with new key and value:
         // `{count_team_members: n}`
+        // with the initial index 0, to the end index 3
+        // total pages depending on the number of projects fetched
+        // and the sliced projects: projects[0-3]
         res.render(__dirname + '/../views/projectsList', {
             user: userInfo,
             projects: projects,
+            sliceProjects : sliceProjects,
+            totalPages: totalPages,
+            startIndex: startIndex,
+            endIndex: endIndex,
+            totalPages: totalPages
+        });
+        // No projects assigned by current user
+    } else{
+        setTimeout(function () { res.redirect('/project') }, 3000);
+    }
+}
+
+/** 
+ * Fetch method `GET`
+ * @type {import("express").RequestHandler} 
+*/
+exports.getProjects = async (req, res) => {
+    // Fetch every project
+    const [projects] = await ProjectTeam.fetch_all();
+    const [members] = await TeamMember.fetchAll();
+    for(let i = 0; i < projects.length; i++){
+        const project = projects[i];
+        const [members] = await ProjectTeam.fetch_members(project.id_project);
+        project.members = members; 
+    }
+    res.json({projects: projects, members: members});
+}
+/** 
+ * Fetch method `GET`, get current index
+ * based on the pagination and slice
+ * projects depending on that req.param.index
+ * @type {import("express").RequestHandler} 
+*/
+exports.getListProjectsPagination = async (req, res) => {
+    // Fetch every project
+    const [projects] = await ProjectTeam.fetch_all();
+    // Projects assigned by current user
+    const projectsPerPage = 4;
+    const page = (parseInt(req.params.index) + 1);
+
+    if(projects.length > 0){
+        // Fetch the number of team members assigned to specific project
+        // Promise.All() to get list of number of team members assigned
+        const teamMembers = await ProjectTeam.fetch_number_members_assigned(projects);
+        projects.forEach((project, index) =>{
+            projects[index].count_team_members = teamMembers[index];
+        })
+        const totalPages = Math.ceil(projects.length / projectsPerPage);
+        const startIndex = (page - 1) * projectsPerPage;
+        const endIndex = startIndex + projectsPerPage;
+        const sliceProjects = projects.slice(startIndex, endIndex);
+        // Render project list with new key and value:
+        // `{count_team_members: n}`
+        res.json({
+            sliceProjects: sliceProjects,
+            totalPages: totalPages,
+            startIndex: startIndex,
+            endIndex: endIndex
         });
         // No projects assigned by current user
     } else{
@@ -203,17 +291,36 @@ exports.postProject = async (req, res) => {
     let Projects;
     // Fetch the project name
     let query = req.query.projectName;
+    let startIndex = req.query.startIndex;
+    let endIndex = req.query.endIndex;
+    let flag = false;
     // Fetch only the projects were the logged in user
     // is assigned to
     // Projects assigned by current user
     if(query){
         [Projects] = await ProjectTeam.fetch_projects_assigned_search_bar(query);
+        if(Projects.length === 0){
+            [Projects] = await ProjectTeam.fetch_projects_unassinged_search_bar(query);
+        }
         // No projects assigned found on submit by current user
         // May want to create a project
     } else{
-        [Projects] = await ProjectTeam.fetch_all_projects_count_team();
+        let [assigned] = await ProjectTeam.fetch_count_members_assigned();
+        let [unassigned] = await ProjectTeam.fetch_unassigned_no_query();
+        unassigned.forEach((project, index)=>{
+            unassigned[index].count_team_members = 0;
+        })
+        let combined = [...assigned, ...unassigned];
+        Projects = combined;
+    } 
+    if(flag){
+        Projects.forEach((project, index)=>{
+            Projects[index].count_team_members = 0;
+        })
+        flag = false;
     }
-    res.json({Projects: Projects});
+    const sliceProjects = Projects.slice(startIndex, endIndex);
+    res.json({Projects: sliceProjects});
 }
 
 /** 
@@ -233,7 +340,6 @@ exports.modifyProject = async (req,res) =>{
     try {
         const userInfo = await req.oidc.fetchUserInfo();
         const [name] = await Project.fetch_name_by_id(req.params.project);
-        console.log(name[0].project_name);
         Epic.fetch_modify_epics(req.params.project)
             .then((rows, fieldData) => {
                 const Epics = rows[0];
@@ -273,4 +379,29 @@ exports.modifyProjectPost = async (req,res) =>{
     } else {
         res.json({e:'Invalid time range'});
     }
+}
+
+exports.getMembersProject = async (req,res) =>{
+    let project_id = req.params.project;
+    const [members] = await User.fetch_unassigned(project_id);
+    res.json({members: members});
+}
+
+/** @type {import("express").RequestHandler} */
+exports.updateMembers = async (req, res) =>{
+    const members = Object.keys(req.body);
+    var id_project;
+    var id_team_member;
+    members.forEach((elem) => {
+        id_project = req.params.project;
+        id_team_member = elem;
+    })
+    const projectTeam = new ProjectTeam ({
+        id_project : id_project,
+        id_team_member : id_team_member,
+        agile_points : 0
+    });
+    const [rows] = await projectTeam.save();
+    if (rows.affectedRows > 0) res.status(200).json({ e: 'Success!' });
+    else res.status(500).json({ e: 'Database conection failed' });
 }

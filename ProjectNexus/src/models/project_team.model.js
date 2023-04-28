@@ -24,6 +24,14 @@ module.exports = class ProjectTeam {
             GROUP BY P.project_name, P.id_project`
         );
     }
+    static fetch_projects_unassinged_search_bar(search_name_project) {
+        return db.execute(`
+            SELECT P.project_name, P.id_project
+            FROM project as P, teamMember as T, project_teamMember as Tm
+            WHERE P.id_project != Tm.id_project AND P.project_name LIKE "${search_name_project}%"
+            GROUP BY P.project_name, P.id_project`
+        );
+    }
 
     static fetch_projects_assigned_id(id_member){
         if (id_member  > 0){
@@ -94,6 +102,7 @@ module.exports = class ProjectTeam {
     static fetch_all() {
         return db.execute(`SELECT * FROM project`);
     }
+    
     static fetch_all_projects_count_team() {
         return db.execute(`
         SELECT P.project_name, P.id_project, COUNT(T.member_name) as count_team_members
@@ -101,5 +110,38 @@ module.exports = class ProjectTeam {
         WHERE P.id_project = Tm.id_project AND Tm.id_team_member = T.id_team_member
         GROUP BY P.project_name, P.id_project
         `);
+    }
+
+    static fetch_count_members_assigned() {
+        return db.execute(`
+        SELECT P.id_project, P.project_name, COUNT(Tm.id_team_member) as count_team_members
+        FROM project as P, project_teamMember as Tm
+        WHERE P.id_project = Tm.id_project
+        GROUP BY P.id_project, P.project_name;`
+        )
+    }
+    static fetch_unassigned_no_query(){
+        return db.execute(`
+        SELECT project_name, id_project
+        FROM project
+        WHERE id_project NOT IN(
+            SELECT id_project
+            FROM project_teamMember
+        );`
+        )
+    }
+    static fetch_members(id_project){
+        const query = `SELECT *
+                       FROM project_teamMember PT, teamMember T
+                       WHERE PT.id_team_member = T.id_team_member 
+                            AND id_project = ?`;
+        return db.execute(query, [id_project]);
+    }
+
+    static update(id_project, id_team_member, agile_points){
+        const query = `UPDATE project_teamMember
+                       SET agile_points = ?
+                       WHERE id_project = ? AND id_team_member = ?`;
+        return db.execute(query, [agile_points, id_project, id_team_member]);
     }
 }

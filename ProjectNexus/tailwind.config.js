@@ -1,14 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./public/*.{html, js}",
-            "./public/scripts/index.min.js",
+  content: ["./src/public/*.{html, js}",
+            "./src/public/scripts/*.js",
             "./src/views/*.{ejs, html, js}",
             "./src/views/partials/*.{ejs, html, js}",
             "./node_modules/tw-elements/dist/js/**/*.js"],
   theme: {
     screens: {
-      'phone': {'max': '640px'},
-      'tablet':{'max': '768px'},
+      'phone': {'max': '800px'},
+      'tablet':{'max': '1000px'},
       'laptop': {'min': '1024px'},
       'desktop': {'min': '1280px'},
     },
@@ -26,11 +26,12 @@ module.exports = {
         members: {
           bg: {
             green: '#deede5',
-            yellow: '#fdf8ce'
+            yellow: '#fdf8ce',
+            red: '#e63946'
           },
           text: {
             green: '#427a5B',
-            yellow: '#938406'
+            yellow: '#938406',
           }
         },
         accent: {

@@ -2,13 +2,14 @@ CREATE TABLE project (
   id_project INT PRIMARY KEY AUTO_INCREMENT,
   project_name VARCHAR(100),
   start_date DATE,
-  end_date DATE NOT NULL
+  end_date DATE
 );
 
 CREATE TABLE epic (
   id_epic INT PRIMARY KEY AUTO_INCREMENT,
   id_project INT DEFAULT NULL,
-  epic_link VARCHAR(16)
+  epic_link VARCHAR(16),
+  epic_title VARCHAR(100)
 );
 
 CREATE TABLE ticket (
@@ -61,13 +62,14 @@ INSERT INTO csv (id_team_member, id_sprint, file_path, upload_date) VALUES
 (4, null, './uploads/Jira.csv', '2023-03-10 14:17:00');
 
 INSERT INTO project (project_name, start_date, end_date) VALUES 
+
 ('FJDH', '2023-02-01', '2023-03-28');
 
-INSERT INTO epic (id_project, epic_link) VALUES 
-(1, 'PART-234'),
-(1, 'PART-289'),
-(1, 'PART-306'),
-(1, 'PART-312');
+INSERT INTO epic (id_project, epic_link, epic_title) VALUES 
+(1, 'PART-234', 'Express Tech Excellence'),
+(1, 'PART-289', 'NSE - P4'),
+(1, 'PART-306', 'Single Sign On V2 - Super Admin configuration UI'),
+(1, 'PART-312', 'SSO - V3 - User Management and Auth0 Automation');
 
 INSERT INTO project_teamMember (id_project, id_team_member, agile_points) VALUES 
 (1, 1, 6),

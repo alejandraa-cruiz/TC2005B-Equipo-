@@ -4,19 +4,27 @@ module.exports = class Epic {
     constructor(Epic) {
         this.id_project = Epic.id_project || null;
         this.epic_link = Epic.epic_link;
+        this.epic_title = Epic.epic_title;
     }
-    
+
+    save() {
+        let query = `INSERT INTO epic (epic_link, epic_title) 
+                     SELECT ?, ?
+                     WHERE (SELECT count(epic_link) 
+                            FROM epic WHERE epic_link = ? FOR UPDATE) = 0;`;
+        return db.execute(query, [this.epic_link, this.epic_title, this.epic_link]);
+    }
     /**
      * Saves epics uniquely with the given connection
      * @param {PoolConnection} connection 
      * @returns 
      */
-    save(connection = db) {
-        let query = `INSERT INTO epic (epic_link) 
-                     SELECT ?
+    save(connection) {
+        let query = `INSERT INTO epic (epic_link, epic_title) 
+                     SELECT ?, ?
                      WHERE (SELECT count(epic_link) 
                             FROM epic WHERE epic_link = ? FOR UPDATE) = 0;`;
-        return connection.execute(query, [this.epic_link, this.epic_link]);
+        return connection.execute(query, [this.epic_link, this.epic_title, this.epic_link]);
     }
     
     
@@ -86,5 +94,10 @@ module.exports = class Epic {
     static set_null_by_id(id){
         let query = `UPDATE epic SET id_project = NULL WHERE id_project = ?`
         return db.execute(query,[id]);
+    }
+
+    static fetch_epic_title(id_project) {
+        let query = `SELECT epic_title FROM epic WHERE id_project = ?`;
+        return db.execute(query, [id_project]);
     }
 }
