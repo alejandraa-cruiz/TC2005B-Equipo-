@@ -23,7 +23,7 @@ exports.getUser = async (req, res) =>{
                 });
                 newUser.save()
                 .then(([rows, fieldData]) => {
-                    res.redirect('/project/list');
+                    res.redirect('/dashboard');
                 })
                 .catch((error) => {
                     console.log("Failed to save new TeamMember", error);
@@ -34,7 +34,7 @@ exports.getUser = async (req, res) =>{
             }
         } else {
             // Logged in user was found in DB!
-            res.redirect('project/list');
+            res.redirect('/dashboard');
         }
     })
     .catch(error => {

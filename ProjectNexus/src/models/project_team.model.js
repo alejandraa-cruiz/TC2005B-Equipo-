@@ -75,24 +75,6 @@ module.exports = class ProjectTeam {
         return db.execute(query);
     }
     
-    static fetch_teamMembersAssigned(id_project){
-        let query = `
-        SELECT Tm.agile_points, T.member_name, T.id_team_member
-        FROM teamMember as T, project_teamMember as Tm, project as P
-        WHERE P.id_project = Tm.id_project AND P.id_project = ? AND T.id_team_member = Tm.id_team_member
-        GROUP BY Tm.agile_points, T.member_name, T.id_team_member`
-        return db.execute(query, [id_project]);
-    }
-
-    static fetch_assigned_project(id_project){
-        let query = `
-        SELECT T.id_team_member
-        FROM teamMember as T, project_teamMember as Tm
-        WHERE Tm.id_project = ? AND Tm.id_team_member = T.id_team_member 
-        GROUP BY T.id_team_member`
-        return db.execute(query, [id_project]);
-    }
-    
     static async fetch_number_members_assigned(list_projects){
         let query = `
         SELECT COUNT(member_name) AS count_team_members
@@ -148,54 +130,4 @@ module.exports = class ProjectTeam {
         );`
         )
     }
-    static fetch_members(id_project){
-        const query = `SELECT *
-                       FROM project_teamMember PT, teamMember T
-                       WHERE PT.id_team_member = T.id_team_member 
-                            AND id_project = ?`;
-        return db.execute(query, [id_project]);
-    }
-
-    static update(id_project, id_team_member, agile_points){
-        const query = `UPDATE project_teamMember
-                       SET agile_points = ?
-                       WHERE id_project = ? AND id_team_member = ?`;
-        return db.execute(query, [agile_points, id_project, id_team_member]);
-    }
-    
-    static fetch_id_member (project_id){
-        let query = `
-            SELECT id_team_member
-            FROM project_teamMember
-            WHERE project_id = ?
-        `
-        return db.execute(query,[project_id]);
-    }
-
-    static update_agile_points (agile_points, id_member){
-        let query = `
-            UPDATE project_teamMember as Tm
-            JOIN teamMember as T ON T.id_team_member = Tm.id_team_member
-            JOIN project as P ON Tm.id_project = P.id_project
-            SET Tm.agile_points = ?, Tm.id_project = P.id_project
-            WHERE T.id_team_member = ?
-        `
-        return db.execute(query,[agile_points, id_member]);
-    }
-    static fetch_be_points(project_id){
-        let query = `SELECT SUM(ptm.agile_points) AS be_points
-                    FROM teamMember tm
-                    JOIN project_teamMember ptm ON tm.id_team_member = ptm.id_team_member
-                    WHERE tm.team = 'BE';`;
-        return db.execute(query, [project_id]);
-    }
-
-    static fetch_fe_points(project_id){
-        let query = `SELECT SUM(ptm.agile_points) AS fe_points
-                    FROM teamMember tm
-                    JOIN project_teamMember ptm ON tm.id_team_member = ptm.id_team_member
-                    WHERE tm.team = 'FE';`;
-        return db.execute(query, [project_id]);
-    }
-    
 }
