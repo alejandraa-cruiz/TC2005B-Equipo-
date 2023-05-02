@@ -2,19 +2,17 @@
 //Developed by: Alejandra Cabrera Ruiz A01704463 and Pablo Martinez Valdivia A01275676
 //Date: Ended April 13th, 2023
 
-function search(value){
-    const memberTable = document.getElementById('member-table');
-    fetch('/members/search?memberid=' + value,{
-        method: 'GET'
-    })
-    .then(res => res.json())
-    .then(res => {
-        console.log(res);
-        memberTable.innerHTML = '';
-        res.teamMembers.forEach(member => {
-            if(member.team == "FE"){
-                memberTable.innerHTML += 
-                `<tr class="h-20 border-b-2 border-white">
+function search(value) {
+  const memberTable = document.getElementById('member-table');
+  fetch('/members/search?memberid=' + value, {
+    method: 'GET',
+  }).then(res => res.json()).then(res => {
+    console.log(res);
+    memberTable.innerHTML = '';
+    res.teamMembers.forEach(member => {
+      if (member.team == 'FE') {
+        memberTable.innerHTML +=
+            `<tr class="h-20 border-b-2 border-white">
                     <td class="flex">
                         <span class= "max-w-[12rem] overflow-hidden break-words phone:max-w-[8rem]">
                             ${member.member_name}
@@ -25,10 +23,9 @@ function search(value){
                             Frontend
                         </span>
                     </td>
-                </tr>`
-            }
-            else{ 
-                memberTable.innerHTML += `
+                </tr>`;
+      } else {
+        memberTable.innerHTML += `
                 <tr class="h-20 border-b-2 border-white">
                     <td class="flex">
                         <span class= "max-w-[12rem] overflow-hidden break-words phone:max-w-[8rem]">
@@ -41,9 +38,9 @@ function search(value){
                         </span>
                     </td>
                 </tr>
-                `}
-       
-            
-        });
-    })
+                `;
+      }
+
+    });
+  });
 }

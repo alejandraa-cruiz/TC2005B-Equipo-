@@ -1,86 +1,96 @@
 const createMember = () => {
   const form = document.getElementById('form');
   const data = new FormData(form);
-  fetch('/members/create',{
+  fetch('/members/create', {
     method: 'POST',
     body: data,
-  }).then(res=>res.json()).then(res => {
-    let messages = res.e
+  }).then(res => res.json()).then(res => {
+    let messages = res.e;
     switch (messages) {
       case 'Success!':
-        messagge.innerText='Success!';
+        messagge.innerText = 'Success!';
         alertSucc.classList.remove('hidden');
-        setTimeout(function () {alertSucc.classList.add('hidden')}, 3000);
+        setTimeout(function() {
+          alertSucc.classList.add('hidden');
+        }, 3000);
         break;
 
       case 'Entries can\'t be empty':
-        messagge.innerText='Entries can\'t be empty';
+        messagge.innerText = 'Entries can\'t be empty';
         alertErr.classList.remove('hidden');
-        setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
+        setTimeout(function() {
+          alertErr.classList.add('hidden');
+        }, 3000);
         break;
 
       case 'Database failed':
-        messagge.innerText='Database failed';
+        messagge.innerText = 'Database failed';
         alertErr.classList.remove('hidden');
-        setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
+        setTimeout(function() {
+          alertErr.classList.add('hidden');
+        }, 3000);
         break;
 
       case 'You must select an area':
-        messagge.innerText='You must select an area';
+        messagge.innerText = 'You must select an area';
         alertErr.classList.remove('hidden');
-        setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
+        setTimeout(function() {
+          alertErr.classList.add('hidden');
+        }, 3000);
         break;
 
       case 'Invalid email':
-        messagge.innerText='Invalid email';
+        messagge.innerText = 'Invalid email';
         alertErr.classList.remove('hidden');
-        setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
+        setTimeout(function() {
+          alertErr.classList.add('hidden');
+        }, 3000);
         break;
-        
+
       case 'There is a member with the same email':
-          messagge.innerText='There is a member with the same email';
+        messagge.innerText = 'There is a member with the same email';
         alertErr.classList.remove('hidden');
-        setTimeout(function () {alertErr.classList.add('hidden')}, 3000);
+        setTimeout(function() {
+          alertErr.classList.add('hidden');
+        }, 3000);
         break;
     }
-     form.reset();
-     setTimeout(()=>{
-      location.href = '/members'
-     },1000);
-    });
+    form.reset();
+    setTimeout(() => {
+      location.href = '/members';
+    }, 1000);
+  });
 };
 
-const modifyMember = () =>{
+const modifyMember = () => {
   const form = document.getElementById('member-form');
   const data = new FormData(form);
-  fetch(window.location.pathname,{
+  fetch(window.location.pathname, {
     method: 'POST',
     body: data,
-  }).then(res=>res.json()).then(res=>{
+  }).then(res => res.json()).then(res => {
     let messages = res.e;
-    if (messages === 'Success!'){
+    if (messages === 'Success!') {
       messagge.innerText = 'Success!';
       alertSucc.classList.remove('hidden');
-      setTimeout(function () {
-        alertSucc.classList.add('hidden')
+      setTimeout(function() {
+        alertSucc.classList.add('hidden');
       }, 3000);
-      setTimeout(()=>{
-        location.href = '/members'
+      setTimeout(() => {
+        location.href = '/members';
       }, 1000);
-    }
-    else if (messages === 'Invalid email'){
+    } else if (messages === 'Invalid email') {
       messagge.innerText = 'Invalid email';
       alertErr.classList.remove('hidden');
-      setTimeout(function () {
-        alertErr.classList.add('hidden')
-      }, 3000)}
-
-    else if (messages === 'Name can´t be empty'){
-        messagge.innerText = 'Name can´t be empty';
-        alertErr.classList.remove('hidden');
-        setTimeout(function () {
-          alertErr.classList.add('hidden')
-        }, 3000);
+      setTimeout(function() {
+        alertErr.classList.add('hidden');
+      }, 3000);
+    } else if (messages === 'Name can´t be empty') {
+      messagge.innerText = 'Name can´t be empty';
+      alertErr.classList.remove('hidden');
+      setTimeout(function() {
+        alertErr.classList.add('hidden');
+      }, 3000);
     }
-  })
-}
+  });
+};
