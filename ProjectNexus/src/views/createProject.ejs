@@ -2,95 +2,86 @@
 <html lang="en">
 <%- include('partials/head.ejs') %>
 
-    <body class="font-inter">
-        <%- include('partials/leftNavigation.ejs') %>
-            <main id="main-content" class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
-                        p-6 break-words phone:left-0 phone:w-full overflow-y-scroll overflow-x-hidden custom-scrollbar">
-                <div id="content-wrapper">
-                    <!-- Content goes here -->
-                    <div class="flex justify-center items-center">
-                        <%- include('partials/message-errors.ejs') %>
-                    </div>
-                    
-                    <div class="flex justify-end">
-                        <img class="w-20" src="/images/dh_logo.png" alt="">
-                    </div>
-                    <div class="w-96 flex items-center mx-12 mt-8 mb-24">
-                        <!-- Creates icon for project like a svg-->
-                        <svg class="h-8 w-8 text-gray-700" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" />
-                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                            <line x1="12" y1="11" x2="12" y2="17" />
-                            <line x1="9" y1="14" x2="15" y2="14" />
-                        </svg>
-                        <h1 class="text-xl">Create Project</h1>
-                    </div>
-                    <form id="form-postproject" class="w-full flex-row items-center justify-center" action="project/create" method="POST">
-                        <div class=" ml-[8rem] w-9/12 flex flex-wrap -mx-3 mb-6 justify-center">
-                            <div class="w-full flex px-3 mb-1 mx-auto">
-                                <div class="relative w-full">
-                                    <div class="absolute inset-y-4 right-5 flex w-full pointer-events-none justify-end">
-                                        <i class='bx bxs-folder-open'></i>
-                                    </div>
-                                    <input class="hover:cursor-text mx-auto w-full block border p-0 bg-gray-200 text-gray-700 border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none hover:bg-white hover:border-gray-500 duration-500"
-                                     id="project_name" name="project_name" type="text"
-                                        placeholder="Name" required >
-                                </div>
-                            </div>
+<body class="font-inter">
+<%- include('partials/leftNavigation.ejs') %>
+<main id="main-content" class="relative left-60 w-[calc(100%-15rem)] bg-mainBg h-screen 
+            p-6 break-words phone:left-0 phone:w-full overflow-y-scroll overflow-x-hidden custom-scrollbar">
+    <div id="content-wrapper">
+        <!-- Content goes here -->
+        
+        <div class="flex justify-end">
+            <img class="w-20" src="/images/dh_logo.png" alt="">
+        </div>
 
-                            <div class="w-full md:w-1/2 px-3 mb-6">
-                                <label for="start_date" class="px-3 text-gray-700">
-                                    Start date
-                                </label>
-                                <input
-                                    class="w-full appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none hover:bg-white hover:border-gray-500 duration-500"
-                                    name="start_date" id="start_date" type="date" required>
-                            </div>
+        <div class="w-96 flex items-center mx-12 mt-8 mb-24">
+            <i class='bx bxs-file-plus text-4xl'></i>
+            <h1 class="text-xl pl-3">Create Project</h1>
+        </div>
 
-                            <div class="w-full md:w-1/2 px-3 mb-6">
-                                <label for="end_date" class="px-3 text-gray-700">
-                                    End date
-                                </label>
-                                <input
-                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none hover:bg-white hover:border-gray-500 duration-500"
-                                    name="end_date" id="end_date" type="date" required>
-                            </div>
-
-                            <!--Dropdown of epics-->
-                                <a onclick="dropDownButton(event)" class="cursor-pointer w-full px-3 mb-1 mx-[12px] mt-3 block border p-0 bg-gray-200 text-gray-700 border-gray-200 rounded py-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 hover:bg-white hover:border-gray-500 duration-500">
-                                    <div class="flex justify-between">
-                                        Select your Project epics
-                                        <i class='bx bxs-zap'></i>
-                                    </div>
-                                    <ul id="dropDown" class="hover:cursor-pointer appearance-none hidden overflow-y-scroll overflow-x-clip custom-scrollbar max-h-[5.0rem]">
-                                        <% if (Epics.length === 0) {%>
-                                            <li class="pt-2 pl-3">You don't have assigned epics</li>
-                                        <%}%>
-                                        <% Epics.forEach((epic, index)=> { %>
-                                            <li onclick="event.stopPropagation()" class="text-[14px] hover:cursor-pointer p-2 hover:bg-slate-50 hover:border-gray-500 duration-500">
-                                                <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>"  >
-                                                <label for="<%=epic.epic_link%>"><%=epic.epic_title%></label>
-                                            </li>
-                                        <%})%>
-                                    </ul>
-                                </a>
-
+        <form id="project-form" class="w-full flex items-center justify-center">
+            <div class="w-full px-12 phone:p-3">
+                <div class="w-full flex justify-end md:w-1/2 px-3 mb-1">
+                    <div class="relative w-full">
+                        <div class="absolute inset-y-4 right-5 flex w-full pointer-events-none justify-end">
+                            <i class='bx bxs-folder-open'></i>
                         </div>
-                        <div class="flex flex-row justify-center w-9/12 ml-[8rem]">
-                            <button type="button" onclick="handleSubmitProject()"
-                                class="w-[8rem] h-[2.6rem] bg-accent-1 text-white rounded-[3px] text-sm hover:bg-white hover:text-red-500 duration-300 shadow-sm ">
-                                Save
-                            </button>
-                        </div>
-                    </form>
+                        <input class="hover:cursor-text mx-auto w-full block border p-0 bg-gray-200 text-gray-700 border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none hover:bg-white hover:border-gray-500 duration-500"
+                            id="project_name" name="project_name" type="text"
+                            placeholder="Name" required >
+                    </div>
                 </div>
-            </main>
-            <div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 invisible"></div>
 
-            <script defer src="/scripts/dropDown.js"></script>
-            <script defer src="/scripts/project.js"></script>
-    </body>
+                <div class="w-full md:w-1/2 px-3 mb-6">
+                    <label for="start_date" class="px-3 text-gray-700">
+                        Start date
+                    </label>
+                    <input
+                        class="w-full appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none hover:bg-white hover:border-gray-500 duration-500 cursor-text"
+                        name="start_date" id="start_date" type="date" required>
+                </div>
 
+                <div class="w-full md:w-1/2 px-3 mb-6">
+                    <label for="end_date" class="px-3 text-gray-700">
+                        End date
+                    </label>
+                    <input
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none hover:bg-white hover:border-gray-500 duration-500 cursor-text"
+                        name="end_date" id="end_date" type="date" required>
+                </div>
+
+                <!--Dropdown of epics-->
+                <div class="w-full md:w-1/2 px-3 mb-6">
+                    <a id="dropdown-button" class="cursor-pointer px-3 block border bg-gray-200 text-gray-700 border-gray-200 rounded py-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 hover:bg-white hover:border-gray-500 duration-500">
+                        <div class="flex justify-between">
+                            Select your Project epics
+                            <i class='bx bxs-zap'></i>
+                        </div>
+                        <ul id="dropdown" data-open="false" class="hover:cursor-pointer appearance-none hidden overflow-y-scroll overflow-x-clip custom-scrollbar max-h-[8.0rem]">
+                            <% if (Epics.length === 0) {%>
+                                <li class="pt-2 pl-3">You don't have assigned epics</li>
+                            <%}%>
+                            <% Epics.forEach((epic, index)=> { %>
+                                <li onclick="event.stopPropagation()" class="text-[14px] hover:cursor-pointer p-2 hover:bg-slate-50 hover:border-gray-500 duration-500">
+                                    <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>"  >
+                                    <label for="<%=epic.epic_link%>"><%=epic.epic_title%></label>
+                                </li>
+                            <%})%>
+                        </ul>
+                    </a>
+                </div>
+                
+                <div class="flex justify-center w-full">
+                    <button
+                        class="w-[8rem] h-[2.6rem] bg-accent-1 text-white rounded-[3px] text-sm hover:bg-white hover:text-accent-1 duration-300 shadow-sm">
+                        Save
+                    </button>
+                </div>
+            </div>            
+        </form>
+    </div>
+</main>
+<div id="dark-separator" class="fixed top-0 bottom-0 w-screen h-screen bg-black opacity-20 hidden"></div>
+
+<script defer type="module" src="/scripts/project.js"></script>
+</body>
 </html>
