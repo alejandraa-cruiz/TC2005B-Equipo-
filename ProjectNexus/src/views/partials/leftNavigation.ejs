@@ -1,42 +1,63 @@
 <nav id="navbar" class="fixed w-60 h-screen p-5 overflow-x-hidden overflow-y-scroll 
-            scrollbar-hide phone:left-[-15rem] z-10 bg-white">
+            scrollbar-hide phone:left-[-15rem] z-10 bg-white custom-scrollbar">
     <div class="flex flex-col h-full justify-between">
         <div> <!-- To separate top and bottom in flexbox -->
             <section class="flex justify-between items-center p-1 min-h-[2rem]">
                 <div class="flex justify-start items-center">
                     <img class="w-8 rounded-full mr-2" 
                          src="<%= user.picture %>" alt="user profile">
-                    <span class="max-w-[11rem] overflow-hidden break-words">
+                    <span class="max-w-[11rem] overflow-hidden break-words font-medium">
                         <%= (user.name).split(" ")[0]%>
                     </span>
                 </div>
             </section>
-            <section class="mt-9">
-                <ul class="[&>li]:cursor-pointer [&>li]:mb-2">
+            <section class="mt-8">
+                <ul class="[&>li]:mb-2">
                     <li>
-                        <i class='bx bx-chevron-right'></i>
-                        <span>Team members</span>
+                        <a href="/members" class="cursor-pointer transition duration-300 hover:rounded-md hover:bg-mainBg ml-3 p-1">
+                            Team Members
+                        </a>
                     </li>
                     <li>
-                        <i class='bx bx-chevron-right'></i>
-                        <span>Projects</span>
+                        <a href="/project/list" class="cursor-pointer transition duration-300 hover:rounded-md hover:bg-mainBg ml-3 p-1">
+                            Projects
+                        </a>
                     </li>
                 </ul>
-            
                 <h3 class="mt-5 ml-2 mb-2 font-extralight">Dashboards</h3>
-                <ul class="[&>li]:cursor-pointer [&>li]:mb-2">
-                    <li>
-                        <i class='bx bx-chevron-right'></i>
-                        <i class='bx bx-folder'></i>
-                        <span>Projects</span>
-                    </li>
-                </ul>
+                <div class="w-full flex flex-col appearance-none justify-start items-start">
+                    <div class="flex-initial">
+                        <a id="nav-project-dropdown" data-open="true" class="transition duration-300 hover:rounded-md hover:bg-mainBg p-1 cursor-pointer select-none">
+                            <i id="nav-project-chevron" class='bx bx-chevron-right rotate-90'></i>
+                            <i class='bx bx-folder'></i>
+                            Projects
+                        </a>
+                    </div>
+                    <ul id="nav-projects" class="[&>li]:ml-6">
+                        <% if(projects) { %>
+                            <% projects.forEach(elem=> { %>
+                                <li class="transition duration-300 hover:rounded-md hover:bg-mainBg py-[2px]">
+                                    <i class='bx bx-bar-chart-square'></i>
+                                    <a href="/dashboard/<%= elem.id_project %>">
+                                        <%= elem.project_name %>
+                                    </a>
+                                </li>
+                            <% }); %>
+                        <%} %>
+                    </ul>
+                </div>
+                
+                <div class="my-2">
+                    <a href="/project/" class="transition duration-300 hover:rounded-md hover:bg-mainBg p-1">
+                        <i class="bx bx-plus hover:cursor-pointer"></i>
+                        Create Project
+                    </a>
+                </div>
             </section>
         </div>
         <div class="flex flex-col gap-12">
             <section>
-                <iframe class="invisible" id="csv-upload" name="csv-upload"></iframe>
-                <form action="dashboard/upload" method="post" enctype="multipart/form-data" target="csv-upload">
+                <form id="form-csv-upload" enctype="multipart/form-data">
                     <label class="flex flex-col items-center gap-4" for="csv-input">
                         <input class="absolute h-[7.5rem] w-[12.5rem] opacity-0 
                                     cursor-pointer" type="file" name="csv" 
@@ -51,27 +72,26 @@
                             </span>
                         </div>
                         <button class="w-[7.5rem] h-[1.625rem] bg-accent-1 
-                                     text-white rounded-[3px] text-sm">
-                        Import
+                                     text-white rounded-[3px] hover:bg-white hover:text-accent-1 hover:outline duration-300 text-sm shadow-sm">
+                            Import
                         </button>
                     </label>
                 </form>
             </section>
-            <section class="flex justify-between items-center">
-                <img class="w-40" src="images/Logo_invertido.png" alt="">
+            <section class="flex w-f justify-between items-center">
+                <img class="w-40" src="/images/Logo_invertido.png" alt="">
                 <a class="flex text-2xl rounded-[3px] p-1 hover:ease-out 
-                        hover:text-white hover:bg-accent-1" href="/logout">
+                        hover:text-white hover:bg-accent-1 duration-300" href="/logout">
                     <i class="bx bx-log-out"></i>
                 </a>
             </section>
         </div>
     </div>
 </nav>
-<a id="nav-hide-button" onclick="toggleNavbar(event)" target="chevron" 
-    class="flex py-4 left-60 fixed bg-white z-10 text-2xl rounded-r-lg 
+<a id="nav-hide-button" data-open="false"  
+    class="flex py-8 px-1 left-60 fixed bg-white z-10 text-2xl rounded-r-lg
             invisible top-4 cursor-pointer phone:visible phone:left-0">
-    <i id="chevron" class='bx bx-chevron-right'></i>
+    <i id="nav-hide-chevron" class='bx bx-chevron-left text-2xl rotate-180'></i>
 </a>
 
-
-<script defer src="scripts/navigation.js"></script>
+<script defer type="module" src="/scripts/navigation.js"></script>

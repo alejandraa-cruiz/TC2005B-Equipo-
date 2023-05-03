@@ -1,4 +1,4 @@
-DROP DATABASE project_nexus;
+DROP DATABASE IF EXISTS project_nexus;
 CREATE DATABASE project_nexus; 
 USE project_nexus;
 
@@ -6,13 +6,14 @@ CREATE TABLE project (
   id_project INT PRIMARY KEY AUTO_INCREMENT,
   project_name VARCHAR(100),
   start_date DATE,
-  end_date DATE
+  end_date DATE NOT NULL
 );
 
 CREATE TABLE epic (
   id_epic INT PRIMARY KEY AUTO_INCREMENT,
-  id_project INT,
-  epic_link VARCHAR(16)
+  id_project INT DEFAULT NULL,
+  epic_link VARCHAR(16),
+  epic_title VARCHAR(100)
 );
 
 CREATE TABLE ticket (
@@ -21,7 +22,7 @@ CREATE TABLE ticket (
   issueKey VARCHAR(16),
   summary VARCHAR(255),
   issue_type VARCHAR(10),
-  storyPonts TINYINT,
+  storyPoints FLOAT,
   ticket_status VARCHAR(20),
   label VARCHAR(40),
   update_date TIMESTAMP
@@ -30,15 +31,15 @@ CREATE TABLE ticket (
 CREATE TABLE project_teamMember (
   id_project INT,
   id_team_member INT,
-  agile_points TINYINT,
+  agile_points FLOAT,
   PRIMARY KEY(id_project, id_team_member)
 );
 
 CREATE TABLE teamMember (
   id_team_member INT PRIMARY KEY AUTO_INCREMENT,
-  email VARCHAR(255),
-  member_name VARCHAR(50),
-  team VARCHAR(2)
+  email VARCHAR(255) NOT NULL,
+  member_name VARCHAR(50) NOT NULL,
+  team VARCHAR(2) NOT NULL
 );
 
 CREATE TABLE csv (
@@ -51,13 +52,13 @@ CREATE TABLE csv (
 
 /* Carga de datos */
 
-INSERT INTO teammember (member_name, email, team) VALUES
+INSERT INTO teamMember (member_name, email, team) VALUES
 ('Antonio Antillon','antonio_antillon@dispatchhealth.com', 'BE'),
 ('Kevin Anderson','kevin_anderson@dispatchhealth.com', 'FE'),
 ('Dan Cohn','dan_cohn@dispatchhealth.com', 'BE'),
 ('Bernardo Gomez-Romero', 'bernardo_gomez_romero@dispatchhealth.com', 'BE'),
 ('Giorgi Gelashvili', 'giorgi_gelashvili@dispatchhealth.com', 'FE'),
-('Alan Malagon', 'alan_malagon@dispatchhealth.com', null),
+('Alan Malagon', 'alan_malagon@dispatchhealth.com', 'FE'),
 ('Itzel Barreto', 'itzel_barreto@dispatchhealth.com', 'FE');
 
 
@@ -65,15 +66,15 @@ INSERT INTO csv (id_team_member, id_sprint, file_path, upload_date) VALUES
 (4, null, './uploads/Jira.csv', '2023-03-10 14:17:00');
 
 INSERT INTO project (project_name, start_date, end_date) VALUES 
-('FJDH', '2023-02-01', null);
+('FJDH', '2023-02-01', '2023-03-28');
 
-INSERT INTO epic (id_project, epic_link) VALUES 
-(1, 'PART-234'),
-(1, 'PART-289'),
-(1, 'PART-306'),
-(1, 'PART-312');
+INSERT INTO epic (id_project, epic_link, epic_title) VALUES 
+(1, 'PART-234', 'Express Tech Excellence'),
+(1, 'PART-289', 'NSE - P4'),
+(1, 'PART-306', 'Single Sign On V2 - Super Admin configuration UI'),
+(1, 'PART-312', 'SSO - V3 - User Management and Auth0 Automation');
 
-INSERT INTO project_teammember (id_project, id_team_member, agile_points) VALUES 
+INSERT INTO project_teamMember (id_project, id_team_member, agile_points) VALUES 
 (1, 1, 6),
 (1, 2, 9),
 (1, 3, 8),
@@ -82,7 +83,7 @@ INSERT INTO project_teammember (id_project, id_team_member, agile_points) VALUES
 (1, 6, 8),
 (1, 7, 9);
 
-INSERT INTO ticket (id_epic, issueKey, summary, issue_type, storyPonts, ticket_status, label , update_date) VALUES
+INSERT INTO ticket (id_epic, issueKey, summary, issue_type, storyPoints, ticket_status, label , update_date) VALUES
 (1, 'PART-2346', 'Standardize the use of error key in the backend failure responses', 'Task', 1, 'To Do', null, '2023-03-09 12:28:00'),
 (1, 'PART-2342', 'Add Swagger docs for GET care requests endpoints (show and index)', 'Task', 2, 'To Do', 'part/Backend', '2023-03-09 11:57:00'),
 (1, 'PART-2341', 'Rake task for deleting partners', 'Task', 2, 'To Do', null, '2023-03-08 15:04:00'),

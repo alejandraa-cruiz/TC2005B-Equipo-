@@ -3,7 +3,30 @@
 @tailwind utilities;
 
 @layer components {
-    
+    .alert-error {
+        @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 
+                rounded fixed left-[50vw] phone:translate-x-[-50%] top-8;
+    }
+    .alert-success {
+        @apply bg-green-100 border border-green-400 text-green-700 px-4 
+                py-3 rounded fixed left-[50vw] phone:translate-x-[-50%] top-8;
+    }
+    .member-frontend {
+        @apply p-2 bg-members-bg-green rounded-lg text-members-text-green
+               phone:bg-transparent phone:font-bold
+    }
+    .member-backend {
+        @apply p-2 bg-members-bg-yellow rounded-lg text-members-text-yellow
+               phone:bg-transparent phone:font-bold
+    }
+    .current-page {
+        @apply bg-red-400 text-white hover:bg-white hover:text-red-400
+    }
+
+    .pagination {
+        @apply text-gray-500 bg-white hover:bg-gray-100 
+               hover:text-gray-700
+    }
 }
 
 /* Utility class to hide the scrollbar  */
@@ -15,3 +38,34 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 16px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #eee;
+    border-radius: 100px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    border: 5px solid transparent;
+    border-radius: 100px;
+    background-color: #535353;
+    background-clip: content-box;
+    /* background-color: #535353;
+    border-radius: 100px; */
+}
+
+.custom-scrollbar {
+    scrollbar-color: #535353 #eee;
+}
+
+@media (max-width: 800px) {
+    .expand-shadow {
+        box-shadow: 0 0 0 0.25rem #e5e7eb,
+                    0 8px 6px -1px #0000002a, 
+                    0 4px 4px -2px #0000002a;
+    }
+}
+
