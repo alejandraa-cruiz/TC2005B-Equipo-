@@ -61,14 +61,19 @@
                             <li class="pt-2 pl-3">You don't have assigned epics</li>
                                 <%}%>
                             <% Epics.forEach((epic, index)=> { %>
-                                <li onclick="event.stopPropagation()" class="text-[14px] hover:cursor-pointer p-2 hover:bg-slate-50 hover:border-gray-500 duration-500">
+                                <li onclick="event.stopPropagation()">
                                     <% if (id == epic.id_project){ %>
-                                    <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>" checked>
-                                    <label for="<%=epic.epic_link%>"><%=epic.epic_title%></label>
+                                    <label for="<%=epic.epic_link%>" class="flex gap-2 text-[14px] hover:cursor-pointer p-2 hover:bg-slate-50 hover:border-gray-500 duration-500">
+                                        <input checked type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>"  >
+                                        <%=epic.epic_title%>
+
+                                    </label>
                                 </li>
                                 <%} else {%>
-                                <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>"  >
-                                <label for="<%=epic.epic_link%>"><%=epic.epic_title%></label>
+                                    <label for="<%=epic.epic_link%>" class="flex gap-2 text-[14px] hover:cursor-pointer p-2 hover:bg-slate-50 hover:border-gray-500 duration-500">
+                                        <input type="checkbox" name="<%=epic.epic_link%>" id="<%=epic.epic_link%>"  >
+                                        <%=epic.epic_title%>
+                                    </label>
                                 </li>
                                 <%}%>
                             <%})%>

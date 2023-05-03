@@ -24,6 +24,8 @@ import { createAlert } from "./ajaxAlertHandler.js";
 
     projectForm.addEventListener('submit', async (ev) => {
         ev.preventDefault();
+        const button = ev.target.querySelector('button');
+        button.disabled = true;
         const data = new FormData(projectForm);
         fetch(postRoute, { method: 'POST', body : data })
         .then(res => res.json())
