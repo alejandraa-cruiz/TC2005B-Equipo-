@@ -1,14 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/public/*.{html, js}",
-            "./src/public/scripts/*.js",
+  content: ["./public/*.{html, js}",
+            "./public/scripts/index.min.js",
             "./src/views/*.{ejs, html, js}",
             "./src/views/partials/*.{ejs, html, js}",
             "./node_modules/tw-elements/dist/js/**/*.js"],
   theme: {
     screens: {
-      'phone': {'max': '800px'},
-      'tablet':{'max': '1000px'},
+      'phone': {'max': '700px'},
+      'tablet':{'max': '1200px'},
       'laptop': {'min': '1024px'},
       'desktop': {'min': '1280px'},
     },

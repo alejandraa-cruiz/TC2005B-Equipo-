@@ -157,7 +157,7 @@ module.exports = class TicketDataset {
             });
             ticketDataset.tickets.push(ticket)
         }
-        
+        console.log(epicLinks);
         ticketDataset.epics = epicLinks;
         return ticketDataset;
     }
