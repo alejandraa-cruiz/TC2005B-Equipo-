@@ -1,19 +1,18 @@
 let divContainer = document.getElementById('containerList');
 let popupOpenSearch = false;
-
-function searchProject(value, startIndex, endIndex) {
-  // const popUpDeleteByIndex = document.getElementById('popup-${index}')
-  fetch(
-      `/project/list/search?projectName=${value}&startIndex=${startIndex}&endIndex=${endIndex}`,
-      {
-        method: `GET`,
-      }).then(res => res.json()).then(res => {
-    divContainer.innerHTML = '';
-    if (res.Projects.length > 0) {
-      res.Projects.forEach((project, index) => {
-        if (project.project_name !== null) {
-          if (project.count_team_members > 0) {
-            divContainer.innerHTML += `
+function searchProject(value, startIndex, endIndex){
+    // const popUpDeleteByIndex = document.getElementById('popup-${index}')
+    fetch(`/project/list/search?projectName=${value}&startIndex=${startIndex}&endIndex=${endIndex}`,{
+        method: `GET`
+    })
+    .then( res => res.json())
+    .then( res =>{
+            divContainer.innerHTML = '';
+            if(res.Projects.length > 0){
+                res.Projects.forEach((project, index) => {
+                    if(project.project_name !== null){
+                        if (project.count_team_members > 0) {
+                            divContainer.innerHTML += `
                         <div class="flex flex-row w-full appearance-none select-none mb-[1.5rem] mt-[1.5rem] text-center">
                             <div class="w-1/5 flex flex-row justify-center">
                                 <div class="flex flex-row justify-center w-2/3 items-center text-center phone:pl-0 laptop:pl-12">
@@ -86,9 +85,9 @@ function searchProject(value, startIndex, endIndex) {
                             </div>
                         </div>
                         <div class="h-1 bg-slate-50"></div>
-                        <script> defer src='/scripts/popUp.js'></script>`;
-          } else {
-            divContainer.innerHTML += `
+                        <script> defer src="/scripts/popUp.js"></script>`;
+                        } else {
+                            divContainer.innerHTML += `
                             <div class="flex flex-row w-full appearance-none select-none mb-[1.5rem] mt-[1.5rem]">
                                 <div class="w-1/5 flex flex-row justify-center">
                                     <div class="flex flex-row justify-center w-2/3 items-center text-center phone:pl-0 laptop:pl-12">
@@ -152,30 +151,29 @@ function searchProject(value, startIndex, endIndex) {
                             </div>
                             <div class="h-1 bg-slate-50"></div>
                             <script> defer src="/scripts/popUp.js"></script>`;
-          }
-        } else {
-          divContainer.innerHTML += `
+                        }
+                    } else {
+                        divContainer.innerHTML += `
                             <div class="flex flex-row justify-center p-10">
                                 <div class="text-center">
                                     No Projects Were Found
                                 </div>
-                            </div>`;
-        }
-      });
-    } else {
-      divContainer.innerHTML += `
-                <div class="text-center"> No projects were found</div>`;
-    }
-  });
+                            </div>`
+                    }
+                })
+            } else{
+                divContainer.innerHTML += `
+                <div class="text-center"> No projects were found</div>`
+            }
+    })
 }
-
 function openPopupSearchProject(index, project_name, project_id, event) {
-  event.preventDefault();
-  if (popupOpenSearch) {
-    return;
-  }
-  popupOpenSearch = true;
-  divContainer.innerHTML += `
+    event.preventDefault();
+    if(popupOpenSearch){
+        return
+    }
+    popupOpenSearch = true;
+    divContainer.innerHTML += `
                         <div id="popup-search-${index}" class="popup-cancel-delete absolute text-center mx-auto w-full top-[5%] mb-7 items-center
                                 let:h-1/2 tablet:w-full tablet:items-center
                                 phone:absolute phone:w-full phone:mx-auto phone:items-center phone:h-auto">
@@ -217,16 +215,16 @@ function openPopupSearchProject(index, project_name, project_id, event) {
                                 </div>
                             </div>
                         </div>`;
-  closeByEscapeSearch();
+    closeByEscapeSearch();
 }
 
-function openPopupMemberSearchBar(index, id_project, project_name, event) {
-  event.preventDefault();
-  if (popupOpenSearch) {
-    return;
-  }
-  popupOpenSearch = true;
-  divContainer.innerHTML += `
+function openPopupMemberSearchBar(index, id_project, project_name, event){
+    event.preventDefault();
+    if (popupOpenSearch) {
+        return
+    }
+    popupOpenSearch = true;
+    divContainer.innerHTML += `
        <div id="popupMember-search-${index}" class="popup-cancel-delete absolute content-center text-center items-center top-[5%] mx-auto w-full mb-7 
                 tablet:h-1/2 tablet:w-full tablet:items-center
                 phone:absolute phone:w-full phone:mx-auto phone:items-center phone:h-auto">
@@ -253,27 +251,27 @@ function openPopupMemberSearchBar(index, id_project, project_name, event) {
                 </form>
             </div>
         </div>`;
-  getMembers(id_project, index);
-  closeByEscapeSearch();
+    getMembers(id_project, index);
+    closeByEscapeSearch();
+} 
+
+function closeByEscapeSearch(){
+    const popup = document.getElementsByClassName('popup-cancel-delete');
+    if(popup[0] != null){
+        const handleKeyDown = function (event) {
+            if (event.key === 'Escape' && popupOpenSearch) {
+                popup[0].remove();
+                document.removeEventListener('keydown', handleKeyDown);
+                popupOpenSearch = false;
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+    }
 }
 
-function closeByEscapeSearch() {
-  const popup = document.getElementsByClassName('popup-cancel-delete');
-  if (popup[0] != null) {
-    const handleKeyDown = function(event) {
-      if (event.key === 'Escape' && popupOpenSearch) {
-        popup[0].remove();
-        document.removeEventListener('keydown', handleKeyDown);
-        popupOpenSearch = false;
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-  }
-}
-
-function closePopupSearch(index, event) {
-  event.preventDefault();
-  const popup = document.getElementsByClassName('popup-cancel-delete');
-  popup[0].remove();
-  popupOpenSearch = false;
+function closePopupSearch(index, event){
+    event.preventDefault();
+    const popup = document.getElementsByClassName('popup-cancel-delete');
+    popup[0].remove();
+    popupOpenSearch = false;
 }
